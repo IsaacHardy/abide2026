@@ -4,6 +4,60 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ABIDE 2026 | Women in Truth Conference — July 31-Aug 1, Macon GA</title>
+  <meta name="description" content="Join thousands of women at ABIDE 2026, a Women in Truth conference July 31-Aug 1 in Macon, GA. Powerful speakers, worship, and community.">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="ABIDE 2026 | Women in Truth Conference">
+  <meta property="og:description" content="Join thousands of women at ABIDE 2026 — July 31-Aug 1, Macon GA. Powerful speakers, worship, and life-changing community.">
+  <meta property="og:image" content="../assets/images/hero-banner.png">
+  <meta property="og:url" content="https://abide2026.com/option-b/">
+  <meta property="og:type" content="website">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ABIDE 2026 | Women in Truth Conference">
+  <meta name="twitter:description" content="Join thousands of women at ABIDE 2026 — July 31-Aug 1, Macon GA. Powerful speakers, worship, and life-changing community.">
+  <meta name="twitter:image" content="../assets/images/hero-banner.png">
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Event",
+    "name": "ABIDE 2026 - Women in Truth Conference",
+    "startDate": "2026-07-31T17:00",
+    "endDate": "2026-08-01T17:00",
+    "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+    "eventStatus": "https://schema.org/EventScheduled",
+    "location": {
+      "@type": "Place",
+      "name": "Macon, GA",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Macon",
+        "addressRegion": "GA",
+        "addressCountry": "US"
+      }
+    },
+    "description": "Join thousands of women at ABIDE 2026, a Women in Truth conference featuring powerful speakers, worship, and community.",
+    "performer": [
+      { "@type": "Person", "name": "Hosanna Wong" },
+      { "@type": "Person", "name": "Chrystal Evans Hurst" },
+      { "@type": "Person", "name": "Annie F. Downs" },
+      { "@type": "Person", "name": "Courtney Smallbone" },
+      { "@type": "Person", "name": "Natalie Runion" },
+      { "@type": "Person", "name": "Jess Connolly" },
+      { "@type": "Person", "name": "Leeland" },
+      { "@type": "Person", "name": "Hope Darst" }
+    ],
+    "offers": {
+      "@type": "Offer",
+      "url": "https://www.ticketmaster.com/event/0E00643EBA28A733",
+      "availability": "https://schema.org/InStock"
+    }
+  }
+  </script>
+
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -52,19 +106,764 @@
       font-style: normal;
       font-display: swap;
     }
+
+    /* ---- Custom Styles ---- */
+
+    /* Skip link */
+    .skip-link {
+      position: absolute;
+      top: -100%;
+      left: 0;
+      z-index: 9999;
+      padding: 1rem 1.5rem;
+      background: #FF8D53;
+      color: #FEFEFE;
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .skip-link:focus {
+      top: 0;
+    }
+
+    /* Hero parallax */
+    .hero-bg {
+      background-image: linear-gradient(to bottom, rgba(18,18,18,0.70) 0%, rgba(18,18,18,0.40) 50%, rgba(18,18,18,0.65) 100%), url('../assets/images/hero-banner.png');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+
+    /* Watermark text */
+    .watermark {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      font-family: 'Cormorant', serif;
+      font-size: clamp(5rem, 15vw, 12rem);
+      line-height: 1;
+      opacity: 0.08;
+      pointer-events: none;
+      user-select: none;
+      white-space: nowrap;
+      overflow: hidden;
+      z-index: 0;
+      padding-top: 0.5em;
+      padding-left: 0.25em;
+    }
+
+    /* Scroll animations */
+    .slide-in-left {
+      opacity: 0;
+      transform: translateX(-60px);
+      transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+    }
+    .slide-in-right {
+      opacity: 0;
+      transform: translateX(60px);
+      transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+    }
+    .slide-in-up {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+    }
+    .slide-in-left.visible,
+    .slide-in-right.visible,
+    .slide-in-up.visible {
+      opacity: 1;
+      transform: translate(0, 0);
+    }
+
+    /* Mobile nav overlay */
+    .mobile-nav-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 90;
+      background: #121212;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+    .mobile-nav-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .mobile-nav-overlay a {
+      font-family: 'Cormorant', serif;
+      font-size: 2rem;
+      color: #FEFEFE;
+      text-decoration: none;
+      margin: 0.75rem 0;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.35s ease, transform 0.35s ease, color 0.2s ease;
+    }
+    .mobile-nav-overlay.open a {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .mobile-nav-overlay.open a:nth-child(1) { transition-delay: 0.08s; }
+    .mobile-nav-overlay.open a:nth-child(2) { transition-delay: 0.14s; }
+    .mobile-nav-overlay.open a:nth-child(3) { transition-delay: 0.20s; }
+    .mobile-nav-overlay.open a:nth-child(4) { transition-delay: 0.26s; }
+    .mobile-nav-overlay.open a:nth-child(5) { transition-delay: 0.32s; }
+    .mobile-nav-overlay.open a:nth-child(6) { transition-delay: 0.38s; }
+    .mobile-nav-overlay.open a:nth-child(7) { transition-delay: 0.44s; }
+    .mobile-nav-overlay a:hover,
+    .mobile-nav-overlay a:focus-visible {
+      color: #FF8D53;
+    }
+
+    /* FAQ accordion */
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.4s ease;
+    }
+    .faq-answer.open {
+      max-height: 600px;
+    }
+    .faq-chevron {
+      transition: transform 0.3s ease;
+      display: inline-block;
+    }
+    .faq-chevron.rotated {
+      transform: rotate(180deg);
+    }
+
+    /* Focus-visible outlines */
+    *:focus-visible {
+      outline: 3px solid #FF8D53;
+      outline-offset: 2px;
+    }
+
+    /* Schedule center divider */
+    .schedule-divider {
+      position: relative;
+    }
+    .schedule-divider::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 2px;
+      background: #FF8D53;
+    }
+
+    /* Speaker row accent line */
+    .speaker-row-line {
+      border-bottom: 2px solid #FF8D53;
+    }
+
+    /* Negative margin overlap on desktop */
+    @media (min-width: 768px) {
+      .photo-overlap-right {
+        margin-right: -3rem;
+        position: relative;
+        z-index: 2;
+      }
+      .photo-overlap-left {
+        margin-left: -3rem;
+        position: relative;
+        z-index: 2;
+      }
+    }
+
+    /* prefers-reduced-motion */
+    @media (prefers-reduced-motion: reduce) {
+      .hero-bg {
+        background-attachment: scroll;
+      }
+      .slide-in-left,
+      .slide-in-right,
+      .slide-in-up {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+      .mobile-nav-overlay {
+        transition: none;
+      }
+      .mobile-nav-overlay a {
+        transition: none;
+        opacity: 1;
+        transform: none;
+      }
+      .faq-answer {
+        transition: none;
+      }
+      .faq-chevron {
+        transition: none;
+      }
+    }
   </style>
 </head>
 <body class="bg-cream font-body text-near-black">
-  <h1 class="font-heading text-4xl text-hot-pink text-center py-8">Option A — Scaffold Test</h1>
-  <p class="text-center text-lg">If you can read this in Assistant font with Cormorant heading above, fonts are working.</p>
-  <div class="flex gap-4 justify-center py-8">
-    <div class="w-16 h-16 bg-cream border border-near-black"></div>
-    <div class="w-16 h-16 bg-peach"></div>
-    <div class="w-16 h-16 bg-rose"></div>
-    <div class="w-16 h-16 bg-coral"></div>
-    <div class="w-16 h-16 bg-hot-pink"></div>
-    <div class="w-16 h-16 bg-yellow-green"></div>
-    <div class="w-16 h-16 bg-near-black"></div>
+
+  <!-- Skip to content -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- ========== 1. STICKY NAV ========== -->
+  <header class="fixed top-0 left-0 right-0 z-50 bg-near-black">
+    <nav class="flex items-center justify-between px-5 py-3 md:px-10 lg:px-16 max-w-[1440px] mx-auto" aria-label="Main navigation">
+      <a href="#" class="block flex-shrink-0">
+        <img src="../assets/images/logo.png" alt="Living Truth Collective logo" class="h-8 md:h-10 w-auto" style="filter: brightness(0) invert(1);">
+      </a>
+
+      <!-- Desktop nav links -->
+      <div class="hidden md:flex items-center gap-8">
+        <a href="#speakers" class="text-off-white font-body text-sm uppercase tracking-widest hover:text-coral transition-colors duration-200">Speakers</a>
+        <a href="#worship" class="text-off-white font-body text-sm uppercase tracking-widest hover:text-coral transition-colors duration-200">Worship</a>
+        <a href="#schedule" class="text-off-white font-body text-sm uppercase tracking-widest hover:text-coral transition-colors duration-200">Schedule</a>
+        <a href="#faq" class="text-off-white font-body text-sm uppercase tracking-widest hover:text-coral transition-colors duration-200">FAQ</a>
+        <a href="https://www.ticketmaster.com/event/0E00643EBA28A733" target="_blank" rel="noopener noreferrer" class="inline-block bg-coral text-off-white font-body font-bold text-sm uppercase tracking-wider px-6 py-3 hover:bg-hot-pink transition-colors duration-200">Get Tickets</a>
+      </div>
+
+      <!-- Hamburger button (mobile) -->
+      <button id="nav-toggle" type="button" class="md:hidden flex flex-col justify-center items-center w-11 h-11 gap-1.5" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobile-nav">
+        <span class="block w-6 h-0.5 bg-off-white transition-transform duration-200" id="burger-top"></span>
+        <span class="block w-6 h-0.5 bg-off-white transition-opacity duration-200" id="burger-mid"></span>
+        <span class="block w-6 h-0.5 bg-off-white transition-transform duration-200" id="burger-bot"></span>
+      </button>
+    </nav>
+  </header>
+
+  <!-- Mobile Nav Overlay -->
+  <div id="mobile-nav" class="mobile-nav-overlay" role="dialog" aria-label="Mobile navigation menu" aria-modal="true">
+    <button id="nav-close" type="button" class="absolute top-4 right-5 w-11 h-11 flex items-center justify-center text-off-white" aria-label="Close navigation menu">
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="24" y2="24"/><line x1="24" y1="4" x2="4" y2="24"/></svg>
+    </button>
+    <a href="#hero" onclick="closeMobileNav()">Home</a>
+    <a href="#speakers" onclick="closeMobileNav()">Speakers</a>
+    <a href="#worship" onclick="closeMobileNav()">Worship</a>
+    <a href="#schedule" onclick="closeMobileNav()">Schedule</a>
+    <a href="#faq" onclick="closeMobileNav()">FAQ</a>
+    <a href="#final-cta" onclick="closeMobileNav()">Tickets</a>
+    <a href="https://www.ticketmaster.com/event/0E00643EBA28A733" target="_blank" rel="noopener noreferrer" class="mt-4 inline-block bg-coral text-off-white font-body font-bold text-base uppercase tracking-wider px-8 py-4" style="font-family:'Assistant',sans-serif;">Get Tickets</a>
   </div>
+
+  <!-- ========== MAIN CONTENT ========== -->
+  <main id="main-content">
+
+    <!-- ========== 2. HERO ========== -->
+    <section id="hero" class="hero-bg relative min-h-screen flex items-center">
+      <div class="relative z-10 w-full px-6 md:px-12 lg:px-20 xl:px-28 pt-24 pb-16 max-w-[1440px] mx-auto">
+        <p class="text-off-white font-body text-xs md:text-sm uppercase mb-4 md:mb-6 text-center md:text-left" style="letter-spacing: 0.3em;">Women in Truth</p>
+        <h1 class="font-heading text-off-white text-center md:text-left leading-[0.95]" style="font-size: clamp(3rem, 8vw, 7rem);">ABIDE 2026</h1>
+        <p class="text-off-white font-body text-xs md:text-sm uppercase mt-4 md:mt-6 text-center md:text-left" style="letter-spacing: 0.2em;">July 31 &ndash; August 1 &ensp;|&ensp; Macon, GA</p>
+        <div class="mt-8 md:mt-10 text-center md:text-left">
+          <a href="https://www.ticketmaster.com/event/0E00643EBA28A733" target="_blank" rel="noopener noreferrer" class="inline-block bg-coral text-off-white font-body font-bold text-sm md:text-base uppercase tracking-wider px-8 py-4 hover:bg-hot-pink transition-colors duration-200">Get Tickets</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 3. INTRO / MISSION ========== -->
+    <section id="intro" class="bg-cream py-16 md:py-24 lg:py-32">
+      <div class="max-w-[1280px] mx-auto px-6 md:px-12 lg:px-20">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16 items-start">
+          <!-- Scripture pull-quote (left ~45%) -->
+          <div class="md:col-span-5 slide-in-left">
+            <blockquote class="border-l-4 border-coral pl-6 md:pl-8">
+              <p class="font-heading text-hot-pink italic text-2xl md:text-3xl lg:text-4xl leading-snug">
+                &ldquo;If you abide in me, and my words abide in you, ask whatever you wish, and it will be done for you.&rdquo;
+              </p>
+              <cite class="block mt-4 font-body text-sm uppercase tracking-widest text-near-black not-italic">John 15:7 ESV</cite>
+            </blockquote>
+          </div>
+          <!-- Mission text (right ~55%) -->
+          <div class="md:col-span-7 slide-in-right">
+            <h2 class="font-heading text-near-black text-3xl md:text-4xl lg:text-5xl mb-6">Bring Your People, Let&rsquo;s Abide Together!</h2>
+            <p class="font-body text-near-black text-base md:text-lg leading-relaxed mb-4">
+              ABIDE 2026 is a two-day gathering for women who are ready to go deeper in their faith. Set in the heart of Macon, Georgia, this conference brings together dynamic speakers, worship leaders, and a community of women who believe the Word of God is living, active, and transformative.
+            </p>
+            <p class="font-body text-near-black text-base md:text-lg leading-relaxed">
+              Whether you come with your small group, your best friend, or on your own, ABIDE is the space where you can exhale, be encouraged, and be reminded that you were made for more. Expect powerful teaching, bold worship, and genuine connection.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 4. SPEAKER LINEUP ========== -->
+    <section id="speakers" class="bg-rose relative overflow-hidden py-16 md:py-24 lg:py-32">
+      <!-- Watermark -->
+      <div class="watermark text-near-black" aria-hidden="true">SPEAKERS</div>
+
+      <div class="relative z-10 max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20">
+        <h2 class="font-heading text-near-black text-3xl md:text-5xl mb-12 md:mb-20 uppercase tracking-wider">Speaker Lineup</h2>
+
+        <!-- Speaker 1: Hosanna Wong — photo LEFT (odd) -->
+        <div class="speaker-row-line pb-10 md:pb-14 mb-10 md:mb-14">
+          <div class="flex flex-col md:flex-row items-center md:items-stretch gap-6 md:gap-0">
+            <div class="w-full md:w-[40%] flex-shrink-0 slide-in-left">
+              <img src="../assets/images/speaker-hosanna-wong.png" alt="Hosanna Wong speaking at a conference" class="w-full h-64 md:h-80 lg:h-96 object-cover photo-overlap-right">
+            </div>
+            <div class="w-full md:w-[60%] flex flex-col justify-center md:pl-10 lg:pl-16 slide-in-right">
+              <h3 class="font-heading text-near-black text-3xl md:text-5xl lg:text-6xl mb-3">Hosanna Wong</h3>
+              <p class="font-body text-near-black text-base md:text-lg leading-relaxed max-w-xl">
+                Hosanna Wong is an internationally known speaker, author, and spoken word artist who grew up in inner-city San Francisco. With raw honesty and deep biblical conviction, she inspires audiences to live boldly in their faith. Her passion is to equip this generation with the truth of Scripture.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Speaker 2: Chrystal Evans Hurst — photo RIGHT (even) -->
+        <div class="speaker-row-line pb-10 md:pb-14 mb-10 md:mb-14">
+          <div class="flex flex-col md:flex-row-reverse items-center md:items-stretch gap-6 md:gap-0">
+            <div class="w-full md:w-[40%] flex-shrink-0 slide-in-right">
+              <img src="../assets/images/speaker-chrystal-evans-hurst.jpg" alt="Chrystal Evans Hurst smiling warmly" class="w-full h-64 md:h-80 lg:h-96 object-cover photo-overlap-left">
+            </div>
+            <div class="w-full md:w-[60%] flex flex-col justify-center md:pr-10 lg:pr-16 md:text-right slide-in-left">
+              <h3 class="font-heading text-near-black text-3xl md:text-5xl lg:text-6xl mb-3">Chrystal Evans Hurst</h3>
+              <p class="font-body text-near-black text-base md:text-lg leading-relaxed max-w-xl md:ml-auto">
+                Chrystal Evans Hurst is a bestselling author, speaker, and the eldest daughter of Dr. Tony Evans. With warmth and wisdom, she encourages women to pursue God with all their hearts while navigating the beautiful mess of everyday life. She is a voice of grace and authenticity.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Speaker 3: Annie F. Downs — photo LEFT (odd) -->
+        <div class="speaker-row-line pb-10 md:pb-14 mb-10 md:mb-14">
+          <div class="flex flex-col md:flex-row items-center md:items-stretch gap-6 md:gap-0">
+            <div class="w-full md:w-[40%] flex-shrink-0 slide-in-left">
+              <img src="../assets/images/speaker-annie-f-downs.jpg" alt="Annie F. Downs laughing with a joyful expression" class="w-full h-64 md:h-80 lg:h-96 object-cover photo-overlap-right">
+            </div>
+            <div class="w-full md:w-[60%] flex flex-col justify-center md:pl-10 lg:pl-16 slide-in-right">
+              <h3 class="font-heading text-near-black text-3xl md:text-5xl lg:text-6xl mb-3">Annie F. Downs</h3>
+              <p class="font-body text-near-black text-base md:text-lg leading-relaxed max-w-xl">
+                Annie F. Downs is a New York Times bestselling author and host of the wildly popular podcast "That Sounds Fun." Her infectious joy and depth of faith make her one of the most relatable voices in Christian culture. She believes God is good and that life should be enjoyed.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Speaker 4: Courtney Smallbone — photo RIGHT (even) -->
+        <div class="speaker-row-line pb-10 md:pb-14 mb-10 md:mb-14">
+          <div class="flex flex-col md:flex-row-reverse items-center md:items-stretch gap-6 md:gap-0">
+            <div class="w-full md:w-[40%] flex-shrink-0 slide-in-right">
+              <img src="../assets/images/speaker-courtney-smallbone.jpg" alt="Courtney Smallbone in a thoughtful portrait" class="w-full h-64 md:h-80 lg:h-96 object-cover photo-overlap-left">
+            </div>
+            <div class="w-full md:w-[60%] flex flex-col justify-center md:pr-10 lg:pr-16 md:text-right slide-in-left">
+              <h3 class="font-heading text-near-black text-3xl md:text-5xl lg:text-6xl mb-3">Courtney Smallbone</h3>
+              <p class="font-body text-near-black text-base md:text-lg leading-relaxed max-w-xl md:ml-auto">
+                Courtney Smallbone is an author, speaker, and the wife of Luke Smallbone of the Grammy-winning duo for KING & COUNTRY. Her story of faith through loss and redemption encourages women to trust God through every chapter. She speaks with vulnerability and unwavering hope.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Speaker 5: Natalie Runion — photo LEFT (odd) -->
+        <div class="speaker-row-line pb-10 md:pb-14 mb-10 md:mb-14">
+          <div class="flex flex-col md:flex-row items-center md:items-stretch gap-6 md:gap-0">
+            <div class="w-full md:w-[40%] flex-shrink-0 slide-in-left">
+              <img src="../assets/images/speaker-natalie-runion.jpg" alt="Natalie Runion with a warm smile" class="w-full h-64 md:h-80 lg:h-96 object-cover photo-overlap-right">
+            </div>
+            <div class="w-full md:w-[60%] flex flex-col justify-center md:pl-10 lg:pl-16 slide-in-right">
+              <h3 class="font-heading text-near-black text-3xl md:text-5xl lg:text-6xl mb-3">Natalie Runion</h3>
+              <p class="font-body text-near-black text-base md:text-lg leading-relaxed max-w-xl">
+                Natalie Runion is an author, speaker, and ministry leader whose heart beats for women who feel unseen. She challenges audiences to lay down the burden of striving and step into the freedom of God's calling. Her message is deeply rooted in identity and purpose.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Speaker 6: Jess Connolly — photo RIGHT (even) -->
+        <div class="pb-2">
+          <div class="flex flex-col md:flex-row-reverse items-center md:items-stretch gap-6 md:gap-0">
+            <div class="w-full md:w-[40%] flex-shrink-0 slide-in-right">
+              <img src="../assets/images/speaker-jess-connolly.jpg" alt="Jess Connolly smiling confidently" class="w-full h-64 md:h-80 lg:h-96 object-cover photo-overlap-left">
+            </div>
+            <div class="w-full md:w-[60%] flex flex-col justify-center md:pr-10 lg:pr-16 md:text-right slide-in-left">
+              <h3 class="font-heading text-near-black text-3xl md:text-5xl lg:text-6xl mb-3">Jess Connolly</h3>
+              <p class="font-body text-near-black text-base md:text-lg leading-relaxed max-w-xl md:ml-auto">
+                Jess Connolly is a bestselling author, speaker, and church planter from Charleston, South Carolina. She is passionate about calling women into their God-given authority and reminding them they are equipped for the mission. Her energy and conviction are absolutely contagious.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 5. WORSHIP LEADERS ========== -->
+    <section id="worship" class="bg-coral relative overflow-hidden py-16 md:py-24 lg:py-32">
+      <!-- Watermark -->
+      <div class="watermark text-near-black" aria-hidden="true">WORSHIP</div>
+
+      <div class="relative z-10 max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20">
+        <h2 class="font-heading text-near-black text-3xl md:text-5xl mb-12 md:mb-20 uppercase tracking-wider">Worship</h2>
+
+        <!-- Worship 1: Leeland — photo LEFT (odd) -->
+        <div class="speaker-row-line pb-10 md:pb-14 mb-10 md:mb-14">
+          <div class="flex flex-col md:flex-row items-center md:items-stretch gap-6 md:gap-0">
+            <div class="w-full md:w-[40%] flex-shrink-0 slide-in-left">
+              <img src="../assets/images/worship-leeland.jpg" alt="Leeland performing worship music on stage" class="w-full h-64 md:h-80 lg:h-96 object-cover photo-overlap-right">
+            </div>
+            <div class="w-full md:w-[60%] flex flex-col justify-center md:pl-10 lg:pl-16 slide-in-right">
+              <h3 class="font-heading text-near-black text-3xl md:text-5xl lg:text-6xl mb-3">Leeland</h3>
+              <p class="font-body text-near-black text-base md:text-lg leading-relaxed max-w-xl">
+                Leeland is a Grammy-nominated worship artist whose music has become a staple in churches worldwide. Known for songs like "Way Maker" and "Inhabit," his worship leads people into a deep, transformative encounter with God. His passion on stage is undeniable.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Worship 2: Hope Darst — photo RIGHT (even) -->
+        <div class="pb-2">
+          <div class="flex flex-col md:flex-row-reverse items-center md:items-stretch gap-6 md:gap-0">
+            <div class="w-full md:w-[40%] flex-shrink-0 slide-in-right">
+              <img src="../assets/images/worship-hope-darst.jpg" alt="Hope Darst leading worship with hands raised" class="w-full h-64 md:h-80 lg:h-96 object-cover photo-overlap-left">
+            </div>
+            <div class="w-full md:w-[60%] flex flex-col justify-center md:pr-10 lg:pr-16 md:text-right slide-in-left">
+              <h3 class="font-heading text-near-black text-3xl md:text-5xl lg:text-6xl mb-3">Hope Darst</h3>
+              <p class="font-body text-near-black text-base md:text-lg leading-relaxed max-w-xl md:ml-auto">
+                Hope Darst is a worship leader and songwriter best known for her powerful anthem "Peace Be Still." With a voice that carries both strength and tenderness, she creates space for healing and hope in every room she enters. Her heart is to see people encounter the living God.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 6. SCHEDULE ========== -->
+    <section id="schedule" class="bg-cream py-16 md:py-24 lg:py-32">
+      <div class="max-w-[1100px] mx-auto px-6 md:px-12 lg:px-20">
+        <h2 class="font-heading text-near-black text-3xl md:text-5xl mb-12 md:mb-20 uppercase tracking-wider text-center">Schedule</h2>
+
+        <!-- Desktop: two-column with center divider -->
+        <div class="hidden md:block">
+          <div class="schedule-divider grid grid-cols-2 gap-0">
+            <!-- Friday -->
+            <div class="pr-12 lg:pr-16 slide-in-left">
+              <h3 class="font-heading text-hot-pink text-3xl lg:text-4xl mb-8">Friday, July 31</h3>
+              <div class="mb-6">
+                <p class="font-body text-xs uppercase tracking-widest text-near-black mb-1" style="letter-spacing:0.15em;">5:00 PM</p>
+                <p class="font-heading text-near-black text-xl lg:text-2xl">Doors Open</p>
+              </div>
+              <div>
+                <p class="font-body text-xs uppercase tracking-widest text-near-black mb-1" style="letter-spacing:0.15em;">6:00 PM</p>
+                <p class="font-heading text-near-black text-xl lg:text-2xl">Evening Session</p>
+              </div>
+            </div>
+            <!-- Saturday -->
+            <div class="pl-12 lg:pl-16 slide-in-right">
+              <h3 class="font-heading text-hot-pink text-3xl lg:text-4xl mb-8">Saturday, August 1</h3>
+              <div class="mb-6">
+                <p class="font-body text-xs uppercase tracking-widest text-near-black mb-1" style="letter-spacing:0.15em;">8:00 AM</p>
+                <p class="font-heading text-near-black text-xl lg:text-2xl">Doors Open</p>
+              </div>
+              <div class="mb-6">
+                <p class="font-body text-xs uppercase tracking-widest text-near-black mb-1" style="letter-spacing:0.15em;">9:00 AM</p>
+                <p class="font-heading text-near-black text-xl lg:text-2xl">Morning Session</p>
+              </div>
+              <div class="mb-6">
+                <p class="font-body text-xs uppercase tracking-widest text-near-black mb-1" style="letter-spacing:0.15em;">12:00 PM</p>
+                <p class="font-heading text-near-black text-xl lg:text-2xl">Break for Lunch</p>
+              </div>
+              <div>
+                <p class="font-body text-xs uppercase tracking-widest text-near-black mb-1" style="letter-spacing:0.15em;">2:00 PM</p>
+                <p class="font-heading text-near-black text-xl lg:text-2xl">Afternoon Session</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mobile: single column -->
+        <div class="md:hidden">
+          <div class="slide-in-up">
+            <h3 class="font-heading text-hot-pink text-2xl mb-6">Friday, July 31</h3>
+            <div class="mb-5">
+              <p class="font-body text-xs uppercase tracking-widest text-near-black mb-1" style="letter-spacing:0.15em;">5:00 PM</p>
+              <p class="font-heading text-near-black text-lg">Doors Open</p>
+            </div>
+            <div class="mb-8">
+              <p class="font-body text-xs uppercase tracking-widest text-near-black mb-1" style="letter-spacing:0.15em;">6:00 PM</p>
+              <p class="font-heading text-near-black text-lg">Evening Session</p>
+            </div>
+          </div>
+          <hr class="border-coral border-t-2 mb-8">
+          <div class="slide-in-up">
+            <h3 class="font-heading text-hot-pink text-2xl mb-6">Saturday, August 1</h3>
+            <div class="mb-5">
+              <p class="font-body text-xs uppercase tracking-widest text-near-black mb-1" style="letter-spacing:0.15em;">8:00 AM</p>
+              <p class="font-heading text-near-black text-lg">Doors Open</p>
+            </div>
+            <div class="mb-5">
+              <p class="font-body text-xs uppercase tracking-widest text-near-black mb-1" style="letter-spacing:0.15em;">9:00 AM</p>
+              <p class="font-heading text-near-black text-lg">Morning Session</p>
+            </div>
+            <div class="mb-5">
+              <p class="font-body text-xs uppercase tracking-widest text-near-black mb-1" style="letter-spacing:0.15em;">12:00 PM</p>
+              <p class="font-heading text-near-black text-lg">Break for Lunch</p>
+            </div>
+            <div>
+              <p class="font-body text-xs uppercase tracking-widest text-near-black mb-1" style="letter-spacing:0.15em;">2:00 PM</p>
+              <p class="font-heading text-near-black text-lg">Afternoon Session</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 7. FAQ ========== -->
+    <section id="faq" class="bg-cream py-16 md:py-24 lg:py-32">
+      <div class="max-w-[900px] mx-auto px-6 md:px-12 lg:px-20">
+        <h2 class="font-heading text-near-black text-3xl md:text-5xl mb-12 md:mb-16 uppercase tracking-wider">Frequently Asked Questions</h2>
+
+        <!-- FAQ Item 1 -->
+        <div class="border-t border-gray-300">
+          <button class="faq-toggle w-full flex items-center justify-between py-5 md:py-6 text-left min-h-[44px]" aria-expanded="false" aria-controls="faq-1">
+            <span class="font-heading text-near-black text-xl md:text-2xl pr-4">Where is the event held?</span>
+            <svg class="faq-chevron flex-shrink-0 w-6 h-6 text-coral" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div id="faq-1" class="faq-answer" role="region">
+            <p class="font-body text-near-black text-base leading-relaxed pb-6 pr-10">
+              ABIDE 2026 will be held in Macon, Georgia. The specific venue details, including the full address and parking instructions, will be shared with ticket holders closer to the event date. Macon is centrally located and easily accessible from most major cities in the Southeast.
+            </p>
+          </div>
+        </div>
+
+        <!-- FAQ Item 2 -->
+        <div class="border-t border-gray-300">
+          <button class="faq-toggle w-full flex items-center justify-between py-5 md:py-6 text-left min-h-[44px]" aria-expanded="false" aria-controls="faq-2">
+            <span class="font-heading text-near-black text-xl md:text-2xl pr-4">What is included with my ticket?</span>
+            <svg class="faq-chevron flex-shrink-0 w-6 h-6 text-coral" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div id="faq-2" class="faq-answer" role="region">
+            <p class="font-body text-near-black text-base leading-relaxed pb-6 pr-10">
+              Your ticket includes access to all conference sessions on both Friday evening and Saturday, including all speaker sessions and worship experiences. Meals are not included, but there will be a designated lunch break on Saturday with nearby dining options. A conference guide and materials will also be provided.
+            </p>
+          </div>
+        </div>
+
+        <!-- FAQ Item 3 -->
+        <div class="border-t border-gray-300">
+          <button class="faq-toggle w-full flex items-center justify-between py-5 md:py-6 text-left min-h-[44px]" aria-expanded="false" aria-controls="faq-3">
+            <span class="font-heading text-near-black text-xl md:text-2xl pr-4">Is parking available?</span>
+            <svg class="faq-chevron flex-shrink-0 w-6 h-6 text-coral" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div id="faq-3" class="faq-answer" role="region">
+            <p class="font-body text-near-black text-base leading-relaxed pb-6 pr-10">
+              Yes, parking will be available at the venue. Detailed parking information, including lot locations and any associated fees, will be communicated to registered attendees prior to the event. We recommend arriving early on both days to secure a convenient spot.
+            </p>
+          </div>
+        </div>
+
+        <!-- FAQ Item 4 -->
+        <div class="border-t border-gray-300">
+          <button class="faq-toggle w-full flex items-center justify-between py-5 md:py-6 text-left min-h-[44px]" aria-expanded="false" aria-controls="faq-4">
+            <span class="font-heading text-near-black text-xl md:text-2xl pr-4">Are there hotel recommendations nearby?</span>
+            <svg class="faq-chevron flex-shrink-0 w-6 h-6 text-coral" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div id="faq-4" class="faq-answer" role="region">
+            <p class="font-body text-near-black text-base leading-relaxed pb-6 pr-10">
+              Absolutely! Macon has a range of hotel options at various price points. We will be releasing a curated list of recommended hotels, including properties with special conference rates, closer to the event. We encourage out-of-town guests to book early for the best availability.
+            </p>
+          </div>
+        </div>
+
+        <!-- FAQ Item 5 -->
+        <div class="border-t border-gray-300">
+          <button class="faq-toggle w-full flex items-center justify-between py-5 md:py-6 text-left min-h-[44px]" aria-expanded="false" aria-controls="faq-5">
+            <span class="font-heading text-near-black text-xl md:text-2xl pr-4">What is the refund policy?</span>
+            <svg class="faq-chevron flex-shrink-0 w-6 h-6 text-coral" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div id="faq-5" class="faq-answer" role="region">
+            <p class="font-body text-near-black text-base leading-relaxed pb-6 pr-10">
+              Tickets are non-refundable but are transferable. If you are unable to attend, you may transfer your ticket to another person by contacting our team at least 14 days before the event. Please reach out to us directly for transfer instructions and any questions about the policy.
+            </p>
+          </div>
+        </div>
+
+        <!-- FAQ Item 6 -->
+        <div class="border-t border-gray-300 border-b">
+          <button class="faq-toggle w-full flex items-center justify-between py-5 md:py-6 text-left min-h-[44px]" aria-expanded="false" aria-controls="faq-6">
+            <span class="font-heading text-near-black text-xl md:text-2xl pr-4">Is childcare provided?</span>
+            <svg class="faq-chevron flex-shrink-0 w-6 h-6 text-coral" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div id="faq-6" class="faq-answer" role="region">
+            <p class="font-body text-near-black text-base leading-relaxed pb-6 pr-10">
+              Childcare is not provided at the venue. ABIDE is designed as a time for women to step away and be refreshed, so we encourage attendees to make arrangements for childcare during the conference. We want you to be fully present and able to receive all that the weekend has to offer.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 8. FINAL CTA ========== -->
+    <section id="final-cta" class="bg-rose relative overflow-hidden py-20 md:py-28 lg:py-36">
+      <!-- Faded speaker collage background -->
+      <div class="absolute inset-0 opacity-[0.06] flex flex-wrap items-center justify-center gap-0 pointer-events-none" aria-hidden="true">
+        <img src="../assets/images/speaker-hosanna-wong.png" alt="" class="w-1/3 h-40 object-cover">
+        <img src="../assets/images/speaker-chrystal-evans-hurst.jpg" alt="" class="w-1/3 h-40 object-cover">
+        <img src="../assets/images/speaker-annie-f-downs.jpg" alt="" class="w-1/3 h-40 object-cover">
+        <img src="../assets/images/speaker-courtney-smallbone.jpg" alt="" class="w-1/3 h-40 object-cover">
+        <img src="../assets/images/speaker-natalie-runion.jpg" alt="" class="w-1/3 h-40 object-cover">
+        <img src="../assets/images/speaker-jess-connolly.jpg" alt="" class="w-1/3 h-40 object-cover">
+        <img src="../assets/images/worship-leeland.jpg" alt="" class="w-1/3 h-40 object-cover">
+        <img src="../assets/images/worship-hope-darst.jpg" alt="" class="w-1/3 h-40 object-cover">
+      </div>
+      <div class="relative z-10 text-center px-6">
+        <h2 class="font-heading text-coral text-5xl md:text-7xl lg:text-8xl mb-8 slide-in-up" style="font-size: clamp(3rem, 7vw, 6rem);">Join Us</h2>
+        <p class="font-body text-near-black text-lg md:text-xl mb-10 max-w-xl mx-auto slide-in-up">
+          Be part of something extraordinary. Get your tickets today and gather your people.
+        </p>
+        <a href="https://www.ticketmaster.com/event/0E00643EBA28A733" target="_blank" rel="noopener noreferrer" class="inline-block bg-coral text-off-white font-body font-bold text-base md:text-lg uppercase tracking-wider px-10 py-5 hover:bg-hot-pink transition-colors duration-200 slide-in-up">Get Tickets</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- ========== 9. FOOTER ========== -->
+  <footer class="bg-near-black py-12 md:py-16">
+    <div class="max-w-[1280px] mx-auto px-6 md:px-12 lg:px-20">
+      <div class="flex flex-col md:flex-row items-center md:items-start justify-between gap-8">
+        <!-- Logo -->
+        <div class="flex-shrink-0">
+          <img src="../assets/images/logo.png" alt="Living Truth Collective logo" class="h-10 md:h-12 w-auto" style="filter: brightness(0) invert(1);">
+        </div>
+
+        <!-- Footer nav -->
+        <nav class="flex flex-wrap justify-center md:justify-start gap-x-8 gap-y-3" aria-label="Footer navigation">
+          <a href="#speakers" class="text-cream font-body text-sm uppercase tracking-widest hover:text-coral transition-colors duration-200">Speakers</a>
+          <a href="#worship" class="text-cream font-body text-sm uppercase tracking-widest hover:text-coral transition-colors duration-200">Worship</a>
+          <a href="#schedule" class="text-cream font-body text-sm uppercase tracking-widest hover:text-coral transition-colors duration-200">Schedule</a>
+          <a href="#faq" class="text-cream font-body text-sm uppercase tracking-widest hover:text-coral transition-colors duration-200">FAQ</a>
+        </nav>
+
+        <!-- Social links -->
+        <div class="flex items-center gap-5">
+          <a href="https://m.facebook.com/Livingtruthjewelry/" target="_blank" rel="noopener noreferrer" class="text-cream hover:text-coral transition-colors duration-200 w-11 h-11 flex items-center justify-center" aria-label="Living Truth Collective on Facebook">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          </a>
+          <a href="https://www.instagram.com/livingtruthcollective/" target="_blank" rel="noopener noreferrer" class="text-cream hover:text-coral transition-colors duration-200 w-11 h-11 flex items-center justify-center" aria-label="Living Truth Collective on Instagram">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Copyright -->
+      <div class="mt-10 pt-8 border-t border-gray-700 text-center md:text-left">
+        <p class="text-cream/60 font-body text-sm">&copy; 2026 Living Truth Collective</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========== JAVASCRIPT ========== -->
+  <script>
+    // ---- Reduced motion check ----
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // ---- Mobile Nav ----
+    const navToggle = document.getElementById('nav-toggle');
+    const navClose = document.getElementById('nav-close');
+    const mobileNav = document.getElementById('mobile-nav');
+    let focusTrapElements = [];
+    let lastFocusedElement = null;
+
+    function openMobileNav() {
+      lastFocusedElement = document.activeElement;
+      mobileNav.classList.add('open');
+      navToggle.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+
+      // Gather focusable elements inside overlay
+      focusTrapElements = Array.from(mobileNav.querySelectorAll('a[href], button'));
+      if (focusTrapElements.length > 0) {
+        focusTrapElements[0].focus();
+      }
+
+      // Listen for escape key
+      document.addEventListener('keydown', handleMobileNavKeydown);
+    }
+
+    function closeMobileNav() {
+      mobileNav.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+      document.removeEventListener('keydown', handleMobileNavKeydown);
+
+      if (lastFocusedElement) {
+        lastFocusedElement.focus();
+      }
+    }
+
+    function handleMobileNavKeydown(e) {
+      if (e.key === 'Escape') {
+        closeMobileNav();
+        return;
+      }
+      // Focus trap
+      if (e.key === 'Tab') {
+        if (focusTrapElements.length === 0) return;
+        const first = focusTrapElements[0];
+        const last = focusTrapElements[focusTrapElements.length - 1];
+        if (e.shiftKey) {
+          if (document.activeElement === first) {
+            e.preventDefault();
+            last.focus();
+          }
+        } else {
+          if (document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
+          }
+        }
+      }
+    }
+
+    navToggle.addEventListener('click', openMobileNav);
+    navClose.addEventListener('click', closeMobileNav);
+
+    // ---- FAQ Accordion ----
+    const faqToggles = document.querySelectorAll('.faq-toggle');
+    faqToggles.forEach(function(toggle) {
+      toggle.addEventListener('click', function() {
+        const expanded = this.getAttribute('aria-expanded') === 'true';
+        const targetId = this.getAttribute('aria-controls');
+        const target = document.getElementById(targetId);
+        const chevron = this.querySelector('.faq-chevron');
+
+        if (expanded) {
+          this.setAttribute('aria-expanded', 'false');
+          target.classList.remove('open');
+          chevron.classList.remove('rotated');
+        } else {
+          this.setAttribute('aria-expanded', 'true');
+          target.classList.add('open');
+          chevron.classList.add('rotated');
+        }
+      });
+    });
+
+    // ---- Scroll-triggered animations (IntersectionObserver) ----
+    if (!prefersReducedMotion) {
+      const animatedElements = document.querySelectorAll('.slide-in-left, .slide-in-right, .slide-in-up');
+      const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.15,
+        rootMargin: '0px 0px -40px 0px'
+      });
+
+      animatedElements.forEach(function(el) {
+        observer.observe(el);
+      });
+    } else {
+      // If reduced motion, just make everything visible immediately
+      document.querySelectorAll('.slide-in-left, .slide-in-right, .slide-in-up').forEach(function(el) {
+        el.classList.add('visible');
+      });
+    }
+  </script>
 </body>
 </html>
