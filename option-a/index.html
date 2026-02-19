@@ -12,6 +12,7 @@
   <meta property="og:image" content="../assets/images/hero-banner.png">
   <meta property="og:url" content="https://www.livingtruthcollective.com/abide-2026">
   <meta property="og:type" content="website">
+  <link rel="canonical" href="https://www.livingtruthcollective.com/abide-2026">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
@@ -395,7 +396,7 @@
             </div>
             <div class="p-6 text-center">
               <h3 class="font-heading text-2xl text-near-black mb-2">Hosanna Wong</h3>
-              <button class="bio-toggle text-coral font-bold text-sm hover:text-hot-pink transition-colors inline-flex items-center gap-1 min-h-[44px] min-w-[44px] justify-center"
+              <button class="bio-toggle text-hot-pink font-bold text-sm hover:text-near-black transition-colors inline-flex items-center gap-1 min-h-[44px] min-w-[44px] justify-center"
                       aria-expanded="false" aria-controls="bio-hosanna">
                 Learn More <span class="text-xs" aria-hidden="true">&#9660;</span>
               </button>
@@ -414,7 +415,7 @@
             </div>
             <div class="p-6 text-center">
               <h3 class="font-heading text-2xl text-near-black mb-2">Chrystal Evans Hurst</h3>
-              <button class="bio-toggle text-coral font-bold text-sm hover:text-hot-pink transition-colors inline-flex items-center gap-1 min-h-[44px] min-w-[44px] justify-center"
+              <button class="bio-toggle text-hot-pink font-bold text-sm hover:text-near-black transition-colors inline-flex items-center gap-1 min-h-[44px] min-w-[44px] justify-center"
                       aria-expanded="false" aria-controls="bio-chrystal">
                 Learn More <span class="text-xs" aria-hidden="true">&#9660;</span>
               </button>
@@ -433,7 +434,7 @@
             </div>
             <div class="p-6 text-center">
               <h3 class="font-heading text-2xl text-near-black mb-2">Annie F. Downs</h3>
-              <button class="bio-toggle text-coral font-bold text-sm hover:text-hot-pink transition-colors inline-flex items-center gap-1 min-h-[44px] min-w-[44px] justify-center"
+              <button class="bio-toggle text-hot-pink font-bold text-sm hover:text-near-black transition-colors inline-flex items-center gap-1 min-h-[44px] min-w-[44px] justify-center"
                       aria-expanded="false" aria-controls="bio-annie">
                 Learn More <span class="text-xs" aria-hidden="true">&#9660;</span>
               </button>
@@ -452,7 +453,7 @@
             </div>
             <div class="p-6 text-center">
               <h3 class="font-heading text-2xl text-near-black mb-2">Courtney Smallbone</h3>
-              <button class="bio-toggle text-coral font-bold text-sm hover:text-hot-pink transition-colors inline-flex items-center gap-1 min-h-[44px] min-w-[44px] justify-center"
+              <button class="bio-toggle text-hot-pink font-bold text-sm hover:text-near-black transition-colors inline-flex items-center gap-1 min-h-[44px] min-w-[44px] justify-center"
                       aria-expanded="false" aria-controls="bio-courtney">
                 Learn More <span class="text-xs" aria-hidden="true">&#9660;</span>
               </button>
@@ -471,7 +472,7 @@
             </div>
             <div class="p-6 text-center">
               <h3 class="font-heading text-2xl text-near-black mb-2">Natalie Runion</h3>
-              <button class="bio-toggle text-coral font-bold text-sm hover:text-hot-pink transition-colors inline-flex items-center gap-1 min-h-[44px] min-w-[44px] justify-center"
+              <button class="bio-toggle text-hot-pink font-bold text-sm hover:text-near-black transition-colors inline-flex items-center gap-1 min-h-[44px] min-w-[44px] justify-center"
                       aria-expanded="false" aria-controls="bio-natalie">
                 Learn More <span class="text-xs" aria-hidden="true">&#9660;</span>
               </button>
@@ -490,7 +491,7 @@
             </div>
             <div class="p-6 text-center">
               <h3 class="font-heading text-2xl text-near-black mb-2">Jess Connolly</h3>
-              <button class="bio-toggle text-coral font-bold text-sm hover:text-hot-pink transition-colors inline-flex items-center gap-1 min-h-[44px] min-w-[44px] justify-center"
+              <button class="bio-toggle text-hot-pink font-bold text-sm hover:text-near-black transition-colors inline-flex items-center gap-1 min-h-[44px] min-w-[44px] justify-center"
                       aria-expanded="false" aria-controls="bio-jess">
                 Learn More <span class="text-xs" aria-hidden="true">&#9660;</span>
               </button>
@@ -787,6 +788,9 @@
         navToggle.setAttribute('aria-expanded', 'true');
         navToggle.setAttribute('aria-label', 'Close navigation menu');
         document.body.style.overflow = 'hidden';
+        // Focus the first link in mobile nav
+        var firstLink = mobileNav.querySelector('a');
+        if (firstLink) setTimeout(function() { firstLink.focus(); }, 100);
       }
 
       function closeMobileNavFn() {
@@ -810,11 +814,29 @@
         }
       });
 
-      // Close mobile nav on Escape key
+      // Close mobile nav on Escape key and focus trap
       document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && navToggle.getAttribute('aria-expanded') === 'true') {
+        if (navToggle.getAttribute('aria-expanded') !== 'true') return;
+        if (e.key === 'Escape') {
           closeMobileNavFn();
           navToggle.focus();
+          return;
+        }
+        if (e.key === 'Tab') {
+          var focusable = mobileNav.querySelectorAll('a, button');
+          var first = focusable[0];
+          var last = focusable[focusable.length - 1];
+          if (e.shiftKey) {
+            if (document.activeElement === first) {
+              e.preventDefault();
+              last.focus();
+            }
+          } else {
+            if (document.activeElement === last) {
+              e.preventDefault();
+              first.focus();
+            }
+          }
         }
       });
 
