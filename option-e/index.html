@@ -332,6 +332,24 @@
       border-top: 1px solid rgba(255, 255, 255, 0.15);
     }
 
+    /* Speaker modal */
+    .speaker-modal-backdrop {
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.35s ease, visibility 0.35s ease;
+    }
+    .speaker-modal-backdrop.open {
+      opacity: 1;
+      visibility: visible;
+    }
+    .speaker-modal-content {
+      transform: translateY(24px) scale(0.97);
+      transition: transform 0.35s ease;
+    }
+    .speaker-modal-backdrop.open .speaker-modal-content {
+      transform: translateY(0) scale(1);
+    }
+
     /* Worship floating glass card */
     .worship-glass {
       background: rgba(250, 248, 244, 0.12);
@@ -568,62 +586,79 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
           <!-- Speaker: Hosanna Wong -->
-          <div class="speaker-card rounded-2xl overflow-hidden fade-in-up stagger-1 relative aspect-[3/4]">
+          <button class="speaker-card rounded-2xl overflow-hidden fade-in-up stagger-1 relative aspect-[3/4] cursor-pointer w-full text-left" data-speaker="0" aria-label="View Hosanna Wong's bio">
             <img src="../assets/images/speaker-hosanna-wong.png" alt="Hosanna Wong, speaker, author, and spoken word artist" class="absolute inset-0 w-full h-full object-cover" loading="lazy">
             <div class="absolute inset-x-0 bottom-0 speaker-glass px-6 py-5">
               <h3 class="font-heading text-2xl text-off-white">Hosanna Wong</h3>
               <p class="font-body text-sm text-off-white/70 mt-1">Speaker &amp; Author</p>
             </div>
-          </div>
+          </button>
 
           <!-- Speaker: Chrystal Evans Hurst -->
-          <div class="speaker-card rounded-2xl overflow-hidden fade-in-up stagger-2 relative aspect-[3/4]">
+          <button class="speaker-card rounded-2xl overflow-hidden fade-in-up stagger-2 relative aspect-[3/4] cursor-pointer w-full text-left" data-speaker="1" aria-label="View Chrystal Evans Hurst's bio">
             <img src="../assets/images/speaker-chrystal-evans-hurst.jpg" alt="Chrystal Evans Hurst, bestselling author and speaker" class="absolute inset-0 w-full h-full object-cover" loading="lazy">
             <div class="absolute inset-x-0 bottom-0 speaker-glass px-6 py-5">
               <h3 class="font-heading text-2xl text-off-white">Chrystal Evans Hurst</h3>
               <p class="font-body text-sm text-off-white/70 mt-1">Speaker &amp; Author</p>
             </div>
-          </div>
+          </button>
 
           <!-- Speaker: Annie F. Downs -->
-          <div class="speaker-card rounded-2xl overflow-hidden fade-in-up stagger-3 relative aspect-[3/4]">
+          <button class="speaker-card rounded-2xl overflow-hidden fade-in-up stagger-3 relative aspect-[3/4] cursor-pointer w-full text-left" data-speaker="2" aria-label="View Annie F. Downs' bio">
             <img src="../assets/images/speaker-annie-f-downs.jpg" alt="Annie F. Downs, bestselling author and podcast host" class="absolute inset-0 w-full h-full object-cover" loading="lazy">
             <div class="absolute inset-x-0 bottom-0 speaker-glass px-6 py-5">
               <h3 class="font-heading text-2xl text-off-white">Annie F. Downs</h3>
               <p class="font-body text-sm text-off-white/70 mt-1">Speaker &amp; Author</p>
             </div>
-          </div>
+          </button>
 
           <!-- Speaker: Courtney Smallbone -->
-          <div class="speaker-card rounded-2xl overflow-hidden fade-in-up stagger-4 relative aspect-[3/4]">
+          <button class="speaker-card rounded-2xl overflow-hidden fade-in-up stagger-4 relative aspect-[3/4] cursor-pointer w-full text-left" data-speaker="3" aria-label="View Courtney Smallbone's bio">
             <img src="../assets/images/speaker-courtney-smallbone.jpg" alt="Courtney Smallbone, author and speaker" class="absolute inset-0 w-full h-full object-cover" loading="lazy">
             <div class="absolute inset-x-0 bottom-0 speaker-glass px-6 py-5">
               <h3 class="font-heading text-2xl text-off-white">Courtney Smallbone</h3>
               <p class="font-body text-sm text-off-white/70 mt-1">Speaker &amp; Author</p>
             </div>
-          </div>
+          </button>
 
           <!-- Speaker: Natalie Runion -->
-          <div class="speaker-card rounded-2xl overflow-hidden fade-in-up stagger-5 relative aspect-[3/4]">
+          <button class="speaker-card rounded-2xl overflow-hidden fade-in-up stagger-5 relative aspect-[3/4] cursor-pointer w-full text-left" data-speaker="4" aria-label="View Natalie Runion's bio">
             <img src="../assets/images/speaker-natalie-runion.jpg" alt="Natalie Runion, author, speaker, and ministry leader" class="absolute inset-0 w-full h-full object-cover" loading="lazy">
             <div class="absolute inset-x-0 bottom-0 speaker-glass px-6 py-5">
               <h3 class="font-heading text-2xl text-off-white">Natalie Runion</h3>
               <p class="font-body text-sm text-off-white/70 mt-1">Speaker &amp; Author</p>
             </div>
-          </div>
+          </button>
 
           <!-- Speaker: Jess Connolly -->
-          <div class="speaker-card rounded-2xl overflow-hidden fade-in-up stagger-6 relative aspect-[3/4]">
+          <button class="speaker-card rounded-2xl overflow-hidden fade-in-up stagger-6 relative aspect-[3/4] cursor-pointer w-full text-left" data-speaker="5" aria-label="View Jess Connolly's bio">
             <img src="../assets/images/speaker-jess-connolly.jpg" alt="Jess Connolly, author, speaker, and church planter" class="absolute inset-0 w-full h-full object-cover" loading="lazy">
             <div class="absolute inset-x-0 bottom-0 speaker-glass px-6 py-5">
               <h3 class="font-heading text-2xl text-off-white">Jess Connolly</h3>
               <p class="font-body text-sm text-off-white/70 mt-1">Speaker &amp; Author</p>
             </div>
-          </div>
+          </button>
 
         </div>
       </div>
     </section>
+
+    <!-- Speaker Modal -->
+    <div id="speaker-modal" class="speaker-modal-backdrop fixed inset-0 z-50 flex items-center justify-center p-5" role="dialog" aria-modal="true" aria-label="Speaker details">
+      <div class="absolute inset-0 bg-near-black/80 backdrop-blur-md" id="modal-backdrop-click" aria-hidden="true"></div>
+      <div class="speaker-modal-content relative bg-cream rounded-xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl">
+        <button id="modal-close" class="absolute top-4 right-4 z-10 w-10 h-10 flex items-center justify-center bg-near-black/20 rounded-full text-near-black hover:bg-near-black/40 transition-colors" aria-label="Close speaker details">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+        <div class="w-full aspect-[4/3] overflow-hidden rounded-t-xl">
+          <img id="modal-photo" src="" alt="" class="w-full h-full object-cover">
+        </div>
+        <div class="p-6 md:p-8">
+          <h3 id="modal-name" class="font-heading text-3xl text-near-black mb-2"></h3>
+          <p id="modal-bio" class="font-body text-near-black/70 leading-relaxed"></p>
+        </div>
+      </div>
+    </div>
 
     <!-- ==================== PULL QUOTE 2 ==================== -->
     <section class="bg-cream py-16 sm:py-20 px-4" aria-label="Inspirational quote">
@@ -1028,36 +1063,103 @@
         });
       });
 
-      // ---- Speaker Bio Expand/Collapse ----
-      var bioToggles = document.querySelectorAll('.bio-toggle');
+      // ---- Speaker Modal ----
+      var speakers = [
+        {
+          name: 'Hosanna Wong',
+          bio: 'Hosanna Wong is a speaker, author, and spoken word artist who travels internationally sharing the gospel. Her passion is helping people understand their identity in Christ and walk in the freedom and calling that God has for them. With a unique blend of artistry and biblical truth, Hosanna reaches audiences of all ages, inspiring them to live boldly and authentically for Jesus.',
+          img: '../assets/images/speaker-hosanna-wong.png',
+          alt: 'Hosanna Wong speaking on stage'
+        },
+        {
+          name: 'Chrystal Evans Hurst',
+          bio: 'Chrystal Evans Hurst is a bestselling author, speaker, and the eldest daughter of Dr. Tony Evans. She encourages women to pursue God wholeheartedly, sharing her own experiences of balancing faith, family, and purpose with warmth and vulnerability. Chrystal is known for helping women find the beauty in their own unique stories while drawing closer to the heart of God.',
+          img: '../assets/images/speaker-chrystal-evans-hurst.jpg',
+          alt: 'Chrystal Evans Hurst portrait'
+        },
+        {
+          name: 'Annie F. Downs',
+          bio: 'Annie F. Downs is a New York Times bestselling author and the host of the beloved "That Sounds Fun" podcast. Known for her joyful spirit and honest storytelling, Annie invites women into deeper conversations about faith, courage, and finding delight in everyday life. Her relatable voice and contagious enthusiasm make her a favorite among women seeking authentic community and spiritual growth.',
+          img: '../assets/images/speaker-annie-f-downs.jpg',
+          alt: 'Annie F. Downs smiling at a speaking event'
+        },
+        {
+          name: 'Courtney Smallbone',
+          bio: 'Courtney Smallbone is an author and speaker whose ministry centers on finding beauty in every season of life. As the wife of Luke Smallbone of the Grammy-winning duo for KING & COUNTRY, Courtney brings a unique perspective on faith, family, and perseverance. Her gentle yet powerful voice encourages women to trust God\'s timing and find purpose in both mountaintop and valley moments.',
+          img: '../assets/images/speaker-courtney-smallbone.jpg',
+          alt: 'Courtney Smallbone portrait'
+        },
+        {
+          name: 'Natalie Runion',
+          bio: 'Natalie Runion is an author, speaker, and ministry leader who helps women release the pressure to be perfect and instead embrace the freedom found in Christ. With honesty and grace, Natalie addresses the struggles of comparison, burnout, and striving, offering a path toward peace and purpose. Her message resonates with women who long to live authentically and rest in God\'s sufficiency.',
+          img: '../assets/images/speaker-natalie-runion.jpg',
+          alt: 'Natalie Runion smiling portrait'
+        },
+        {
+          name: 'Jess Connolly',
+          bio: 'Jess Connolly is a bestselling author, church planter, and speaker from Charleston, South Carolina, who calls women to walk boldly in their God-given purpose. With a fierce love for the local church and a passion for equipping women, Jess combines theological depth with refreshing vulnerability. Her words challenge women to stop playing small and start living out the abundant life God has designed for them.',
+          img: '../assets/images/speaker-jess-connolly.jpg',
+          alt: 'Jess Connolly portrait'
+        }
+      ];
 
-      bioToggles.forEach(function(button) {
-        button.addEventListener('click', function() {
-          var targetId = this.getAttribute('aria-controls');
-          var target = document.getElementById(targetId);
-          var isExpanded = this.getAttribute('aria-expanded') === 'true';
+      var modal = document.getElementById('speaker-modal');
+      var modalPhoto = document.getElementById('modal-photo');
+      var modalName = document.getElementById('modal-name');
+      var modalBio = document.getElementById('modal-bio');
+      var modalClose = document.getElementById('modal-close');
+      var modalBackdrop = document.getElementById('modal-backdrop-click');
+      var modalTrigger = null;
 
-          if (isExpanded) {
-            this.setAttribute('aria-expanded', 'false');
-            target.setAttribute('aria-hidden', 'true');
-            target.style.maxHeight = '0';
-            target.classList.remove('expanded');
-            this.innerHTML = 'Learn More <span class="text-xs" aria-hidden="true">&#9660;</span>';
-          } else {
-            this.setAttribute('aria-expanded', 'true');
-            target.setAttribute('aria-hidden', 'false');
-            target.style.maxHeight = target.scrollHeight + 'px';
-            target.classList.add('expanded');
-            this.innerHTML = 'Show Less <span class="text-xs" aria-hidden="true">&#9650;</span>';
-          }
+      function openModal(index) {
+        var speaker = speakers[index];
+        modalPhoto.src = speaker.img;
+        modalPhoto.alt = speaker.alt;
+        modalName.textContent = speaker.name;
+        modalBio.textContent = speaker.bio;
+        modal.setAttribute('aria-label', speaker.name + ' details');
+
+        modalTrigger = document.activeElement;
+        modal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+        setTimeout(function() { modalClose.focus(); }, 100);
+      }
+
+      function closeModal() {
+        modal.classList.remove('open');
+        document.body.style.overflow = '';
+        if (modalTrigger) modalTrigger.focus();
+      }
+
+      document.querySelectorAll('.speaker-card[data-speaker]').forEach(function(card) {
+        card.addEventListener('click', function() {
+          openModal(parseInt(card.getAttribute('data-speaker')));
         });
+      });
 
-        button.addEventListener('keydown', function(e) {
-          if (e.key === 'Enter' || e.key === ' ') {
+      modalClose.addEventListener('click', closeModal);
+      modalBackdrop.addEventListener('click', closeModal);
+
+      modal.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+          closeModal();
+          return;
+        }
+        if (e.key !== 'Tab') return;
+        var focusable = modal.querySelectorAll('button, [href], [tabindex]:not([tabindex="-1"])');
+        var first = focusable[0];
+        var last = focusable[focusable.length - 1];
+        if (e.shiftKey) {
+          if (document.activeElement === first) {
             e.preventDefault();
-            this.click();
+            last.focus();
           }
-        });
+        } else {
+          if (document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
+          }
+        }
       });
 
       // ---- Scroll-Triggered Fade-In-Up Animations ----
