@@ -218,10 +218,17 @@
       border-top: 1px solid rgba(255, 255, 255, 0.2);
     }
 
-    /* ─── Schedule Vertical Line ─── */
+    /* ─── Schedule Frosted Glass ─── */
+    .schedule-glass {
+      background: rgba(250, 248, 244, 0.12);
+      backdrop-filter: blur(16px) saturate(1.4);
+      -webkit-backdrop-filter: blur(16px) saturate(1.4);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 1rem;
+    }
     .schedule-divider {
       width: 2px;
-      background: #FF8D53;
+      background: rgba(255, 141, 83, 0.4);
       align-self: stretch;
     }
 
@@ -569,52 +576,59 @@
     </section>
 
     <!-- ─── SCHEDULE ─── -->
-    <section id="schedule" class="w-full bg-near-black py-20 md:py-32" aria-label="Schedule">
-      <div class="text-center px-6 mb-16 md:mb-24">
-        <p class="reveal font-body text-xs uppercase tracking-widest text-coral mb-4">Schedule</p>
-        <h2 class="reveal font-heading text-5xl md:text-7xl lg:text-8xl text-cream">The Weekend</h2>
+    <section id="schedule" class="relative w-full py-24 md:py-36 overflow-hidden" aria-label="Schedule">
+      <!-- Background image + overlay -->
+      <div class="absolute inset-0">
+        <img src="../assets/images/hero-banner.png" alt="" class="w-full h-full object-cover" aria-hidden="true">
+        <div class="absolute inset-0 bg-near-black/70"></div>
       </div>
-      <div class="max-w-5xl mx-auto px-6 flex flex-col md:flex-row gap-12 md:gap-0">
-        <!-- Friday -->
-        <div class="flex-1 reveal">
-          <h3 class="font-body text-xs uppercase tracking-widest text-coral mb-10">Friday &mdash; July 31</h3>
-          <div class="space-y-8">
-            <div>
-              <p class="font-body text-xs uppercase tracking-widest text-cream/40 mb-1">5:00 PM</p>
-              <p class="font-heading text-2xl md:text-3xl text-cream">Doors Open</p>
-            </div>
-            <div>
-              <p class="font-body text-xs uppercase tracking-widest text-cream/40 mb-1">6:00 PM</p>
-              <p class="font-heading text-2xl md:text-3xl text-cream">Evening Session</p>
-              <p class="font-body text-base text-cream/60 mt-1">Worship &amp; keynote message</p>
+
+      <div class="relative z-10 max-w-5xl mx-auto px-6">
+        <div class="text-center mb-16 md:mb-20">
+          <p class="reveal font-body text-xs uppercase tracking-widest text-coral mb-4">Schedule</p>
+          <h2 class="reveal font-heading text-5xl md:text-7xl lg:text-8xl text-cream">Schedule</h2>
+        </div>
+
+        <div class="flex flex-col md:flex-row gap-6 md:gap-8">
+          <!-- Friday Glass Card -->
+          <div class="flex-1 reveal schedule-glass p-8 md:p-10">
+            <h3 class="font-body text-xs uppercase tracking-widest text-coral mb-8">Friday &mdash; July 31</h3>
+            <div class="space-y-6">
+              <div class="border-b border-white/10 pb-6">
+                <p class="font-body text-xs uppercase tracking-widest text-cream/50 mb-1">5:00 PM</p>
+                <p class="font-heading text-2xl md:text-3xl text-cream">Doors Open</p>
+              </div>
+              <div>
+                <p class="font-body text-xs uppercase tracking-widest text-cream/50 mb-1">6:00 PM</p>
+                <p class="font-heading text-2xl md:text-3xl text-cream">Evening Session</p>
+                <p class="font-body text-base text-cream/60 mt-1">Worship &amp; keynote message</p>
+              </div>
             </div>
           </div>
-        </div>
-        <!-- Divider -->
-        <div class="schedule-divider hidden md:block mx-12" role="separator" aria-hidden="true"></div>
-        <hr class="md:hidden border-coral/40 my-4" role="separator">
-        <!-- Saturday -->
-        <div class="flex-1 reveal">
-          <h3 class="font-body text-xs uppercase tracking-widest text-coral mb-10">Saturday &mdash; August 1</h3>
-          <div class="space-y-8">
-            <div>
-              <p class="font-body text-xs uppercase tracking-widest text-cream/40 mb-1">8:00 AM</p>
-              <p class="font-heading text-2xl md:text-3xl text-cream">Doors Open</p>
-            </div>
-            <div>
-              <p class="font-body text-xs uppercase tracking-widest text-cream/40 mb-1">9:00 AM</p>
-              <p class="font-heading text-2xl md:text-3xl text-cream">Morning Session</p>
-              <p class="font-body text-base text-cream/60 mt-1">Worship &amp; teaching</p>
-            </div>
-            <div>
-              <p class="font-body text-xs uppercase tracking-widest text-cream/40 mb-1">12:00 PM</p>
-              <p class="font-heading text-2xl md:text-3xl text-cream">Lunch Break</p>
-              <p class="font-body text-base text-cream/60 mt-1">On your own or with new friends</p>
-            </div>
-            <div>
-              <p class="font-body text-xs uppercase tracking-widest text-cream/40 mb-1">2:00 PM</p>
-              <p class="font-heading text-2xl md:text-3xl text-cream">Afternoon Session</p>
-              <p class="font-body text-base text-cream/60 mt-1">Final worship &amp; closing message</p>
+
+          <!-- Saturday Glass Card -->
+          <div class="flex-1 reveal schedule-glass p-8 md:p-10">
+            <h3 class="font-body text-xs uppercase tracking-widest text-coral mb-8">Saturday &mdash; August 1</h3>
+            <div class="space-y-6">
+              <div class="border-b border-white/10 pb-6">
+                <p class="font-body text-xs uppercase tracking-widest text-cream/50 mb-1">8:00 AM</p>
+                <p class="font-heading text-2xl md:text-3xl text-cream">Doors Open</p>
+              </div>
+              <div class="border-b border-white/10 pb-6">
+                <p class="font-body text-xs uppercase tracking-widest text-cream/50 mb-1">9:00 AM</p>
+                <p class="font-heading text-2xl md:text-3xl text-cream">Morning Session</p>
+                <p class="font-body text-base text-cream/60 mt-1">Worship &amp; teaching</p>
+              </div>
+              <div class="border-b border-white/10 pb-6">
+                <p class="font-body text-xs uppercase tracking-widest text-cream/50 mb-1">12:00 PM</p>
+                <p class="font-heading text-2xl md:text-3xl text-cream">Lunch Break</p>
+                <p class="font-body text-base text-cream/60 mt-1">On your own or with new friends</p>
+              </div>
+              <div>
+                <p class="font-body text-xs uppercase tracking-widest text-cream/50 mb-1">2:00 PM</p>
+                <p class="font-heading text-2xl md:text-3xl text-cream">Afternoon Session</p>
+                <p class="font-body text-base text-cream/60 mt-1">Final worship &amp; closing message</p>
+              </div>
             </div>
           </div>
         </div>
@@ -626,7 +640,7 @@
       <div class="max-w-3xl mx-auto px-6">
         <div class="text-center mb-16 md:mb-24">
           <p class="reveal font-body text-xs uppercase tracking-widest text-coral mb-4">FAQ</p>
-          <h2 class="reveal font-heading text-5xl md:text-7xl lg:text-8xl text-near-black">Common Questions</h2>
+          <h2 class="reveal font-heading text-5xl md:text-7xl lg:text-8xl text-near-black">Frequently Asked Questions</h2>
         </div>
 
         <div class="reveal">
