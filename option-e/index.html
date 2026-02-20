@@ -199,12 +199,10 @@
 
     /* Speaker card hover */
     .speaker-card {
-      border: 2px solid transparent;
-      transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
     }
     .speaker-card:hover {
-      border-color: #F0A398;
-      box-shadow: 0 8px 30px rgba(240, 163, 152, 0.18);
+      box-shadow: 0 8px 30px rgba(240, 163, 152, 0.25);
       transform: translateY(-4px);
     }
 
@@ -313,6 +311,36 @@
       );
     }
 
+    /* Hero vignette — inner white shadow */
+    .hero-vignette {
+      position: relative;
+    }
+    .hero-vignette::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      box-shadow: inset 0 0 150px 60px rgba(250, 248, 244, 0.6);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Speaker frosted glass bar */
+    .speaker-glass {
+      background: rgba(18, 18, 18, 0.35);
+      backdrop-filter: blur(16px) saturate(1.4);
+      -webkit-backdrop-filter: blur(16px) saturate(1.4);
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    /* Worship floating glass card */
+    .worship-glass {
+      background: rgba(250, 248, 244, 0.12);
+      backdrop-filter: blur(20px) saturate(1.6);
+      -webkit-backdrop-filter: blur(20px) saturate(1.6);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 1rem;
+    }
+
     /* Prefers reduced motion */
     @media (prefers-reduced-motion: reduce) {
       html {
@@ -410,34 +438,9 @@
   <main id="main-content">
 
     <!-- ==================== HERO ==================== -->
-    <section class="relative w-full min-h-screen flex items-center justify-center overflow-hidden" aria-label="Hero">
-      <!-- Background image -->
-      <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('../assets/images/hero-banner.png');" role="img" aria-label="Women gathering at the ABIDE conference"></div>
-      <!-- Light peach/rose gradient overlay -->
-      <div class="absolute inset-0 hero-overlay"></div>
-
-      <!-- Hero content -->
-      <div class="relative z-10 text-center px-4 max-w-3xl mx-auto pt-20">
-        <h1 class="font-heading text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-near-black leading-[1.05] mb-5">
-          Gather Your People
-        </h1>
-        <p class="font-heading text-2xl sm:text-3xl md:text-4xl text-near-black/70 mb-3">ABIDE 2026</p>
-        <p class="font-body text-near-black/60 text-base sm:text-lg md:text-xl mb-10 tracking-wide">
-          July 31 &ndash; August 1 &ensp;|&ensp; Macon, GA
-        </p>
-        <a href="https://www.ticketmaster.com/event/0E00643EBA28A733" target="_blank" rel="noopener noreferrer"
-           class="inline-block bg-coral text-off-white font-bold px-10 py-4 rounded-full text-base sm:text-lg hover:bg-opacity-90 transition-colors shadow-lg hover:shadow-xl">
-          Get Your Tickets
-        </a>
-      </div>
-
-      <!-- Scroll indicator -->
-      <div class="absolute bottom-8 left-1/2 -translate-x-1/2 scroll-indicator" aria-hidden="true">
-        <svg class="w-6 h-10 text-near-black/40" fill="none" stroke="currentColor" viewBox="0 0 24 40">
-          <rect x="1" y="1" width="22" height="38" rx="11" stroke-width="2"/>
-          <circle cx="12" cy="12" r="3" fill="currentColor"/>
-        </svg>
-      </div>
+    <section class="hero-vignette relative w-full min-h-screen overflow-hidden" aria-label="Hero">
+      <img src="../assets/images/hero-banner.png" alt="Women gathering at the ABIDE conference" class="w-full h-full object-cover absolute inset-0">
+      <h1 class="sr-only">ABIDE 2026 Women's Conference</h1>
     </section>
 
     <!-- ==================== MISSION SECTION ==================== -->
@@ -565,116 +568,56 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
           <!-- Speaker: Hosanna Wong -->
-          <div class="speaker-card bg-off-white rounded-2xl overflow-hidden fade-in-up stagger-1">
-            <div class="aspect-[3/4] overflow-hidden">
-              <img src="../assets/images/speaker-hosanna-wong.png" alt="Hosanna Wong, speaker, author, and spoken word artist" class="w-full h-full object-cover" loading="lazy">
-            </div>
-            <div class="p-6 text-center">
-              <h3 class="font-heading text-2xl text-near-black mb-2">Hosanna Wong</h3>
-              <button class="bio-toggle text-hot-pink font-bold text-sm hover:text-near-black transition-colors inline-flex items-center gap-1 min-h-[44px] min-w-[44px] justify-center"
-                      aria-expanded="false" aria-controls="bio-hosanna">
-                Learn More <span class="text-xs" aria-hidden="true">&#9660;</span>
-              </button>
-              <div id="bio-hosanna" class="expandable-content" aria-hidden="true" role="region">
-                <p class="font-body text-near-black/70 text-sm leading-relaxed pt-3">
-                  Hosanna Wong is a speaker, author, and spoken word artist who travels internationally sharing the gospel. Her passion is helping people understand their identity in Christ and live with bold, unshakable faith. She has authored several books and reaches millions through her dynamic ministry.
-                </p>
-              </div>
+          <div class="speaker-card rounded-2xl overflow-hidden fade-in-up stagger-1 relative aspect-[3/4]">
+            <img src="../assets/images/speaker-hosanna-wong.png" alt="Hosanna Wong, speaker, author, and spoken word artist" class="absolute inset-0 w-full h-full object-cover" loading="lazy">
+            <div class="absolute inset-x-0 bottom-0 speaker-glass px-6 py-5">
+              <h3 class="font-heading text-2xl text-off-white">Hosanna Wong</h3>
+              <p class="font-body text-sm text-off-white/70 mt-1">Speaker &amp; Author</p>
             </div>
           </div>
 
           <!-- Speaker: Chrystal Evans Hurst -->
-          <div class="speaker-card bg-off-white rounded-2xl overflow-hidden fade-in-up stagger-2">
-            <div class="aspect-[3/4] overflow-hidden">
-              <img src="../assets/images/speaker-chrystal-evans-hurst.jpg" alt="Chrystal Evans Hurst, bestselling author and speaker" class="w-full h-full object-cover" loading="lazy">
-            </div>
-            <div class="p-6 text-center">
-              <h3 class="font-heading text-2xl text-near-black mb-2">Chrystal Evans Hurst</h3>
-              <button class="bio-toggle text-hot-pink font-bold text-sm hover:text-near-black transition-colors inline-flex items-center gap-1 min-h-[44px] min-w-[44px] justify-center"
-                      aria-expanded="false" aria-controls="bio-chrystal">
-                Learn More <span class="text-xs" aria-hidden="true">&#9660;</span>
-              </button>
-              <div id="bio-chrystal" class="expandable-content" aria-hidden="true" role="region">
-                <p class="font-body text-near-black/70 text-sm leading-relaxed pt-3">
-                  Chrystal Evans Hurst is a bestselling author, speaker, and the eldest daughter of Dr. Tony Evans. Her ministry encourages women to pursue God wholeheartedly while navigating real-life challenges. She is known for her warmth, vulnerability, and practical wisdom rooted in Scripture.
-                </p>
-              </div>
+          <div class="speaker-card rounded-2xl overflow-hidden fade-in-up stagger-2 relative aspect-[3/4]">
+            <img src="../assets/images/speaker-chrystal-evans-hurst.jpg" alt="Chrystal Evans Hurst, bestselling author and speaker" class="absolute inset-0 w-full h-full object-cover" loading="lazy">
+            <div class="absolute inset-x-0 bottom-0 speaker-glass px-6 py-5">
+              <h3 class="font-heading text-2xl text-off-white">Chrystal Evans Hurst</h3>
+              <p class="font-body text-sm text-off-white/70 mt-1">Speaker &amp; Author</p>
             </div>
           </div>
 
           <!-- Speaker: Annie F. Downs -->
-          <div class="speaker-card bg-off-white rounded-2xl overflow-hidden fade-in-up stagger-3">
-            <div class="aspect-[3/4] overflow-hidden">
-              <img src="../assets/images/speaker-annie-f-downs.jpg" alt="Annie F. Downs, bestselling author and podcast host" class="w-full h-full object-cover" loading="lazy">
-            </div>
-            <div class="p-6 text-center">
-              <h3 class="font-heading text-2xl text-near-black mb-2">Annie F. Downs</h3>
-              <button class="bio-toggle text-hot-pink font-bold text-sm hover:text-near-black transition-colors inline-flex items-center gap-1 min-h-[44px] min-w-[44px] justify-center"
-                      aria-expanded="false" aria-controls="bio-annie">
-                Learn More <span class="text-xs" aria-hidden="true">&#9660;</span>
-              </button>
-              <div id="bio-annie" class="expandable-content" aria-hidden="true" role="region">
-                <p class="font-body text-near-black/70 text-sm leading-relaxed pt-3">
-                  Annie F. Downs is a New York Times bestselling author and host of the popular "That Sounds Fun" podcast. Her joyful spirit and honest storytelling have made her a beloved voice in the Christian community. She is passionate about helping people find the fun in faith and everyday life.
-                </p>
-              </div>
+          <div class="speaker-card rounded-2xl overflow-hidden fade-in-up stagger-3 relative aspect-[3/4]">
+            <img src="../assets/images/speaker-annie-f-downs.jpg" alt="Annie F. Downs, bestselling author and podcast host" class="absolute inset-0 w-full h-full object-cover" loading="lazy">
+            <div class="absolute inset-x-0 bottom-0 speaker-glass px-6 py-5">
+              <h3 class="font-heading text-2xl text-off-white">Annie F. Downs</h3>
+              <p class="font-body text-sm text-off-white/70 mt-1">Speaker &amp; Author</p>
             </div>
           </div>
 
           <!-- Speaker: Courtney Smallbone -->
-          <div class="speaker-card bg-off-white rounded-2xl overflow-hidden fade-in-up stagger-4">
-            <div class="aspect-[3/4] overflow-hidden">
-              <img src="../assets/images/speaker-courtney-smallbone.jpg" alt="Courtney Smallbone, author and speaker" class="w-full h-full object-cover" loading="lazy">
-            </div>
-            <div class="p-6 text-center">
-              <h3 class="font-heading text-2xl text-near-black mb-2">Courtney Smallbone</h3>
-              <button class="bio-toggle text-hot-pink font-bold text-sm hover:text-near-black transition-colors inline-flex items-center gap-1 min-h-[44px] min-w-[44px] justify-center"
-                      aria-expanded="false" aria-controls="bio-courtney">
-                Learn More <span class="text-xs" aria-hidden="true">&#9660;</span>
-              </button>
-              <div id="bio-courtney" class="expandable-content" aria-hidden="true" role="region">
-                <p class="font-body text-near-black/70 text-sm leading-relaxed pt-3">
-                  Courtney Smallbone is an author, speaker, and wife of Luke Smallbone of the Grammy-winning duo for KING & COUNTRY. Her ministry centers on encouraging women to find beauty and purpose in every season of life. She shares openly about faith, family, and the transforming power of God's love.
-                </p>
-              </div>
+          <div class="speaker-card rounded-2xl overflow-hidden fade-in-up stagger-4 relative aspect-[3/4]">
+            <img src="../assets/images/speaker-courtney-smallbone.jpg" alt="Courtney Smallbone, author and speaker" class="absolute inset-0 w-full h-full object-cover" loading="lazy">
+            <div class="absolute inset-x-0 bottom-0 speaker-glass px-6 py-5">
+              <h3 class="font-heading text-2xl text-off-white">Courtney Smallbone</h3>
+              <p class="font-body text-sm text-off-white/70 mt-1">Speaker &amp; Author</p>
             </div>
           </div>
 
           <!-- Speaker: Natalie Runion -->
-          <div class="speaker-card bg-off-white rounded-2xl overflow-hidden fade-in-up stagger-5">
-            <div class="aspect-[3/4] overflow-hidden">
-              <img src="../assets/images/speaker-natalie-runion.jpg" alt="Natalie Runion, author, speaker, and ministry leader" class="w-full h-full object-cover" loading="lazy">
-            </div>
-            <div class="p-6 text-center">
-              <h3 class="font-heading text-2xl text-near-black mb-2">Natalie Runion</h3>
-              <button class="bio-toggle text-hot-pink font-bold text-sm hover:text-near-black transition-colors inline-flex items-center gap-1 min-h-[44px] min-w-[44px] justify-center"
-                      aria-expanded="false" aria-controls="bio-natalie">
-                Learn More <span class="text-xs" aria-hidden="true">&#9660;</span>
-              </button>
-              <div id="bio-natalie" class="expandable-content" aria-hidden="true" role="region">
-                <p class="font-body text-near-black/70 text-sm leading-relaxed pt-3">
-                  Natalie Runion is an author, speaker, and ministry leader whose work focuses on helping women release the pressure to be perfect and embrace God's grace. She leads with authenticity and compassion, guiding others to find rest and purpose in Christ. Her books and speaking engagements inspire women across the country.
-                </p>
-              </div>
+          <div class="speaker-card rounded-2xl overflow-hidden fade-in-up stagger-5 relative aspect-[3/4]">
+            <img src="../assets/images/speaker-natalie-runion.jpg" alt="Natalie Runion, author, speaker, and ministry leader" class="absolute inset-0 w-full h-full object-cover" loading="lazy">
+            <div class="absolute inset-x-0 bottom-0 speaker-glass px-6 py-5">
+              <h3 class="font-heading text-2xl text-off-white">Natalie Runion</h3>
+              <p class="font-body text-sm text-off-white/70 mt-1">Speaker &amp; Author</p>
             </div>
           </div>
 
           <!-- Speaker: Jess Connolly -->
-          <div class="speaker-card bg-off-white rounded-2xl overflow-hidden fade-in-up stagger-6">
-            <div class="aspect-[3/4] overflow-hidden">
-              <img src="../assets/images/speaker-jess-connolly.jpg" alt="Jess Connolly, author, speaker, and church planter" class="w-full h-full object-cover" loading="lazy">
-            </div>
-            <div class="p-6 text-center">
-              <h3 class="font-heading text-2xl text-near-black mb-2">Jess Connolly</h3>
-              <button class="bio-toggle text-hot-pink font-bold text-sm hover:text-near-black transition-colors inline-flex items-center gap-1 min-h-[44px] min-w-[44px] justify-center"
-                      aria-expanded="false" aria-controls="bio-jess">
-                Learn More <span class="text-xs" aria-hidden="true">&#9660;</span>
-              </button>
-              <div id="bio-jess" class="expandable-content" aria-hidden="true" role="region">
-                <p class="font-body text-near-black/70 text-sm leading-relaxed pt-3">
-                  Jess Connolly is a bestselling author, speaker, and church planter based in Charleston, SC. She is known for her energetic and Spirit-led teaching that calls women to walk boldly in their God-given purpose. Through her books and ministry, she empowers women to break free from comparison and live fully alive in Christ.
-                </p>
-              </div>
+          <div class="speaker-card rounded-2xl overflow-hidden fade-in-up stagger-6 relative aspect-[3/4]">
+            <img src="../assets/images/speaker-jess-connolly.jpg" alt="Jess Connolly, author, speaker, and church planter" class="absolute inset-0 w-full h-full object-cover" loading="lazy">
+            <div class="absolute inset-x-0 bottom-0 speaker-glass px-6 py-5">
+              <h3 class="font-heading text-2xl text-off-white">Jess Connolly</h3>
+              <p class="font-body text-sm text-off-white/70 mt-1">Speaker &amp; Author</p>
             </div>
           </div>
 
@@ -708,24 +651,26 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
 
           <!-- Worship: Leeland -->
-          <div class="speaker-card bg-off-white rounded-2xl overflow-hidden fade-in-up stagger-1">
-            <div class="aspect-[3/4] overflow-hidden">
-              <img src="../assets/images/worship-leeland.jpg" alt="Leeland, Grammy-nominated worship artist" class="w-full h-full object-cover" loading="lazy">
-            </div>
-            <div class="p-6 text-center">
-              <h3 class="font-heading text-2xl sm:text-3xl text-near-black mb-2">Leeland</h3>
-              <p class="font-body text-near-black/60 text-sm">Grammy-nominated worship artist</p>
+          <div class="relative rounded-2xl overflow-hidden fade-in-up stagger-1 aspect-[3/4]">
+            <img src="../assets/images/worship-leeland.jpg" alt="Leeland, Grammy-nominated worship artist" class="absolute inset-0 w-full h-full object-cover" loading="lazy">
+            <div class="absolute inset-0 bg-gradient-to-t from-near-black/40 via-transparent to-transparent"></div>
+            <div class="absolute inset-0 flex items-end justify-center p-6 sm:p-8">
+              <div class="worship-glass text-center px-8 py-6 w-full">
+                <h3 class="font-heading text-2xl sm:text-3xl text-off-white">Leeland</h3>
+                <p class="font-body text-off-white/70 text-sm mt-1">Grammy-nominated worship artist</p>
+              </div>
             </div>
           </div>
 
           <!-- Worship: Hope Darst -->
-          <div class="speaker-card bg-off-white rounded-2xl overflow-hidden fade-in-up stagger-2">
-            <div class="aspect-[3/4] overflow-hidden">
-              <img src="../assets/images/worship-hope-darst.jpg" alt="Hope Darst, worship leader and songwriter" class="w-full h-full object-cover" loading="lazy">
-            </div>
-            <div class="p-6 text-center">
-              <h3 class="font-heading text-2xl sm:text-3xl text-near-black mb-2">Hope Darst</h3>
-              <p class="font-body text-near-black/60 text-sm">Worship leader and songwriter</p>
+          <div class="relative rounded-2xl overflow-hidden fade-in-up stagger-2 aspect-[3/4]">
+            <img src="../assets/images/worship-hope-darst.jpg" alt="Hope Darst, worship leader and songwriter" class="absolute inset-0 w-full h-full object-cover" loading="lazy">
+            <div class="absolute inset-0 bg-gradient-to-t from-near-black/40 via-transparent to-transparent"></div>
+            <div class="absolute inset-0 flex items-end justify-center p-6 sm:p-8">
+              <div class="worship-glass text-center px-8 py-6 w-full">
+                <h3 class="font-heading text-2xl sm:text-3xl text-off-white">Hope Darst</h3>
+                <p class="font-body text-off-white/70 text-sm mt-1">Worship leader &amp; songwriter</p>
+              </div>
             </div>
           </div>
 
