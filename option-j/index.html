@@ -346,19 +346,64 @@
     .speaker-modal-backdrop {
       opacity: 0;
       visibility: hidden;
-      transition: opacity 0.35s ease, visibility 0.35s ease;
+      transition: opacity 0.4s ease, visibility 0.4s ease;
     }
     .speaker-modal-backdrop.open {
       opacity: 1;
       visibility: visible;
     }
     .speaker-modal-content {
-      transform: translateY(24px) scale(0.97);
-      transition: transform 0.35s ease;
+      transform: translateY(40px) scale(0.92) rotate(-2deg);
+      transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
     .speaker-modal-backdrop.open .speaker-modal-content {
-      transform: translateY(0) scale(1);
+      transform: translateY(0) scale(1) rotate(0deg);
     }
+    /* Scrollbar-width compensation to prevent layout shift */
+    body.modal-open {
+      overflow: hidden;
+    }
+    /* Modal decorative floating shapes */
+    .modal-deco-float {
+      animation: modalFloat 6s ease-in-out infinite;
+    }
+    .modal-deco-float-alt {
+      animation: modalFloat 6s ease-in-out infinite reverse;
+      animation-delay: -3s;
+    }
+    @keyframes modalFloat {
+      0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+      50% { transform: translateY(-12px) rotate(15deg) scale(1.05); }
+    }
+    /* Modal colored border frame */
+    .modal-frame {
+      padding: 6px;
+      border-radius: 1.5rem;
+      background: linear-gradient(135deg, #ff8d53, #f26ba4, #e0dd90, #b7ceca);
+      background-size: 300% 300%;
+      animation: modalGradient 6s ease infinite;
+    }
+    @keyframes modalGradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .modal-inner {
+      border-radius: calc(1.5rem - 4px);
+      overflow: hidden;
+    }
+    /* Modal close button */
+    .modal-close-btn {
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.2s ease;
+    }
+    .modal-close-btn:hover {
+      transform: rotate(90deg) scale(1.1);
+    }
+    /* Modal scrollbar styling */
+    .modal-inner::-webkit-scrollbar { width: 6px; }
+    .modal-inner::-webkit-scrollbar-track { background: transparent; }
+    .modal-inner::-webkit-scrollbar-thumb { background: #f0a398; border-radius: 3px; }
+    .modal-inner::-webkit-scrollbar-thumb:hover { background: #f26ba4; }
 
     /* ---- Worship Glass Card ---- */
     .worship-glass {
@@ -547,8 +592,10 @@
 
           <!-- Left: Intimate Photo -->
           <div class="slide-in-left">
-            <div class="aspect-[3/4] rounded-2xl overflow-hidden shadow-lg">
-              <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600&h=800&fit=crop&crop=faces" alt="Women gathering together in community" class="w-full h-full object-cover">
+            <div class="rounded-2xl p-2 sm:p-3 shadow-lg" style="background:#b7ceca">
+              <div class="aspect-[3/4] rounded-xl overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600&h=800&fit=crop&crop=faces" alt="Women gathering together in community" class="w-full h-full object-cover">
+              </div>
             </div>
           </div>
 
@@ -744,42 +791,70 @@
     </section>
 
     <!-- Speaker Modal -->
-    <div id="speaker-modal" class="speaker-modal-backdrop fixed inset-0 z-50 flex items-center justify-center p-5" role="dialog" aria-modal="true" aria-label="Speaker details">
-      <div class="absolute inset-0 bg-near-black/80 backdrop-blur-md" id="modal-backdrop-click" aria-hidden="true"></div>
-      <div class="speaker-modal-content relative bg-peach rounded-xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl">
-        <button id="modal-close" class="absolute top-4 right-4 z-10 w-10 h-10 flex items-center justify-center bg-near-black/20 rounded-full text-near-black hover:bg-near-black/40 transition-colors" aria-label="Close speaker details">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-        </button>
-        <div class="w-full aspect-[4/3] overflow-hidden rounded-t-xl">
-          <img id="modal-photo" src="" alt="" class="w-full h-full object-cover">
-        </div>
-        <div class="p-6 md:p-8">
-          <h3 id="modal-name" class="font-heading text-3xl text-near-black mb-2"></h3>
-          <p id="modal-bio" class="font-body text-near-black/70 leading-relaxed"></p>
+    <div id="speaker-modal" class="speaker-modal-backdrop fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6" role="dialog" aria-modal="true" aria-label="Speaker details">
+      <div class="absolute inset-0 bg-near-black/70 backdrop-blur-lg" id="modal-backdrop-click" aria-hidden="true"></div>
+
+      <div class="speaker-modal-content relative max-w-lg w-full">
+        <!-- Floating decorative shapes behind modal -->
+        <svg class="modal-deco-float absolute -top-6 -left-8 z-0 opacity-60 pointer-events-none" width="64" height="64" viewBox="0 0 563.68 563.68" aria-hidden="true"><path d="M296.56,12.89l7.25,54.51c13.34,100.26,92.22,179.13,192.48,192.48l54.51,7.25c17.18,2.29,17.18,27.15,0,29.43l-54.51,7.25c-100.26,13.34-179.13,92.22-192.48,192.48l-7.25,54.51c-2.29,17.18-27.15,17.18-29.43,0l-7.25-54.51c-13.34-100.26-92.22-179.13-192.48-192.48l-54.51-7.25c-17.18-2.29-17.18-27.15,0-29.43l54.51-7.25c100.26-13.34,179.13-92.22,192.48-192.48l7.25-54.51c2.29-17.18,27.15-17.18,29.43,0Z" fill="#e0dd90"/></svg>
+        <svg class="modal-deco-float-alt absolute -bottom-8 -right-6 z-0 opacity-60 pointer-events-none" width="72" height="72" viewBox="0 0 703.7 705.82" aria-hidden="true"><path d="M475.93,677.63h0c-53.59-28.89-119.44-21.82-165.68,17.78h0c-22.54,19.3-57.38,10.7-68.34-16.88h0c-22.48-56.58-77.47-93.49-138.35-92.88h0c-29.67.3-50.83-28.69-41.5-56.85h0c19.14-57.79.75-121.41-46.28-160.07h0c-22.92-18.84-20.5-54.65,4.76-70.23h0c51.82-31.97,78.62-92.52,67.44-152.37h0c-5.45-29.17,19.42-55.04,48.78-50.74h0c60.24,8.82,119.7-20.34,149.61-73.37h0c14.58-25.85,50.26-29.68,69.99-7.51h0c40.48,45.48,104.77,61.36,161.77,39.96h0c27.78-10.43,57.57,9.57,58.44,39.23h0c1.78,60.86,40.82,114.35,98.24,134.59h0c27.99,9.87,37.95,44.34,19.55,67.62h0c-37.76,47.76-42.23,113.83-11.26,166.25h0c15.1,25.55.57,58.36-28.49,64.37h0c-59.62,12.32-105.52,60.06-115.49,120.12h0c-4.86,29.27-37.08,45.08-63.2,31Z" fill="#f26ba4"/></svg>
+        <svg class="modal-deco-float absolute -top-4 right-12 z-0 opacity-40 pointer-events-none" width="36" height="36" viewBox="0 0 563.68 563.68" aria-hidden="true"><path d="M296.56,12.89l7.25,54.51c13.34,100.26,92.22,179.13,192.48,192.48l54.51,7.25c17.18,2.29,17.18,27.15,0,29.43l-54.51,7.25c-100.26,13.34-179.13,92.22-192.48,192.48l-7.25,54.51c-2.29,17.18-27.15,17.18-29.43,0l-7.25-54.51c-13.34-100.26-92.22-179.13-192.48-192.48l-54.51-7.25c-17.18-2.29-17.18-27.15,0-29.43l54.51-7.25c100.26-13.34,179.13-92.22,192.48-192.48l7.25-54.51c2.29-17.18,27.15-17.18,29.43,0Z" fill="#ff8d53"/></svg>
+
+        <!-- Animated gradient border frame -->
+        <div class="modal-frame relative z-10 shadow-2xl">
+          <div class="modal-inner bg-peach max-h-[85vh] overflow-y-auto">
+            <!-- Close button -->
+            <button id="modal-close" class="modal-close-btn absolute top-3 right-3 z-20 w-10 h-10 flex items-center justify-center rounded-full text-white" style="background:#f26ba4" aria-label="Close speaker details">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+
+            <!-- Photo with colored background accent -->
+            <div class="relative">
+              <div class="w-full aspect-[4/3] overflow-hidden">
+                <img id="modal-photo" src="" alt="" class="w-full h-full object-cover">
+              </div>
+              <!-- Curvy wave over photo bottom -->
+              <svg class="absolute bottom-0 left-0 w-full" viewBox="0 0 500 40" preserveAspectRatio="none" aria-hidden="true" style="height:40px">
+                <path d="M0,40 C125,0 375,0 500,40 Z" fill="#fde6d3"/>
+              </svg>
+            </div>
+
+            <!-- Content area -->
+            <div class="px-6 pb-7 pt-2 md:px-8 md:pb-8 text-center">
+              <!-- Name pill -->
+              <div class="flex justify-center -mt-1 mb-4">
+                <div id="modal-name-pill" class="name-pill" style="background:#f26ba4">
+                  <h3 id="modal-name" class="font-heading text-xl sm:text-2xl text-white whitespace-nowrap"></h3>
+                </div>
+              </div>
+              <!-- Bio text -->
+              <p id="modal-bio" class="font-body text-near-black/75 leading-relaxed text-sm sm:text-base"></p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
     <!-- ~~~~ Wave Divider: Speakers → Worship ~~~~ -->
-    <div class="w-full overflow-hidden leading-[0]" aria-hidden="true">
+    <div class="w-full overflow-hidden leading-[0] bg-rose" aria-hidden="true">
       <svg class="relative block w-full h-12 sm:h-20" viewBox="0 0 1200 120" preserveAspectRatio="none">
-        <path d="M0,0 C400,80 800,40 1200,100 L1200,0 L0,0 Z" fill="#F0A398"/>
+        <path d="M0,120 C400,40 800,80 1200,20 L1200,120 L0,120 Z" fill="#b7ceca"/>
       </svg>
     </div>
 
     <!-- ---- WORSHIP LEADERS ---- -->
-    <section id="worship" class="relative bg-peach pb-20 sm:pb-28 pt-8 sm:pt-14 overflow-hidden" aria-label="Worship Leaders">
-      <!-- Decorative: star (rose) top-left — combo #3 -->
+    <section id="worship" class="relative pb-20 sm:pb-28 pt-8 sm:pt-14 overflow-hidden" style="background:#b7ceca" aria-label="Worship Leaders">
+      <!-- Decorative: star (hot-pink) top-left — combo #6 -->
       <svg class="absolute top-8 left-8 opacity-20 pointer-events-none" width="40" height="40" viewBox="0 0 563.68 563.68" aria-hidden="true">
-        <path d="M296.56,12.89l7.25,54.51c13.34,100.26,92.22,179.13,192.48,192.48l54.51,7.25c17.18,2.29,17.18,27.15,0,29.43l-54.51,7.25c-100.26,13.34-179.13,92.22-192.48,192.48l-7.25,54.51c-2.29,17.18-27.15,17.18-29.43,0l-7.25-54.51c-13.34-100.26-92.22-179.13-192.48-192.48l-54.51-7.25c-17.18-2.29-17.18-27.15,0-29.43l54.51-7.25c100.26-13.34,179.13-92.22,192.48-192.48l7.25-54.51c2.29-17.18,27.15-17.18,29.43,0Z" fill="#f0a398"/>
+        <path d="M296.56,12.89l7.25,54.51c13.34,100.26,92.22,179.13,192.48,192.48l54.51,7.25c17.18,2.29,17.18,27.15,0,29.43l-54.51,7.25c-100.26,13.34-179.13,92.22-192.48,192.48l-7.25,54.51c-2.29,17.18-27.15,17.18-29.43,0l-7.25-54.51c-13.34-100.26-92.22-179.13-192.48-192.48l-54.51-7.25c-17.18-2.29-17.18-27.15,0-29.43l54.51-7.25c100.26-13.34,179.13-92.22,192.48-192.48l7.25-54.51c2.29-17.18,27.15-17.18,29.43,0Z" fill="#f26ba4"/>
       </svg>
-      <!-- Decorative: blob (peach) bottom-right — combo #3 -->
+      <!-- Decorative: blob (yellow-green) bottom-right — combo #1 -->
       <svg class="absolute bottom-12 right-8 opacity-20 pointer-events-none" width="50" height="50" viewBox="0 0 703.7 705.82" aria-hidden="true">
-        <path d="M475.93,677.63h0c-53.59-28.89-119.44-21.82-165.68,17.78h0c-22.54,19.3-57.38,10.7-68.34-16.88h0c-22.48-56.58-77.47-93.49-138.35-92.88h0c-29.67.3-50.83-28.69-41.5-56.85h0c19.14-57.79.75-121.41-46.28-160.07h0c-22.92-18.84-20.5-54.65,4.76-70.23h0c51.82-31.97,78.62-92.52,67.44-152.37h0c-5.45-29.17,19.42-55.04,48.78-50.74h0c60.24,8.82,119.7-20.34,149.61-73.37h0c14.58-25.85,50.26-29.68,69.99-7.51h0c40.48,45.48,104.77,61.36,161.77,39.96h0c27.78-10.43,57.57,9.57,58.44,39.23h0c1.78,60.86,40.82,114.35,98.24,134.59h0c27.99,9.87,37.95,44.34,19.55,67.62h0c-37.76,47.76-42.23,113.83-11.26,166.25h0c15.1,25.55.57,58.36-28.49,64.37h0c-59.62,12.32-105.52,60.06-115.49,120.12h0c-4.86,29.27-37.08,45.08-63.2,31Z" fill="#fde6d3"/>
+        <path d="M475.93,677.63h0c-53.59-28.89-119.44-21.82-165.68,17.78h0c-22.54,19.3-57.38,10.7-68.34-16.88h0c-22.48-56.58-77.47-93.49-138.35-92.88h0c-29.67.3-50.83-28.69-41.5-56.85h0c19.14-57.79.75-121.41-46.28-160.07h0c-22.92-18.84-20.5-54.65,4.76-70.23h0c51.82-31.97,78.62-92.52,67.44-152.37h0c-5.45-29.17,19.42-55.04,48.78-50.74h0c60.24,8.82,119.7-20.34,149.61-73.37h0c14.58-25.85,50.26-29.68,69.99-7.51h0c40.48,45.48,104.77,61.36,161.77,39.96h0c27.78-10.43,57.57,9.57,58.44,39.23h0c1.78,60.86,40.82,114.35,98.24,134.59h0c27.99,9.87,37.95,44.34,19.55,67.62h0c-37.76,47.76-42.23,113.83-11.26,166.25h0c15.1,25.55.57,58.36-28.49,64.37h0c-59.62,12.32-105.52,60.06-115.49,120.12h0c-4.86,29.27-37.08,45.08-63.2,31Z" fill="#e0dd90"/>
       </svg>
       <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        <p class="font-body text-xs uppercase tracking-widest text-coral text-center mb-3 fade-in-up">Worship</p>
-        <h2 class="font-heading text-3xl sm:text-4xl md:text-5xl text-hot-pink text-center mb-14 fade-in-up">
+        <p class="font-body text-xs uppercase tracking-widest text-center mb-3 fade-in-up" style="color:#ff8d53">Worship</p>
+        <h2 class="font-heading text-3xl sm:text-4xl md:text-5xl text-off-white text-center mb-14 fade-in-up">
           Worship Led By
         </h2>
 
@@ -802,17 +877,17 @@
             </div>
           </div>
 
-          <!-- Hope Darst — bg sage, pill rose -->
+          <!-- Hope Darst — bg hot-pink, pill peach -->
           <div class="worship-card-wrap relative fade-in-up" style="padding:1.25rem 0.75rem 1.5rem">
-            <svg class="speaker-deco absolute -top-4 -left-3 z-0 opacity-70 pointer-events-none" width="54" height="54" viewBox="0 0 563.68 563.68" aria-hidden="true"><path d="M296.56,12.89l7.25,54.51c13.34,100.26,92.22,179.13,192.48,192.48l54.51,7.25c17.18,2.29,17.18,27.15,0,29.43l-54.51,7.25c-100.26,13.34-179.13,92.22-192.48,192.48l-7.25,54.51c-2.29,17.18-27.15,17.18-29.43,0l-7.25-54.51c-13.34-100.26-92.22-179.13-192.48-192.48l-54.51-7.25c-17.18-2.29-17.18-27.15,0-29.43l54.51-7.25c100.26-13.34,179.13-92.22,192.48-192.48l7.25-54.51c2.29-17.18,27.15-17.18,29.43,0Z" fill="#f26ba4"/></svg>
+            <svg class="speaker-deco absolute -top-4 -left-3 z-0 opacity-70 pointer-events-none" width="54" height="54" viewBox="0 0 563.68 563.68" aria-hidden="true"><path d="M296.56,12.89l7.25,54.51c13.34,100.26,92.22,179.13,192.48,192.48l54.51,7.25c17.18,2.29,17.18,27.15,0,29.43l-54.51,7.25c-100.26,13.34-179.13,92.22-192.48,192.48l-7.25,54.51c-2.29,17.18-27.15,17.18-29.43,0l-7.25-54.51c-13.34-100.26-92.22-179.13-192.48-192.48l-54.51-7.25c-17.18-2.29-17.18-27.15,0-29.43l54.51-7.25c100.26-13.34,179.13-92.22,192.48-192.48l7.25-54.51c2.29-17.18,27.15-17.18,29.43,0Z" fill="#ff8d53"/></svg>
             <svg class="speaker-deco-alt absolute -bottom-3 -right-4 z-0 opacity-70 pointer-events-none" width="58" height="58" viewBox="0 0 703.7 705.82" aria-hidden="true"><path d="M475.93,677.63h0c-53.59-28.89-119.44-21.82-165.68,17.78h0c-22.54,19.3-57.38,10.7-68.34-16.88h0c-22.48-56.58-77.47-93.49-138.35-92.88h0c-29.67.3-50.83-28.69-41.5-56.85h0c19.14-57.79.75-121.41-46.28-160.07h0c-22.92-18.84-20.5-54.65,4.76-70.23h0c51.82-31.97,78.62-92.52,67.44-152.37h0c-5.45-29.17,19.42-55.04,48.78-50.74h0c60.24,8.82,119.7-20.34,149.61-73.37h0c14.58-25.85,50.26-29.68,69.99-7.51h0c40.48,45.48,104.77,61.36,161.77,39.96h0c27.78-10.43,57.57,9.57,58.44,39.23h0c1.78,60.86,40.82,114.35,98.24,134.59h0c27.99,9.87,37.95,44.34,19.55,67.62h0c-37.76,47.76-42.23,113.83-11.26,166.25h0c15.1,25.55.57,58.36-28.49,64.37h0c-59.62,12.32-105.52,60.06-115.49,120.12h0c-4.86,29.27-37.08,45.08-63.2,31Z" fill="#e0dd90"/></svg>
-            <div class="card-body relative z-10 rounded-2xl p-2 sm:p-3" style="background:#b7ceca">
+            <div class="card-body relative z-10 rounded-2xl p-2 sm:p-3" style="background:#f26ba4">
               <div class="aspect-[4/3] rounded-xl overflow-hidden">
                 <img src="../assets/images/worship-hope-darst.jpg" alt="Hope Darst, worship leader and songwriter" class="w-full h-full object-cover" loading="lazy">
               </div>
             </div>
             <div class="flex justify-center relative z-20 -mt-5">
-              <div class="name-pill" style="background:#f0a398">
+              <div class="name-pill" style="background:#fde6d3">
                 <h3 class="font-heading text-base sm:text-lg text-near-black whitespace-nowrap">Hope Darst</h3>
                 <p class="font-body text-xs text-near-black/60 mt-0.5">Worship Leader &amp; Songwriter</p>
               </div>
@@ -824,15 +899,15 @@
     </section>
 
     <!-- ~~~~ Wave Divider: Worship → Schedule ~~~~ -->
-    <div class="w-full overflow-hidden leading-[0] bg-peach" aria-hidden="true">
+    <div class="w-full overflow-hidden leading-[0]" style="background:#b7ceca" aria-hidden="true">
       <svg class="relative block w-full h-12 sm:h-20" viewBox="0 0 1200 120" preserveAspectRatio="none">
-        <path d="M0,60 C150,0 350,120 600,40 C850,-20 1050,100 1200,60 L1200,120 L0,120 Z" fill="#F0A398" fill-opacity="0.25"/>
-        <path d="M0,80 C200,30 400,110 700,50 C900,10 1100,90 1200,70 L1200,120 L0,120 Z" fill="#F26BA4" fill-opacity="0.15"/>
+        <path d="M0,60 C150,0 350,120 600,40 C850,-20 1050,100 1200,60 L1200,120 L0,120 Z" fill="#fde6d3" fill-opacity="0.5"/>
+        <path d="M0,80 C200,30 400,110 700,50 C900,10 1100,90 1200,70 L1200,120 L0,120 Z" fill="#fde6d3"/>
       </svg>
     </div>
 
     <!-- ---- SCHEDULE (Two-Column: Timeline left, CTA right) ---- -->
-    <section id="schedule" class="relative bg-peach py-16 md:py-24 px-5 overflow-hidden" aria-label="Schedule">
+    <section id="schedule" class="relative bg-peach py-16 md:py-24 px-5" aria-label="Schedule">
       <!-- Decorative: star (yellow-green) top-left — combo #4 -->
       <svg class="absolute top-8 left-8 opacity-25 pointer-events-none" width="35" height="35" viewBox="0 0 563.68 563.68" aria-hidden="true">
         <path d="M296.56,12.89l7.25,54.51c13.34,100.26,92.22,179.13,192.48,192.48l54.51,7.25c17.18,2.29,17.18,27.15,0,29.43l-54.51,7.25c-100.26,13.34-179.13,92.22-192.48,192.48l-7.25,54.51c-2.29,17.18-27.15,17.18-29.43,0l-7.25-54.51c-13.34-100.26-92.22-179.13-192.48-192.48l-54.51-7.25c-17.18-2.29-17.18-27.15,0-29.43l54.51-7.25c100.26-13.34,179.13-92.22,192.48-192.48l7.25-54.51c2.29-17.18,27.15-17.18,29.43,0Z" fill="#e0dd90"/>
@@ -1017,98 +1092,110 @@
 
         <div class="space-y-4 fade-in-up">
 
-          <!-- FAQ 1 -->
-          <div class="bg-off-white rounded-xl overflow-hidden">
-            <button class="faq-button w-full flex items-center justify-between p-5 sm:p-6 text-left min-h-[56px]"
-                    aria-expanded="false" aria-controls="faq-1">
-              <span class="font-heading text-lg sm:text-xl text-near-black pr-4">Where is the event held?</span>
-              <span class="faq-icon flex-shrink-0 w-8 h-8 flex items-center justify-center" aria-hidden="true"></span>
-            </button>
-            <div id="faq-1" class="expandable-content" aria-hidden="true" role="region">
-              <div class="px-5 sm:px-6 pb-5 sm:pb-6">
-                <p class="font-body text-near-black/70 text-sm sm:text-base leading-relaxed">
-                  ABIDE 2026 will be held in Macon, Georgia. The specific venue details and address will be shared with ticket holders closer to the event date. Macon is conveniently located in central Georgia with easy access from major highways and the Middle Georgia Regional Airport.
-                </p>
+          <!-- FAQ 1 — sage border -->
+          <div class="rounded-2xl p-1.5" style="background:#b7ceca">
+            <div class="bg-off-white rounded-xl overflow-hidden">
+              <button class="faq-button w-full flex items-center justify-between p-5 sm:p-6 text-left min-h-[56px]"
+                      aria-expanded="false" aria-controls="faq-1">
+                <span class="font-heading text-lg sm:text-xl text-near-black pr-4">Where is the event held?</span>
+                <span class="faq-icon flex-shrink-0 w-8 h-8 flex items-center justify-center" aria-hidden="true"></span>
+              </button>
+              <div id="faq-1" class="expandable-content" aria-hidden="true" role="region">
+                <div class="px-5 sm:px-6 pb-5 sm:pb-6">
+                  <p class="font-body text-near-black/70 text-sm sm:text-base leading-relaxed">
+                    ABIDE 2026 will be held in Macon, Georgia. The specific venue details and address will be shared with ticket holders closer to the event date. Macon is conveniently located in central Georgia with easy access from major highways and the Middle Georgia Regional Airport.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
 
-          <!-- FAQ 2 -->
-          <div class="bg-off-white rounded-xl overflow-hidden">
-            <button class="faq-button w-full flex items-center justify-between p-5 sm:p-6 text-left min-h-[56px]"
-                    aria-expanded="false" aria-controls="faq-2">
-              <span class="font-heading text-lg sm:text-xl text-near-black pr-4">What is included with my ticket?</span>
-              <span class="faq-icon flex-shrink-0 w-8 h-8 flex items-center justify-center" aria-hidden="true"></span>
-            </button>
-            <div id="faq-2" class="expandable-content" aria-hidden="true" role="region">
-              <div class="px-5 sm:px-6 pb-5 sm:pb-6">
-                <p class="font-body text-near-black/70 text-sm sm:text-base leading-relaxed">
-                  Your ticket includes access to all conference sessions on Friday evening and Saturday, as well as worship experiences with our featured artists. Please note that meals and lodging are not included in the ticket price but we have recommendations for nearby dining and hotels.
-                </p>
+          <!-- FAQ 2 — coral border -->
+          <div class="rounded-2xl p-1.5" style="background:#ff8d53">
+            <div class="bg-off-white rounded-xl overflow-hidden">
+              <button class="faq-button w-full flex items-center justify-between p-5 sm:p-6 text-left min-h-[56px]"
+                      aria-expanded="false" aria-controls="faq-2">
+                <span class="font-heading text-lg sm:text-xl text-near-black pr-4">What is included with my ticket?</span>
+                <span class="faq-icon flex-shrink-0 w-8 h-8 flex items-center justify-center" aria-hidden="true"></span>
+              </button>
+              <div id="faq-2" class="expandable-content" aria-hidden="true" role="region">
+                <div class="px-5 sm:px-6 pb-5 sm:pb-6">
+                  <p class="font-body text-near-black/70 text-sm sm:text-base leading-relaxed">
+                    Your ticket includes access to all conference sessions on Friday evening and Saturday, as well as worship experiences with our featured artists. Please note that meals and lodging are not included in the ticket price but we have recommendations for nearby dining and hotels.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
 
-          <!-- FAQ 3 -->
-          <div class="bg-off-white rounded-xl overflow-hidden">
-            <button class="faq-button w-full flex items-center justify-between p-5 sm:p-6 text-left min-h-[56px]"
-                    aria-expanded="false" aria-controls="faq-3">
-              <span class="font-heading text-lg sm:text-xl text-near-black pr-4">Is parking available?</span>
-              <span class="faq-icon flex-shrink-0 w-8 h-8 flex items-center justify-center" aria-hidden="true"></span>
-            </button>
-            <div id="faq-3" class="expandable-content" aria-hidden="true" role="region">
-              <div class="px-5 sm:px-6 pb-5 sm:pb-6">
-                <p class="font-body text-near-black/70 text-sm sm:text-base leading-relaxed">
-                  Yes, free parking is available at the venue. There is ample space for all attendees. Additional parking details and maps will be sent to ticket holders in advance of the event.
-                </p>
+          <!-- FAQ 3 — hot-pink border -->
+          <div class="rounded-2xl p-1.5" style="background:#f26ba4">
+            <div class="bg-off-white rounded-xl overflow-hidden">
+              <button class="faq-button w-full flex items-center justify-between p-5 sm:p-6 text-left min-h-[56px]"
+                      aria-expanded="false" aria-controls="faq-3">
+                <span class="font-heading text-lg sm:text-xl text-near-black pr-4">Is parking available?</span>
+                <span class="faq-icon flex-shrink-0 w-8 h-8 flex items-center justify-center" aria-hidden="true"></span>
+              </button>
+              <div id="faq-3" class="expandable-content" aria-hidden="true" role="region">
+                <div class="px-5 sm:px-6 pb-5 sm:pb-6">
+                  <p class="font-body text-near-black/70 text-sm sm:text-base leading-relaxed">
+                    Yes, free parking is available at the venue. There is ample space for all attendees. Additional parking details and maps will be sent to ticket holders in advance of the event.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
 
-          <!-- FAQ 4 -->
-          <div class="bg-off-white rounded-xl overflow-hidden">
-            <button class="faq-button w-full flex items-center justify-between p-5 sm:p-6 text-left min-h-[56px]"
-                    aria-expanded="false" aria-controls="faq-4">
-              <span class="font-heading text-lg sm:text-xl text-near-black pr-4">Are there hotel recommendations nearby?</span>
-              <span class="faq-icon flex-shrink-0 w-8 h-8 flex items-center justify-center" aria-hidden="true"></span>
-            </button>
-            <div id="faq-4" class="expandable-content" aria-hidden="true" role="region">
-              <div class="px-5 sm:px-6 pb-5 sm:pb-6">
-                <p class="font-body text-near-black/70 text-sm sm:text-base leading-relaxed">
-                  Absolutely! We will provide a list of recommended hotels near the venue with special group rates for conference attendees. We encourage you to book early as rooms tend to fill up quickly.
-                </p>
+          <!-- FAQ 4 — yellow-green border -->
+          <div class="rounded-2xl p-1.5" style="background:#e0dd90">
+            <div class="bg-off-white rounded-xl overflow-hidden">
+              <button class="faq-button w-full flex items-center justify-between p-5 sm:p-6 text-left min-h-[56px]"
+                      aria-expanded="false" aria-controls="faq-4">
+                <span class="font-heading text-lg sm:text-xl text-near-black pr-4">Are there hotel recommendations nearby?</span>
+                <span class="faq-icon flex-shrink-0 w-8 h-8 flex items-center justify-center" aria-hidden="true"></span>
+              </button>
+              <div id="faq-4" class="expandable-content" aria-hidden="true" role="region">
+                <div class="px-5 sm:px-6 pb-5 sm:pb-6">
+                  <p class="font-body text-near-black/70 text-sm sm:text-base leading-relaxed">
+                    Absolutely! We will provide a list of recommended hotels near the venue with special group rates for conference attendees. We encourage you to book early as rooms tend to fill up quickly.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
 
-          <!-- FAQ 5 -->
-          <div class="bg-off-white rounded-xl overflow-hidden">
-            <button class="faq-button w-full flex items-center justify-between p-5 sm:p-6 text-left min-h-[56px]"
-                    aria-expanded="false" aria-controls="faq-5">
-              <span class="font-heading text-lg sm:text-xl text-near-black pr-4">What is the refund policy?</span>
-              <span class="faq-icon flex-shrink-0 w-8 h-8 flex items-center justify-center" aria-hidden="true"></span>
-            </button>
-            <div id="faq-5" class="expandable-content" aria-hidden="true" role="region">
-              <div class="px-5 sm:px-6 pb-5 sm:pb-6">
-                <p class="font-body text-near-black/70 text-sm sm:text-base leading-relaxed">
-                  Tickets are refundable up to 30 days before the event. After that date, tickets are non-refundable but may be transferred to another attendee. Please contact our team for transfer requests.
-                </p>
+          <!-- FAQ 5 — sage border -->
+          <div class="rounded-2xl p-1.5" style="background:#b7ceca">
+            <div class="bg-off-white rounded-xl overflow-hidden">
+              <button class="faq-button w-full flex items-center justify-between p-5 sm:p-6 text-left min-h-[56px]"
+                      aria-expanded="false" aria-controls="faq-5">
+                <span class="font-heading text-lg sm:text-xl text-near-black pr-4">What is the refund policy?</span>
+                <span class="faq-icon flex-shrink-0 w-8 h-8 flex items-center justify-center" aria-hidden="true"></span>
+              </button>
+              <div id="faq-5" class="expandable-content" aria-hidden="true" role="region">
+                <div class="px-5 sm:px-6 pb-5 sm:pb-6">
+                  <p class="font-body text-near-black/70 text-sm sm:text-base leading-relaxed">
+                    Tickets are refundable up to 30 days before the event. After that date, tickets are non-refundable but may be transferred to another attendee. Please contact our team for transfer requests.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
 
-          <!-- FAQ 6 -->
-          <div class="bg-off-white rounded-xl overflow-hidden">
-            <button class="faq-button w-full flex items-center justify-between p-5 sm:p-6 text-left min-h-[56px]"
-                    aria-expanded="false" aria-controls="faq-6">
-              <span class="font-heading text-lg sm:text-xl text-near-black pr-4">Is childcare provided?</span>
-              <span class="faq-icon flex-shrink-0 w-8 h-8 flex items-center justify-center" aria-hidden="true"></span>
-            </button>
-            <div id="faq-6" class="expandable-content" aria-hidden="true" role="region">
-              <div class="px-5 sm:px-6 pb-5 sm:pb-6">
-                <p class="font-body text-near-black/70 text-sm sm:text-base leading-relaxed">
-                  Childcare is not provided at the venue during the conference. We encourage attendees to make arrangements in advance. This is a wonderful opportunity to invest in your own spiritual growth.
-                </p>
+          <!-- FAQ 6 — peach border -->
+          <div class="rounded-2xl p-1.5" style="background:#fde6d3">
+            <div class="bg-off-white rounded-xl overflow-hidden">
+              <button class="faq-button w-full flex items-center justify-between p-5 sm:p-6 text-left min-h-[56px]"
+                      aria-expanded="false" aria-controls="faq-6">
+                <span class="font-heading text-lg sm:text-xl text-near-black pr-4">Is childcare provided?</span>
+                <span class="faq-icon flex-shrink-0 w-8 h-8 flex items-center justify-center" aria-hidden="true"></span>
+              </button>
+              <div id="faq-6" class="expandable-content" aria-hidden="true" role="region">
+                <div class="px-5 sm:px-6 pb-5 sm:pb-6">
+                  <p class="font-body text-near-black/70 text-sm sm:text-base leading-relaxed">
+                    Childcare is not provided at the venue during the conference. We encourage attendees to make arrangements in advance. This is a wonderful opportunity to invest in your own spiritual growth.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -1424,10 +1511,20 @@
       var modal = document.getElementById('speaker-modal');
       var modalPhoto = document.getElementById('modal-photo');
       var modalName = document.getElementById('modal-name');
+      var modalNamePill = document.getElementById('modal-name-pill');
       var modalBio = document.getElementById('modal-bio');
       var modalClose = document.getElementById('modal-close');
       var modalBackdrop = document.getElementById('modal-backdrop-click');
       var modalTrigger = null;
+
+      // Pill colors cycle per speaker
+      var pillColors = ['#e0dd90','#b7ceca','#f26ba4','#ff8d53','#e0dd90','#b7ceca','#f26ba4','#ff8d53'];
+      // Text color: dark on light pills, white on dark pills
+      var pillTextColors = ['#1a1a1a','#1a1a1a','#ffffff','#ffffff','#1a1a1a','#1a1a1a','#ffffff','#ffffff'];
+
+      function getScrollbarWidth() {
+        return window.innerWidth - document.documentElement.clientWidth;
+      }
 
       function openModal(index) {
         var speaker = speakers[index];
@@ -1437,15 +1534,25 @@
         modalBio.textContent = speaker.bio;
         modal.setAttribute('aria-label', speaker.name + ' details');
 
+        // Color the name pill per speaker
+        modalNamePill.style.background = pillColors[index] || '#f26ba4';
+        modalName.style.color = pillTextColors[index] || '#ffffff';
+
         modalTrigger = document.activeElement;
+
+        // Prevent scrollbar layout shift
+        var scrollbarW = getScrollbarWidth();
+        document.body.style.paddingRight = scrollbarW + 'px';
+        document.body.classList.add('modal-open');
+
         modal.classList.add('open');
-        document.body.style.overflow = 'hidden';
         setTimeout(function() { modalClose.focus(); }, 100);
       }
 
       function closeModal() {
         modal.classList.remove('open');
-        document.body.style.overflow = '';
+        document.body.classList.remove('modal-open');
+        document.body.style.paddingRight = '';
         if (modalTrigger) modalTrigger.focus();
       }
 
