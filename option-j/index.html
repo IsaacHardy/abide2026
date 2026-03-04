@@ -75,8 +75,9 @@
             'off-white': '#FEFEFE',
           },
           fontFamily: {
-            heading: ['Cormorant', 'serif'],
-            body: ['Assistant', 'sans-serif'],
+            heading: ['Amarego', 'serif'],
+            sub: ['Soulway', 'sans-serif'],
+            body: ['Helvetica Bold', 'Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'],
           },
         },
       },
@@ -86,25 +87,15 @@
   <style>
     /* ---- Font Faces ---- */
     @font-face {
-      font-family: 'Assistant';
-      src: url('../assets/fonts/assistant-regular.woff2') format('woff2'),
-           url('../assets/fonts/assistant-regular.woff') format('woff');
+      font-family: 'Amarego';
+      src: url('../assets/fonts/Amarego_PERSONAL_USE_ONLY.otf') format('opentype');
       font-weight: 400;
       font-style: normal;
       font-display: swap;
     }
     @font-face {
-      font-family: 'Assistant';
-      src: url('../assets/fonts/assistant-bold.woff2') format('woff2'),
-           url('../assets/fonts/assistant-bold.woff') format('woff');
-      font-weight: 700;
-      font-style: normal;
-      font-display: swap;
-    }
-    @font-face {
-      font-family: 'Cormorant';
-      src: url('../assets/fonts/cormorant-regular.woff2') format('woff2'),
-           url('../assets/fonts/cormorant-regular.woff') format('woff');
+      font-family: 'Soulway';
+      src: url('../assets/fonts/SoulwayFont-Demo.otf') format('opentype');
       font-weight: 400;
       font-style: normal;
       font-display: swap;
@@ -114,7 +105,7 @@
     *, *::before, *::after { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
-      font-family: 'Assistant', sans-serif;
+      font-family: 'Helvetica Bold', 'Helvetica Neue', Helvetica, Arial, sans-serif;
       background: #FDE6D3;
       color: #121212;
       margin: 0;
@@ -154,6 +145,7 @@
     }
     .nav-bar.scrolled .nav-logo { filter: none; }
     .nav-bar.scrolled .nav-link { color: #121212; }
+    .nav-bar.scrolled .nav-link:hover { color: #ff8d53; }
     .nav-ticket-btn {
       background: rgba(255, 255, 255, 0.15);
       backdrop-filter: blur(12px);
@@ -346,18 +338,31 @@
     .speaker-modal-backdrop {
       opacity: 0;
       visibility: hidden;
-      transition: opacity 0.4s ease, visibility 0.4s ease;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
     }
     .speaker-modal-backdrop.open {
       opacity: 1;
       visibility: visible;
     }
+    /* Backdrop overlay — blur fades in separately */
+    .modal-overlay {
+      backdrop-filter: blur(0px);
+      -webkit-backdrop-filter: blur(0px);
+      transition: backdrop-filter 0.6s ease, -webkit-backdrop-filter 0.6s ease;
+    }
+    .speaker-modal-backdrop.open .modal-overlay {
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
     .speaker-modal-content {
       transform: translateY(40px) scale(0.92) rotate(-2deg);
-      transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      opacity: 0;
+      transition: transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease;
+      transition-delay: 0.1s;
     }
     .speaker-modal-backdrop.open .speaker-modal-content {
       transform: translateY(0) scale(1) rotate(0deg);
+      opacity: 1;
     }
     /* Scrollbar-width compensation to prevent layout shift */
     body.modal-open {
@@ -515,22 +520,22 @@
   <!-- ================================================================
        NAV (from Option D, CTA changed to "Buy Tickets")
   ================================================================ -->
-  <nav class="nav-bar fixed top-0 left-0 w-full z-50 flex items-center justify-center px-6 md:px-10 py-4" role="navigation" aria-label="Main navigation">
+  <nav class="nav-bar fixed top-0 left-0 w-full z-50 flex items-center justify-center px-6 md:px-10 py-6 md:py-4" role="navigation" aria-label="Main navigation">
     <a href="#hero" aria-label="ABIDE 2026 Home" class="absolute left-6 md:left-10">
       <img src="../assets/images/logo.png" alt="Living Truth Collective logo" class="nav-logo h-10 md:h-12 brightness-0 invert transition-all duration-300">
     </a>
     <div class="hidden md:flex items-center gap-8">
-      <a href="#speakers" class="nav-link font-body text-sm uppercase tracking-widest text-cream/80 hover:text-coral transition-colors">Speakers</a>
-      <a href="#worship" class="nav-link font-body text-sm uppercase tracking-widest text-cream/80 hover:text-coral transition-colors">Worship</a>
-      <a href="#schedule" class="nav-link font-body text-sm uppercase tracking-widest text-cream/80 hover:text-coral transition-colors">Schedule</a>
-      <a href="#faq" class="nav-link font-body text-sm uppercase tracking-widest text-cream/80 hover:text-coral transition-colors">FAQ</a>
+      <a href="#speakers" class="nav-link font-body text-sm uppercase tracking-widest text-cream/80 hover:text-[#b7ceca] transition-colors">Speakers</a>
+      <a href="#worship" class="nav-link font-body text-sm uppercase tracking-widest text-cream/80 hover:text-[#b7ceca] transition-colors">Worship</a>
+      <a href="#schedule" class="nav-link font-body text-sm uppercase tracking-widest text-cream/80 hover:text-[#b7ceca] transition-colors">Schedule</a>
+      <a href="#faq" class="nav-link font-body text-sm uppercase tracking-widest text-cream/80 hover:text-[#b7ceca] transition-colors">FAQ</a>
       <a href="https://www.ticketmaster.com/event/0E00643EBA28A733"
          target="_blank" rel="noopener noreferrer"
          class="nav-ticket-btn font-body font-bold text-sm uppercase tracking-widest px-6 py-3 rounded-full hover:opacity-90 transition-all duration-300 shadow-md hover:shadow-lg">
         Buy Tickets
       </a>
     </div>
-    <button class="hamburger md:hidden" aria-label="Open menu" aria-expanded="false" id="hamburger-btn">
+    <button class="hamburger md:hidden absolute right-6" aria-label="Open menu" aria-expanded="false" id="hamburger-btn">
       <span class="hamburger-line"></span>
       <span class="hamburger-line"></span>
       <span class="hamburger-line"></span>
@@ -539,11 +544,11 @@
 
   <!-- Mobile Nav Overlay -->
   <div class="mobile-nav-overlay" id="mobile-nav" role="dialog" aria-modal="true" aria-label="Mobile navigation">
-    <a href="#intro" class="font-heading text-4xl text-near-black hover:text-coral transition-colors" tabindex="-1">Welcome</a>
-    <a href="#speakers" class="font-heading text-4xl text-near-black hover:text-coral transition-colors" tabindex="-1">Speakers</a>
-    <a href="#worship" class="font-heading text-4xl text-near-black hover:text-coral transition-colors" tabindex="-1">Worship</a>
-    <a href="#schedule" class="font-heading text-4xl text-near-black hover:text-coral transition-colors" tabindex="-1">Schedule</a>
-    <a href="#faq" class="font-heading text-4xl text-near-black hover:text-coral transition-colors" tabindex="-1">FAQ</a>
+    <a href="#intro" class="font-sub text-4xl text-near-black hover:text-coral transition-colors" tabindex="-1">Welcome</a>
+    <a href="#speakers" class="font-sub text-4xl text-near-black hover:text-coral transition-colors" tabindex="-1">Speakers</a>
+    <a href="#worship" class="font-sub text-4xl text-near-black hover:text-coral transition-colors" tabindex="-1">Worship</a>
+    <a href="#schedule" class="font-sub text-4xl text-near-black hover:text-coral transition-colors" tabindex="-1">Schedule</a>
+    <a href="#faq" class="font-sub text-4xl text-near-black hover:text-coral transition-colors" tabindex="-1">FAQ</a>
     <a href="https://www.ticketmaster.com/event/0E00643EBA28A733"
        target="_blank" rel="noopener noreferrer"
        class="mt-4 font-body font-bold text-sm uppercase tracking-widest px-8 py-4 rounded-full text-white hover:opacity-90 transition-all duration-300 shadow-md" style="background:linear-gradient(135deg, #ff8d53, #f0a398, #f26ba4)" tabindex="-1">
@@ -603,10 +608,10 @@
           <div class="slide-in-up">
             <div class="scripture-block text-center py-8">
               <blockquote>
-                <p class="font-heading italic text-hot-pink text-2xl md:text-3xl lg:text-4xl leading-snug">
+                <p class="font-sub italic text-hot-pink text-2xl md:text-3xl lg:text-4xl leading-snug">
                   &ldquo;Abide in me, and I in you. As the branch cannot bear fruit by itself, unless it abides in the vine, neither can you, unless you abide in me.&rdquo;
                 </p>
-                <cite class="block mt-6 font-body text-sm uppercase tracking-widest text-near-black/50 not-italic">John 15:4 ESV</cite>
+                <cite class="block mt-6 font-sub text-sm uppercase tracking-widest text-near-black/50 not-italic">John 15:4 ESV</cite>
               </blockquote>
             </div>
           </div>
@@ -614,7 +619,7 @@
           <!-- Right: Event Details -->
           <div class="slide-in-right">
             <div class="text-center md:text-left">
-              <h2 class="font-heading text-near-black text-3xl md:text-4xl lg:text-[2.75rem] mb-6 leading-snug">
+              <h2 class="font-sub text-near-black text-3xl md:text-4xl lg:text-[2.75rem] mb-6 leading-snug">
                 Bring Your People, Let&rsquo;s Abide Together!
               </h2>
               <p class="font-body text-near-black/80 text-base md:text-lg leading-relaxed mb-6">
@@ -648,8 +653,8 @@
         <path d="M475.93,677.63h0c-53.59-28.89-119.44-21.82-165.68,17.78h0c-22.54,19.3-57.38,10.7-68.34-16.88h0c-22.48-56.58-77.47-93.49-138.35-92.88h0c-29.67.3-50.83-28.69-41.5-56.85h0c19.14-57.79.75-121.41-46.28-160.07h0c-22.92-18.84-20.5-54.65,4.76-70.23h0c51.82-31.97,78.62-92.52,67.44-152.37h0c-5.45-29.17,19.42-55.04,48.78-50.74h0c60.24,8.82,119.7-20.34,149.61-73.37h0c14.58-25.85,50.26-29.68,69.99-7.51h0c40.48,45.48,104.77,61.36,161.77,39.96h0c27.78-10.43,57.57,9.57,58.44,39.23h0c1.78,60.86,40.82,114.35,98.24,134.59h0c27.99,9.87,37.95,44.34,19.55,67.62h0c-37.76,47.76-42.23,113.83-11.26,166.25h0c15.1,25.55.57,58.36-28.49,64.37h0c-59.62,12.32-105.52,60.06-115.49,120.12h0c-4.86,29.27-37.08,45.08-63.2,31Z" fill="#ff8d53"/>
       </svg>
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <p class="font-body text-xs uppercase tracking-widest text-off-white/70 text-center mb-3 fade-in-up">Meet the Voices</p>
-        <h2 class="font-heading text-3xl sm:text-4xl md:text-5xl text-off-white text-center mb-4 fade-in-up">
+        <p class="font-sub text-xs uppercase tracking-widest text-off-white/70 text-center mb-3 fade-in-up">Meet the Voices</p>
+        <h2 class="font-sub text-3xl sm:text-4xl md:text-5xl text-off-white text-center mb-4 fade-in-up">
           Our Speaker Lineup
         </h2>
         <p class="font-body text-off-white/70 text-center text-base sm:text-lg mb-14 max-w-2xl mx-auto fade-in-up">
@@ -669,7 +674,7 @@
             </button>
             <div class="flex justify-center relative z-20 -mt-5">
               <div class="name-pill" style="background:#fde6d3">
-                <h3 class="font-heading text-sm sm:text-base text-near-black whitespace-nowrap">Hosanna Wong</h3>
+                <h3 class="font-sub font-bold text-sm sm:text-base whitespace-nowrap" style="color:#f26ba4">Hosanna Wong</h3>
               </div>
             </div>
           </div>
@@ -685,7 +690,7 @@
             </button>
             <div class="flex justify-center relative z-20 -mt-5">
               <div class="name-pill" style="background:#f0a398">
-                <h3 class="font-heading text-sm sm:text-base text-near-black whitespace-nowrap">Chrystal Evans Hurst</h3>
+                <h3 class="font-sub font-bold text-sm sm:text-base whitespace-nowrap" style="color:#f26ba4">Chrystal Evans Hurst</h3>
               </div>
             </div>
           </div>
@@ -694,14 +699,14 @@
           <div class="speaker-card-wrap relative fade-in-up">
             <svg class="speaker-deco absolute -top-3 -right-4 z-0 opacity-70 pointer-events-none" width="50" height="50" viewBox="0 0 563.68 563.68" aria-hidden="true"><path d="M296.56,12.89l7.25,54.51c13.34,100.26,92.22,179.13,192.48,192.48l54.51,7.25c17.18,2.29,17.18,27.15,0,29.43l-54.51,7.25c-100.26,13.34-179.13,92.22-192.48,192.48l-7.25,54.51c-2.29,17.18-27.15,17.18-29.43,0l-7.25-54.51c-13.34-100.26-92.22-179.13-192.48-192.48l-54.51-7.25c-17.18-2.29-17.18-27.15,0-29.43l54.51-7.25c100.26-13.34,179.13-92.22,192.48-192.48l7.25-54.51c2.29-17.18,27.15-17.18,29.43,0Z" fill="#b7ceca"/></svg>
             <svg class="speaker-deco-alt absolute -bottom-4 -left-4 z-0 opacity-70 pointer-events-none" width="52" height="52" viewBox="0 0 703.7 705.82" aria-hidden="true"><path d="M475.93,677.63h0c-53.59-28.89-119.44-21.82-165.68,17.78h0c-22.54,19.3-57.38,10.7-68.34-16.88h0c-22.48-56.58-77.47-93.49-138.35-92.88h0c-29.67.3-50.83-28.69-41.5-56.85h0c19.14-57.79.75-121.41-46.28-160.07h0c-22.92-18.84-20.5-54.65,4.76-70.23h0c51.82-31.97,78.62-92.52,67.44-152.37h0c-5.45-29.17,19.42-55.04,48.78-50.74h0c60.24,8.82,119.7-20.34,149.61-73.37h0c14.58-25.85,50.26-29.68,69.99-7.51h0c40.48,45.48,104.77,61.36,161.77,39.96h0c27.78-10.43,57.57,9.57,58.44,39.23h0c1.78,60.86,40.82,114.35,98.24,134.59h0c27.99,9.87,37.95,44.34,19.55,67.62h0c-37.76,47.76-42.23,113.83-11.26,166.25h0c15.1,25.55.57,58.36-28.49,64.37h0c-59.62,12.32-105.52,60.06-115.49,120.12h0c-4.86,29.27-37.08,45.08-63.2,31Z" fill="#ff8d53"/></svg>
-            <button class="speaker-card card-body relative z-10 block w-full text-left cursor-pointer rounded-2xl p-2 sm:p-3" style="background:#f26ba4" data-speaker="2" aria-label="View Annie F. Downs' bio">
+            <button class="speaker-card card-body relative z-10 block w-full text-left cursor-pointer rounded-2xl p-2 sm:p-3" style="background:#ff8d53" data-speaker="2" aria-label="View Annie F. Downs' bio">
               <div class="aspect-[3/4] rounded-xl overflow-hidden">
                 <img src="../assets/images/speaker-annie-f-downs.jpg" alt="Annie F. Downs, bestselling author and podcast host" class="w-full h-full object-cover" loading="lazy">
               </div>
             </button>
             <div class="flex justify-center relative z-20 -mt-5">
-              <div class="name-pill" style="background:#e0dd90">
-                <h3 class="font-heading text-sm sm:text-base text-near-black whitespace-nowrap">Annie F. Downs</h3>
+              <div class="name-pill" style="background:#f26ba4">
+                <h3 class="font-sub font-bold text-sm sm:text-base whitespace-nowrap" style="color:#e0dd90">Annie F. Downs</h3>
               </div>
             </div>
           </div>
@@ -710,14 +715,14 @@
           <div class="speaker-card-wrap relative fade-in-up">
             <svg class="speaker-deco absolute -top-4 -left-3 z-0 opacity-70 pointer-events-none" width="46" height="46" viewBox="0 0 703.7 705.82" aria-hidden="true"><path d="M475.93,677.63h0c-53.59-28.89-119.44-21.82-165.68,17.78h0c-22.54,19.3-57.38,10.7-68.34-16.88h0c-22.48-56.58-77.47-93.49-138.35-92.88h0c-29.67.3-50.83-28.69-41.5-56.85h0c19.14-57.79.75-121.41-46.28-160.07h0c-22.92-18.84-20.5-54.65,4.76-70.23h0c51.82-31.97,78.62-92.52,67.44-152.37h0c-5.45-29.17,19.42-55.04,48.78-50.74h0c60.24,8.82,119.7-20.34,149.61-73.37h0c14.58-25.85,50.26-29.68,69.99-7.51h0c40.48,45.48,104.77,61.36,161.77,39.96h0c27.78-10.43,57.57,9.57,58.44,39.23h0c1.78,60.86,40.82,114.35,98.24,134.59h0c27.99,9.87,37.95,44.34,19.55,67.62h0c-37.76,47.76-42.23,113.83-11.26,166.25h0c15.1,25.55.57,58.36-28.49,64.37h0c-59.62,12.32-105.52,60.06-115.49,120.12h0c-4.86,29.27-37.08,45.08-63.2,31Z" fill="#f0a398"/></svg>
             <svg class="speaker-deco-alt absolute -bottom-3 -right-3 z-0 opacity-70 pointer-events-none" width="42" height="42" viewBox="0 0 563.68 563.68" aria-hidden="true"><path d="M296.56,12.89l7.25,54.51c13.34,100.26,92.22,179.13,192.48,192.48l54.51,7.25c17.18,2.29,17.18,27.15,0,29.43l-54.51,7.25c-100.26,13.34-179.13,92.22-192.48,192.48l-7.25,54.51c-2.29,17.18-27.15,17.18-29.43,0l-7.25-54.51c-13.34-100.26-92.22-179.13-192.48-192.48l-54.51-7.25c-17.18-2.29-17.18-27.15,0-29.43l54.51-7.25c100.26-13.34,179.13-92.22,192.48-192.48l7.25-54.51c2.29-17.18,27.15-17.18,29.43,0Z" fill="#e0dd90"/></svg>
-            <button class="speaker-card card-body relative z-10 block w-full text-left cursor-pointer rounded-2xl p-2 sm:p-3" style="background:#fde6d3" data-speaker="3" aria-label="View Courtney Smallbone's bio">
+            <button class="speaker-card card-body relative z-10 block w-full text-left cursor-pointer rounded-2xl p-2 sm:p-3" style="background:#f26ba4" data-speaker="3" aria-label="View Courtney Smallbone's bio">
               <div class="aspect-[3/4] rounded-xl overflow-hidden">
                 <img src="../assets/images/speaker-courtney-smallbone.jpg" alt="Courtney Smallbone, author and speaker" class="w-full h-full object-cover" loading="lazy">
               </div>
             </button>
             <div class="flex justify-center relative z-20 -mt-5">
-              <div class="name-pill" style="background:#b7ceca">
-                <h3 class="font-heading text-sm sm:text-base text-near-black whitespace-nowrap">Courtney Smallbone</h3>
+              <div class="name-pill" style="background:#fde6d3">
+                <h3 class="font-sub font-bold text-sm sm:text-base whitespace-nowrap" style="color:#f0a398">Courtney Smallbone</h3>
               </div>
             </div>
           </div>
@@ -726,14 +731,14 @@
           <div class="speaker-card-wrap relative fade-in-up">
             <svg class="speaker-deco absolute -top-3 -right-2 z-0 opacity-70 pointer-events-none" width="50" height="50" viewBox="0 0 703.7 705.82" aria-hidden="true"><path d="M475.93,677.63h0c-53.59-28.89-119.44-21.82-165.68,17.78h0c-22.54,19.3-57.38,10.7-68.34-16.88h0c-22.48-56.58-77.47-93.49-138.35-92.88h0c-29.67.3-50.83-28.69-41.5-56.85h0c19.14-57.79.75-121.41-46.28-160.07h0c-22.92-18.84-20.5-54.65,4.76-70.23h0c51.82-31.97,78.62-92.52,67.44-152.37h0c-5.45-29.17,19.42-55.04,48.78-50.74h0c60.24,8.82,119.7-20.34,149.61-73.37h0c14.58-25.85,50.26-29.68,69.99-7.51h0c40.48,45.48,104.77,61.36,161.77,39.96h0c27.78-10.43,57.57,9.57,58.44,39.23h0c1.78,60.86,40.82,114.35,98.24,134.59h0c27.99,9.87,37.95,44.34,19.55,67.62h0c-37.76,47.76-42.23,113.83-11.26,166.25h0c15.1,25.55.57,58.36-28.49,64.37h0c-59.62,12.32-105.52,60.06-115.49,120.12h0c-4.86,29.27-37.08,45.08-63.2,31Z" fill="#ff8d53"/></svg>
             <svg class="speaker-deco-alt absolute -bottom-4 -left-3 z-0 opacity-70 pointer-events-none" width="44" height="44" viewBox="0 0 563.68 563.68" aria-hidden="true"><path d="M296.56,12.89l7.25,54.51c13.34,100.26,92.22,179.13,192.48,192.48l54.51,7.25c17.18,2.29,17.18,27.15,0,29.43l-54.51,7.25c-100.26,13.34-179.13,92.22-192.48,192.48l-7.25,54.51c-2.29,17.18-27.15,17.18-29.43,0l-7.25-54.51c-13.34-100.26-92.22-179.13-192.48-192.48l-54.51-7.25c-17.18-2.29-17.18-27.15,0-29.43l54.51-7.25c100.26-13.34,179.13-92.22,192.48-192.48l7.25-54.51c2.29-17.18,27.15-17.18,29.43,0Z" fill="#fde6d3"/></svg>
-            <button class="speaker-card card-body relative z-10 block w-full text-left cursor-pointer rounded-2xl p-2 sm:p-3" style="background:#e0dd90" data-speaker="4" aria-label="View Natalie Runion's bio">
+            <button class="speaker-card card-body relative z-10 block w-full text-left cursor-pointer rounded-2xl p-2 sm:p-3" style="background:#fde6d3" data-speaker="4" aria-label="View Natalie Runion's bio">
               <div class="aspect-[3/4] rounded-xl overflow-hidden">
                 <img src="../assets/images/speaker-natalie-runion.jpg" alt="Natalie Runion, author, speaker, and ministry leader" class="w-full h-full object-cover" loading="lazy">
               </div>
             </button>
             <div class="flex justify-center relative z-20 -mt-5">
-              <div class="name-pill" style="background:#f26ba4">
-                <h3 class="font-heading text-sm sm:text-base text-near-black whitespace-nowrap">Natalie Runion</h3>
+              <div class="name-pill" style="background:#ff8d53">
+                <h3 class="font-sub font-bold text-sm sm:text-base whitespace-nowrap" style="color:#e0dd90">Natalie Runion</h3>
               </div>
             </div>
           </div>
@@ -742,14 +747,14 @@
           <div class="speaker-card-wrap relative fade-in-up">
             <svg class="speaker-deco absolute -top-4 -left-4 z-0 opacity-70 pointer-events-none" width="46" height="46" viewBox="0 0 563.68 563.68" aria-hidden="true"><path d="M296.56,12.89l7.25,54.51c13.34,100.26,92.22,179.13,192.48,192.48l54.51,7.25c17.18,2.29,17.18,27.15,0,29.43l-54.51,7.25c-100.26,13.34-179.13,92.22-192.48,192.48l-7.25,54.51c-2.29,17.18-27.15,17.18-29.43,0l-7.25-54.51c-13.34-100.26-92.22-179.13-192.48-192.48l-54.51-7.25c-17.18-2.29-17.18-27.15,0-29.43l54.51-7.25c100.26-13.34,179.13-92.22,192.48-192.48l7.25-54.51c2.29-17.18,27.15-17.18,29.43,0Z" fill="#f0a398"/></svg>
             <svg class="speaker-deco-alt absolute -bottom-3 -right-4 z-0 opacity-70 pointer-events-none" width="54" height="54" viewBox="0 0 703.7 705.82" aria-hidden="true"><path d="M475.93,677.63h0c-53.59-28.89-119.44-21.82-165.68,17.78h0c-22.54,19.3-57.38,10.7-68.34-16.88h0c-22.48-56.58-77.47-93.49-138.35-92.88h0c-29.67.3-50.83-28.69-41.5-56.85h0c19.14-57.79.75-121.41-46.28-160.07h0c-22.92-18.84-20.5-54.65,4.76-70.23h0c51.82-31.97,78.62-92.52,67.44-152.37h0c-5.45-29.17,19.42-55.04,48.78-50.74h0c60.24,8.82,119.7-20.34,149.61-73.37h0c14.58-25.85,50.26-29.68,69.99-7.51h0c40.48,45.48,104.77,61.36,161.77,39.96h0c27.78-10.43,57.57,9.57,58.44,39.23h0c1.78,60.86,40.82,114.35,98.24,134.59h0c27.99,9.87,37.95,44.34,19.55,67.62h0c-37.76,47.76-42.23,113.83-11.26,166.25h0c15.1,25.55.57,58.36-28.49,64.37h0c-59.62,12.32-105.52,60.06-115.49,120.12h0c-4.86,29.27-37.08,45.08-63.2,31Z" fill="#f26ba4"/></svg>
-            <button class="speaker-card card-body relative z-10 block w-full text-left cursor-pointer rounded-2xl p-2 sm:p-3" style="background:#b7ceca" data-speaker="5" aria-label="View Jess Connolly's bio">
+            <button class="speaker-card card-body relative z-10 block w-full text-left cursor-pointer rounded-2xl p-2 sm:p-3" style="background:#ff8d53" data-speaker="5" aria-label="View Jess Connolly's bio">
               <div class="aspect-[3/4] rounded-xl overflow-hidden">
                 <img src="../assets/images/speaker-jess-connolly.jpg" alt="Jess Connolly, author, speaker, and church planter" class="w-full h-full object-cover" loading="lazy">
               </div>
             </button>
             <div class="flex justify-center relative z-20 -mt-5">
-              <div class="name-pill" style="background:#e0dd90">
-                <h3 class="font-heading text-sm sm:text-base text-near-black whitespace-nowrap">Jess Connolly</h3>
+              <div class="name-pill" style="background:#f0a398">
+                <h3 class="font-sub font-bold text-sm sm:text-base whitespace-nowrap" style="color:#f26ba4">Jess Connolly</h3>
               </div>
             </div>
           </div>
@@ -764,8 +769,8 @@
               </div>
             </button>
             <div class="flex justify-center relative z-20 -mt-5">
-              <div class="name-pill" style="background:#f0a398">
-                <h3 class="font-heading text-sm sm:text-base text-near-black whitespace-nowrap">Brittany Tate</h3>
+              <div class="name-pill" style="background:#e0dd90">
+                <h3 class="font-sub font-bold text-sm sm:text-base whitespace-nowrap" style="color:#ff8d53">Brittany Tate</h3>
               </div>
             </div>
           </div>
@@ -781,7 +786,7 @@
             </button>
             <div class="flex justify-center relative z-20 -mt-5">
               <div class="name-pill" style="background:#b7ceca">
-                <h3 class="font-heading text-sm sm:text-base text-near-black whitespace-nowrap">Alexis Brown</h3>
+                <h3 class="font-sub font-bold text-sm sm:text-base whitespace-nowrap" style="color:#f26ba4">Alexis Brown</h3>
               </div>
             </div>
           </div>
@@ -792,7 +797,7 @@
 
     <!-- Speaker Modal -->
     <div id="speaker-modal" class="speaker-modal-backdrop fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6" role="dialog" aria-modal="true" aria-label="Speaker details">
-      <div class="absolute inset-0 bg-near-black/70 backdrop-blur-lg" id="modal-backdrop-click" aria-hidden="true"></div>
+      <div class="modal-overlay absolute inset-0 bg-near-black/70" id="modal-backdrop-click" aria-hidden="true"></div>
 
       <div class="speaker-modal-content relative max-w-lg w-full">
         <!-- Floating decorative shapes behind modal -->
@@ -824,7 +829,7 @@
               <!-- Name pill -->
               <div class="flex justify-center -mt-1 mb-4">
                 <div id="modal-name-pill" class="name-pill" style="background:#f26ba4">
-                  <h3 id="modal-name" class="font-heading text-xl sm:text-2xl text-white whitespace-nowrap"></h3>
+                  <h3 id="modal-name" class="font-sub text-xl sm:text-2xl text-white whitespace-nowrap"></h3>
                 </div>
               </div>
               <!-- Bio text -->
@@ -853,8 +858,8 @@
         <path d="M475.93,677.63h0c-53.59-28.89-119.44-21.82-165.68,17.78h0c-22.54,19.3-57.38,10.7-68.34-16.88h0c-22.48-56.58-77.47-93.49-138.35-92.88h0c-29.67.3-50.83-28.69-41.5-56.85h0c19.14-57.79.75-121.41-46.28-160.07h0c-22.92-18.84-20.5-54.65,4.76-70.23h0c51.82-31.97,78.62-92.52,67.44-152.37h0c-5.45-29.17,19.42-55.04,48.78-50.74h0c60.24,8.82,119.7-20.34,149.61-73.37h0c14.58-25.85,50.26-29.68,69.99-7.51h0c40.48,45.48,104.77,61.36,161.77,39.96h0c27.78-10.43,57.57,9.57,58.44,39.23h0c1.78,60.86,40.82,114.35,98.24,134.59h0c27.99,9.87,37.95,44.34,19.55,67.62h0c-37.76,47.76-42.23,113.83-11.26,166.25h0c15.1,25.55.57,58.36-28.49,64.37h0c-59.62,12.32-105.52,60.06-115.49,120.12h0c-4.86,29.27-37.08,45.08-63.2,31Z" fill="#e0dd90"/>
       </svg>
       <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        <p class="font-body text-xs uppercase tracking-widest text-center mb-3 fade-in-up" style="color:#ff8d53">Worship</p>
-        <h2 class="font-heading text-3xl sm:text-4xl md:text-5xl text-off-white text-center mb-14 fade-in-up">
+        <p class="font-sub text-xs uppercase tracking-widest text-center mb-3 fade-in-up" style="color:#ff8d53">Worship</p>
+        <h2 class="font-sub text-3xl sm:text-4xl md:text-5xl text-off-white text-center mb-14 fade-in-up">
           Worship Led By
         </h2>
 
@@ -871,7 +876,7 @@
             </div>
             <div class="flex justify-center relative z-20 -mt-5">
               <div class="name-pill" style="background:#fde6d3">
-                <h3 class="font-heading text-base sm:text-lg text-near-black whitespace-nowrap">Leeland</h3>
+                <h3 class="font-sub font-bold text-base sm:text-lg whitespace-nowrap" style="color:#f26ba4">Leeland</h3>
                 <p class="font-body text-xs text-near-black/60 mt-0.5">Worship Leader &amp; Songwriter</p>
               </div>
             </div>
@@ -881,14 +886,14 @@
           <div class="worship-card-wrap relative fade-in-up" style="padding:1.25rem 0.75rem 1.5rem">
             <svg class="speaker-deco absolute -top-4 -left-3 z-0 opacity-70 pointer-events-none" width="54" height="54" viewBox="0 0 563.68 563.68" aria-hidden="true"><path d="M296.56,12.89l7.25,54.51c13.34,100.26,92.22,179.13,192.48,192.48l54.51,7.25c17.18,2.29,17.18,27.15,0,29.43l-54.51,7.25c-100.26,13.34-179.13,92.22-192.48,192.48l-7.25,54.51c-2.29,17.18-27.15,17.18-29.43,0l-7.25-54.51c-13.34-100.26-92.22-179.13-192.48-192.48l-54.51-7.25c-17.18-2.29-17.18-27.15,0-29.43l54.51-7.25c100.26-13.34,179.13-92.22,192.48-192.48l7.25-54.51c2.29-17.18,27.15-17.18,29.43,0Z" fill="#ff8d53"/></svg>
             <svg class="speaker-deco-alt absolute -bottom-3 -right-4 z-0 opacity-70 pointer-events-none" width="58" height="58" viewBox="0 0 703.7 705.82" aria-hidden="true"><path d="M475.93,677.63h0c-53.59-28.89-119.44-21.82-165.68,17.78h0c-22.54,19.3-57.38,10.7-68.34-16.88h0c-22.48-56.58-77.47-93.49-138.35-92.88h0c-29.67.3-50.83-28.69-41.5-56.85h0c19.14-57.79.75-121.41-46.28-160.07h0c-22.92-18.84-20.5-54.65,4.76-70.23h0c51.82-31.97,78.62-92.52,67.44-152.37h0c-5.45-29.17,19.42-55.04,48.78-50.74h0c60.24,8.82,119.7-20.34,149.61-73.37h0c14.58-25.85,50.26-29.68,69.99-7.51h0c40.48,45.48,104.77,61.36,161.77,39.96h0c27.78-10.43,57.57,9.57,58.44,39.23h0c1.78,60.86,40.82,114.35,98.24,134.59h0c27.99,9.87,37.95,44.34,19.55,67.62h0c-37.76,47.76-42.23,113.83-11.26,166.25h0c15.1,25.55.57,58.36-28.49,64.37h0c-59.62,12.32-105.52,60.06-115.49,120.12h0c-4.86,29.27-37.08,45.08-63.2,31Z" fill="#e0dd90"/></svg>
-            <div class="card-body relative z-10 rounded-2xl p-2 sm:p-3" style="background:#f26ba4">
+            <div class="card-body relative z-10 rounded-2xl p-2 sm:p-3" style="background:#b7ceca">
               <div class="aspect-[4/3] rounded-xl overflow-hidden">
                 <img src="../assets/images/worship-hope-darst.jpg" alt="Hope Darst, worship leader and songwriter" class="w-full h-full object-cover" loading="lazy">
               </div>
             </div>
             <div class="flex justify-center relative z-20 -mt-5">
-              <div class="name-pill" style="background:#fde6d3">
-                <h3 class="font-heading text-base sm:text-lg text-near-black whitespace-nowrap">Hope Darst</h3>
+              <div class="name-pill" style="background:#ff8d53">
+                <h3 class="font-sub font-bold text-base sm:text-lg whitespace-nowrap" style="color:#fde6d3">Hope Darst</h3>
                 <p class="font-body text-xs text-near-black/60 mt-0.5">Worship Leader &amp; Songwriter</p>
               </div>
             </div>
@@ -917,8 +922,8 @@
         <path d="M475.93,677.63h0c-53.59-28.89-119.44-21.82-165.68,17.78h0c-22.54,19.3-57.38,10.7-68.34-16.88h0c-22.48-56.58-77.47-93.49-138.35-92.88h0c-29.67.3-50.83-28.69-41.5-56.85h0c19.14-57.79.75-121.41-46.28-160.07h0c-22.92-18.84-20.5-54.65,4.76-70.23h0c51.82-31.97,78.62-92.52,67.44-152.37h0c-5.45-29.17,19.42-55.04,48.78-50.74h0c60.24,8.82,119.7-20.34,149.61-73.37h0c14.58-25.85,50.26-29.68,69.99-7.51h0c40.48,45.48,104.77,61.36,161.77,39.96h0c27.78-10.43,57.57,9.57,58.44,39.23h0c1.78,60.86,40.82,114.35,98.24,134.59h0c27.99,9.87,37.95,44.34,19.55,67.62h0c-37.76,47.76-42.23,113.83-11.26,166.25h0c15.1,25.55.57,58.36-28.49,64.37h0c-59.62,12.32-105.52,60.06-115.49,120.12h0c-4.86,29.27-37.08,45.08-63.2,31Z" fill="#ff8d53"/>
       </svg>
       <div class="max-w-6xl mx-auto">
-        <p class="font-body text-xs uppercase tracking-widest text-coral text-center mb-3 fade-in-up">Plan Your Weekend</p>
-        <h2 class="font-heading text-3xl md:text-5xl text-hot-pink text-center mb-16 fade-in-up">Schedule</h2>
+        <p class="font-sub text-xs uppercase tracking-widest text-coral text-center mb-3 fade-in-up">Plan Your Weekend</p>
+        <h2 class="font-sub text-3xl md:text-5xl text-hot-pink text-center mb-16 fade-in-up">Schedule</h2>
 
         <div class="grid grid-cols-1 lg:grid-cols-[1fr_400px] gap-12 lg:gap-16 items-start">
 
@@ -930,7 +935,7 @@
 
               <!-- Friday -->
               <div class="mb-16">
-                <h3 class="font-heading text-2xl text-hot-pink text-center mb-10 relative z-10 inline-block mx-auto w-full">
+                <h3 class="font-sub text-2xl text-hot-pink text-center mb-10 relative z-10 inline-block mx-auto w-full">
                   <span class="bg-peach px-4">Friday, July 31</span>
                 </h3>
 
@@ -938,7 +943,7 @@
                 <div class="relative grid grid-cols-[40px_1fr] md:grid-cols-[1fr_40px_1fr] items-start mb-8">
                   <div class="hidden md:block md:text-right md:pr-6">
                     <p class="font-body text-xs uppercase tracking-widest text-near-black/70 font-bold">5:00 PM</p>
-                    <p class="font-heading text-xl text-near-black">Doors Open</p>
+                    <p class="font-sub text-xl text-near-black">Doors Open</p>
                   </div>
                   <div class="flex justify-center relative">
                     <div class="timeline-dot mt-1" aria-hidden="true"></div>
@@ -946,7 +951,7 @@
                   <div class="md:pl-6 pl-2">
                     <div class="md:hidden">
                       <p class="font-body text-xs uppercase tracking-widest text-near-black/70 font-bold">5:00 PM</p>
-                      <p class="font-heading text-xl text-near-black">Doors Open</p>
+                      <p class="font-sub text-xl text-near-black">Doors Open</p>
                     </div>
                     <div class="hidden md:block">&nbsp;</div>
                   </div>
@@ -960,14 +965,14 @@
                   </div>
                   <div class="md:pl-6 pl-2">
                     <p class="font-body text-xs uppercase tracking-widest text-near-black/70 font-bold">6:00 PM</p>
-                    <p class="font-heading text-xl text-near-black">Evening Session</p>
+                    <p class="font-sub text-xl text-near-black">Evening Session</p>
                   </div>
                 </div>
               </div>
 
               <!-- Saturday -->
               <div>
-                <h3 class="font-heading text-2xl text-hot-pink text-center mb-10 relative z-10 inline-block mx-auto w-full">
+                <h3 class="font-sub text-2xl text-hot-pink text-center mb-10 relative z-10 inline-block mx-auto w-full">
                   <span class="bg-peach px-4">Saturday, August 1</span>
                 </h3>
 
@@ -975,7 +980,7 @@
                 <div class="relative grid grid-cols-[40px_1fr] md:grid-cols-[1fr_40px_1fr] items-start mb-8">
                   <div class="hidden md:block md:text-right md:pr-6">
                     <p class="font-body text-xs uppercase tracking-widest text-near-black/70 font-bold">8:00 AM</p>
-                    <p class="font-heading text-xl text-near-black">Doors Open</p>
+                    <p class="font-sub text-xl text-near-black">Doors Open</p>
                   </div>
                   <div class="flex justify-center relative">
                     <div class="timeline-dot mt-1" aria-hidden="true"></div>
@@ -983,7 +988,7 @@
                   <div class="md:pl-6 pl-2">
                     <div class="md:hidden">
                       <p class="font-body text-xs uppercase tracking-widest text-near-black/70 font-bold">8:00 AM</p>
-                      <p class="font-heading text-xl text-near-black">Doors Open</p>
+                      <p class="font-sub text-xl text-near-black">Doors Open</p>
                     </div>
                     <div class="hidden md:block">&nbsp;</div>
                   </div>
@@ -997,7 +1002,7 @@
                   </div>
                   <div class="md:pl-6 pl-2">
                     <p class="font-body text-xs uppercase tracking-widest text-near-black/70 font-bold">9:00 AM</p>
-                    <p class="font-heading text-xl text-near-black">Morning Session</p>
+                    <p class="font-sub text-xl text-near-black">Morning Session</p>
                   </div>
                 </div>
 
@@ -1005,7 +1010,7 @@
                 <div class="relative grid grid-cols-[40px_1fr] md:grid-cols-[1fr_40px_1fr] items-start mb-8">
                   <div class="hidden md:block md:text-right md:pr-6">
                     <p class="font-body text-xs uppercase tracking-widest text-near-black/70 font-bold">12:00 PM</p>
-                    <p class="font-heading text-xl text-near-black">Break for Lunch</p>
+                    <p class="font-sub text-xl text-near-black">Break for Lunch</p>
                   </div>
                   <div class="flex justify-center relative">
                     <div class="timeline-dot mt-1" aria-hidden="true"></div>
@@ -1013,7 +1018,7 @@
                   <div class="md:pl-6 pl-2">
                     <div class="md:hidden">
                       <p class="font-body text-xs uppercase tracking-widest text-near-black/70 font-bold">12:00 PM</p>
-                      <p class="font-heading text-xl text-near-black">Break for Lunch</p>
+                      <p class="font-sub text-xl text-near-black">Break for Lunch</p>
                     </div>
                     <div class="hidden md:block">&nbsp;</div>
                   </div>
@@ -1027,7 +1032,7 @@
                   </div>
                   <div class="md:pl-6 pl-2">
                     <p class="font-body text-xs uppercase tracking-widest text-near-black/70 font-bold">2:00 PM</p>
-                    <p class="font-heading text-xl text-near-black">Afternoon Session</p>
+                    <p class="font-sub text-xl text-near-black">Afternoon Session</p>
                   </div>
                 </div>
               </div>
@@ -1046,7 +1051,7 @@
                   <line x1="3" y1="10" x2="21" y2="10"/>
                 </svg>
               </div>
-              <h3 class="font-heading text-2xl md:text-3xl text-near-black mb-3">Don&rsquo;t Miss It</h3>
+              <h3 class="font-sub text-2xl md:text-3xl text-near-black mb-3">Don&rsquo;t Miss It</h3>
               <p class="font-body text-near-black/70 text-base mb-2">
                 July 31 &ndash; August 1, 2026
               </p>
@@ -1086,7 +1091,7 @@
         <path d="M475.93,677.63h0c-53.59-28.89-119.44-21.82-165.68,17.78h0c-22.54,19.3-57.38,10.7-68.34-16.88h0c-22.48-56.58-77.47-93.49-138.35-92.88h0c-29.67.3-50.83-28.69-41.5-56.85h0c19.14-57.79.75-121.41-46.28-160.07h0c-22.92-18.84-20.5-54.65,4.76-70.23h0c51.82-31.97,78.62-92.52,67.44-152.37h0c-5.45-29.17,19.42-55.04,48.78-50.74h0c60.24,8.82,119.7-20.34,149.61-73.37h0c14.58-25.85,50.26-29.68,69.99-7.51h0c40.48,45.48,104.77,61.36,161.77,39.96h0c27.78-10.43,57.57,9.57,58.44,39.23h0c1.78,60.86,40.82,114.35,98.24,134.59h0c27.99,9.87,37.95,44.34,19.55,67.62h0c-37.76,47.76-42.23,113.83-11.26,166.25h0c15.1,25.55.57,58.36-28.49,64.37h0c-59.62,12.32-105.52,60.06-115.49,120.12h0c-4.86,29.27-37.08,45.08-63.2,31Z" fill="#f26ba4"/>
       </svg>
       <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="font-heading text-3xl sm:text-4xl md:text-5xl text-off-white text-center mb-14 fade-in-up">
+        <h2 class="font-sub text-3xl sm:text-4xl md:text-5xl text-off-white text-center mb-14 fade-in-up">
           Frequently Asked Questions
         </h2>
 
@@ -1097,7 +1102,7 @@
             <div class="bg-off-white rounded-xl overflow-hidden">
               <button class="faq-button w-full flex items-center justify-between p-5 sm:p-6 text-left min-h-[56px]"
                       aria-expanded="false" aria-controls="faq-1">
-                <span class="font-heading text-lg sm:text-xl text-near-black pr-4">Where is the event held?</span>
+                <span class="font-sub text-lg sm:text-xl text-near-black pr-4">Where is the event held?</span>
                 <span class="faq-icon flex-shrink-0 w-8 h-8 flex items-center justify-center" aria-hidden="true"></span>
               </button>
               <div id="faq-1" class="expandable-content" aria-hidden="true" role="region">
@@ -1115,7 +1120,7 @@
             <div class="bg-off-white rounded-xl overflow-hidden">
               <button class="faq-button w-full flex items-center justify-between p-5 sm:p-6 text-left min-h-[56px]"
                       aria-expanded="false" aria-controls="faq-2">
-                <span class="font-heading text-lg sm:text-xl text-near-black pr-4">What is included with my ticket?</span>
+                <span class="font-sub text-lg sm:text-xl text-near-black pr-4">What is included with my ticket?</span>
                 <span class="faq-icon flex-shrink-0 w-8 h-8 flex items-center justify-center" aria-hidden="true"></span>
               </button>
               <div id="faq-2" class="expandable-content" aria-hidden="true" role="region">
@@ -1133,7 +1138,7 @@
             <div class="bg-off-white rounded-xl overflow-hidden">
               <button class="faq-button w-full flex items-center justify-between p-5 sm:p-6 text-left min-h-[56px]"
                       aria-expanded="false" aria-controls="faq-3">
-                <span class="font-heading text-lg sm:text-xl text-near-black pr-4">Is parking available?</span>
+                <span class="font-sub text-lg sm:text-xl text-near-black pr-4">Is parking available?</span>
                 <span class="faq-icon flex-shrink-0 w-8 h-8 flex items-center justify-center" aria-hidden="true"></span>
               </button>
               <div id="faq-3" class="expandable-content" aria-hidden="true" role="region">
@@ -1151,7 +1156,7 @@
             <div class="bg-off-white rounded-xl overflow-hidden">
               <button class="faq-button w-full flex items-center justify-between p-5 sm:p-6 text-left min-h-[56px]"
                       aria-expanded="false" aria-controls="faq-4">
-                <span class="font-heading text-lg sm:text-xl text-near-black pr-4">Are there hotel recommendations nearby?</span>
+                <span class="font-sub text-lg sm:text-xl text-near-black pr-4">Are there hotel recommendations nearby?</span>
                 <span class="faq-icon flex-shrink-0 w-8 h-8 flex items-center justify-center" aria-hidden="true"></span>
               </button>
               <div id="faq-4" class="expandable-content" aria-hidden="true" role="region">
@@ -1169,7 +1174,7 @@
             <div class="bg-off-white rounded-xl overflow-hidden">
               <button class="faq-button w-full flex items-center justify-between p-5 sm:p-6 text-left min-h-[56px]"
                       aria-expanded="false" aria-controls="faq-5">
-                <span class="font-heading text-lg sm:text-xl text-near-black pr-4">What is the refund policy?</span>
+                <span class="font-sub text-lg sm:text-xl text-near-black pr-4">What is the refund policy?</span>
                 <span class="faq-icon flex-shrink-0 w-8 h-8 flex items-center justify-center" aria-hidden="true"></span>
               </button>
               <div id="faq-5" class="expandable-content" aria-hidden="true" role="region">
@@ -1187,7 +1192,7 @@
             <div class="bg-off-white rounded-xl overflow-hidden">
               <button class="faq-button w-full flex items-center justify-between p-5 sm:p-6 text-left min-h-[56px]"
                       aria-expanded="false" aria-controls="faq-6">
-                <span class="font-heading text-lg sm:text-xl text-near-black pr-4">Is childcare provided?</span>
+                <span class="font-sub text-lg sm:text-xl text-near-black pr-4">Is childcare provided?</span>
                 <span class="faq-icon flex-shrink-0 w-8 h-8 flex items-center justify-center" aria-hidden="true"></span>
               </button>
               <div id="faq-6" class="expandable-content" aria-hidden="true" role="region">
@@ -1222,8 +1227,8 @@
         <path d="M475.93,677.63h0c-53.59-28.89-119.44-21.82-165.68,17.78h0c-22.54,19.3-57.38,10.7-68.34-16.88h0c-22.48-56.58-77.47-93.49-138.35-92.88h0c-29.67.3-50.83-28.69-41.5-56.85h0c19.14-57.79.75-121.41-46.28-160.07h0c-22.92-18.84-20.5-54.65,4.76-70.23h0c51.82-31.97,78.62-92.52,67.44-152.37h0c-5.45-29.17,19.42-55.04,48.78-50.74h0c60.24,8.82,119.7-20.34,149.61-73.37h0c14.58-25.85,50.26-29.68,69.99-7.51h0c40.48,45.48,104.77,61.36,161.77,39.96h0c27.78-10.43,57.57,9.57,58.44,39.23h0c1.78,60.86,40.82,114.35,98.24,134.59h0c27.99,9.87,37.95,44.34,19.55,67.62h0c-37.76,47.76-42.23,113.83-11.26,166.25h0c15.1,25.55.57,58.36-28.49,64.37h0c-59.62,12.32-105.52,60.06-115.49,120.12h0c-4.86,29.27-37.08,45.08-63.2,31Z" fill="#ff8d53"/>
       </svg>
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
-        <p class="font-body text-xs uppercase tracking-widest text-coral text-center mb-3 fade-in-up">Proudly Supported By</p>
-        <h2 class="font-heading text-2xl sm:text-3xl md:text-4xl text-near-black text-center fade-in-up">Our Sponsors</h2>
+        <p class="font-sub text-xs uppercase tracking-widest text-coral text-center mb-3 fade-in-up">Proudly Supported By</p>
+        <h2 class="font-sub text-2xl sm:text-3xl md:text-4xl text-near-black text-center fade-in-up">Our Sponsors</h2>
       </div>
       <div class="relative overflow-hidden" aria-hidden="true">
         <div class="marquee-track">
