@@ -2,5 +2,7 @@
 *.jpeg
 *.jpg
 !assets/images/*
+!favicon-32.png
+!apple-touch-icon.png
 node_modules/
 .playwright-mcp/
