@@ -2,4 +2,5 @@
 *.jpeg
 *.jpg
 !assets/images/*
+node_modules/
 .playwright-mcp/
