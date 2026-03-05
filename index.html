@@ -383,6 +383,9 @@
       opacity: 1;
     }
     /* Scrollbar-width compensation to prevent layout shift */
+    html {
+      scrollbar-gutter: stable;
+    }
     body.modal-open {
       overflow: hidden;
     }
@@ -1487,8 +1490,6 @@
       var mobileNavLinks = mobileNav.querySelectorAll('a');
 
       function openMobileNav() {
-        var scrollbarW = getScrollbarWidth();
-        document.body.style.paddingRight = scrollbarW + 'px';
         document.body.classList.add('modal-open');
         mobileNav.classList.add('open');
         hamburgerBtn.classList.add('active');
@@ -1688,9 +1689,6 @@
 
         modalTrigger = document.activeElement;
 
-        // Prevent scrollbar layout shift
-        var scrollbarW = getScrollbarWidth();
-        document.body.style.paddingRight = scrollbarW + 'px';
         document.body.classList.add('modal-open');
 
         // Expand-from-card animation (all viewports)
@@ -1795,13 +1793,13 @@
           var insetLeft = cardRect.left;
           var cardClip = 'inset(' + insetTop + 'px ' + insetRight + 'px ' + insetBottom + 'px ' + insetLeft + 'px round 1.5rem)';
 
-          // Animate: collapse back to card position
+          // Animate: collapse back to card position (mirror of open animation)
           var contentAnim = modalContent.animate([
             { clipPath: 'inset(0 round 0px)', opacity: 1 },
-            { clipPath: cardClip, opacity: 0 }
+            { clipPath: cardClip, opacity: 0.6 }
           ], {
-            duration: 250,
-            easing: 'cubic-bezier(0.2, 0, 0.6, 1)',
+            duration: 400,
+            easing: 'cubic-bezier(0.7, 0, 0.8, 0.1)',
             fill: 'forwards'
           });
 
@@ -1811,8 +1809,8 @@
             { opacity: 1 },
             { opacity: 0 }
           ], {
-            duration: 200,
-            easing: 'ease-out',
+            duration: 350,
+            easing: 'ease',
             fill: 'forwards'
           });
 
@@ -1821,7 +1819,7 @@
             { backdropFilter: 'blur(16px)', webkitBackdropFilter: 'blur(16px)' },
             { backdropFilter: 'blur(0px)', webkitBackdropFilter: 'blur(0px)' }
           ], {
-            duration: 200,
+            duration: 400,
             easing: 'ease-out',
             fill: 'forwards'
           });
