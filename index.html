@@ -295,13 +295,15 @@
       -webkit-backface-visibility: hidden;
       backface-visibility: hidden;
     }
-    .speaker-card-wrap:nth-child(odd) .card-body:hover {
-      transform: rotate(-2deg) scale(1.05) translateZ(0);
-      box-shadow: 0 14px 32px rgba(18, 18, 18, 0.18);
-    }
-    .speaker-card-wrap:nth-child(even) .card-body:hover {
-      transform: rotate(2deg) scale(1.05) translateZ(0);
-      box-shadow: 0 14px 32px rgba(18, 18, 18, 0.18);
+    @media (hover: hover) {
+      .speaker-card-wrap:nth-child(odd) .card-body:hover {
+        transform: rotate(-2deg) scale(1.05) translateZ(0);
+        box-shadow: 0 14px 32px rgba(18, 18, 18, 0.18);
+      }
+      .speaker-card-wrap:nth-child(even) .card-body:hover {
+        transform: rotate(2deg) scale(1.05) translateZ(0);
+        box-shadow: 0 14px 32px rgba(18, 18, 18, 0.18);
+      }
     }
     .speaker-card-wrap .card-body:active {
       transform: scale(0.97) translateZ(0) !important;
@@ -1332,7 +1334,7 @@
     </div>
 
     <!-- ---- SPONSORS MARQUEE ---- -->
-    <section class="relative bg-sage/30 py-14 md:py-20 overflow-hidden" aria-label="Our Sponsors">
+    <section class="relative bg-sage/30 py-14 md:py-20 overflow-hidden" aria-label="Our Partners">
       <!-- Decorative: star (hot-pink) top-left — combo #2 -->
       <svg class="absolute top-8 left-8 opacity-20 pointer-events-none" width="35" height="35" viewBox="0 0 563.68 563.68" aria-hidden="true">
         <path d="M296.56,12.89l7.25,54.51c13.34,100.26,92.22,179.13,192.48,192.48l54.51,7.25c17.18,2.29,17.18,27.15,0,29.43l-54.51,7.25c-100.26,13.34-179.13,92.22-192.48,192.48l-7.25,54.51c-2.29,17.18-27.15,17.18-29.43,0l-7.25-54.51c-13.34-100.26-92.22-179.13-192.48-192.48l-54.51-7.25c-17.18-2.29-17.18-27.15,0-29.43l54.51-7.25c100.26-13.34,179.13-92.22,192.48-192.48l7.25-54.51c2.29-17.18,27.15-17.18,29.43,0Z" fill="#f26ba4"/>
@@ -1343,7 +1345,7 @@
       </svg>
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
         <p class="font-sub text-xs uppercase tracking-widest text-coral text-center mb-3 fade-in-up">Proudly Supported By</p>
-        <h2 class="font-sub text-2xl sm:text-3xl md:text-4xl text-near-black text-center fade-in-up">Our Sponsors</h2>
+        <h2 class="font-sub text-2xl sm:text-3xl md:text-4xl text-near-black text-center fade-in-up">Our Partners</h2>
       </div>
       <div class="relative overflow-hidden" aria-hidden="true">
         <div class="marquee-track">
@@ -1861,8 +1863,11 @@
         }
       }
 
-      document.querySelectorAll('.speaker-card[data-speaker]').forEach(function(card) {
-        card.addEventListener('click', function() {
+      document.querySelectorAll('.speaker-card-wrap').forEach(function(wrap) {
+        var card = wrap.querySelector('.speaker-card[data-speaker]');
+        if (!card) return;
+        wrap.style.cursor = 'pointer';
+        wrap.addEventListener('click', function() {
           openModal(parseInt(card.getAttribute('data-speaker')), card);
         });
       });
