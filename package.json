@@ -1,0 +1,7 @@
+{
+  "name": "abide2026",
+  "private": true,
+  "devDependencies": {
+    "wrangler": "^4.70.0"
+  }
+}
