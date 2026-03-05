@@ -316,6 +316,23 @@
       display: inline-block;
       box-shadow: 0 2px 8px rgba(18, 18, 18, 0.1);
     }
+    .speaker-card-wrap > .pill-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .tap-hint {
+      opacity: 0.7;
+      transition: opacity 0.3s ease;
+    }
+    @media (min-width: 768px) {
+      .tap-hint {
+        opacity: 0;
+      }
+      .speaker-card-wrap:hover .tap-hint {
+        opacity: 0.7;
+      }
+    }
     /* Worship card hover — same fun style */
     .worship-card-wrap:nth-child(odd) .card-body:hover {
       transform: rotate(-1.5deg) scale(1.04);
@@ -672,10 +689,11 @@
                 <img src="../assets/images/speaker-hosanna-wong.png" alt="Hosanna Wong, speaker, author, and spoken word artist" class="w-full h-full object-cover" loading="lazy">
               </div>
             </button>
-            <div class="flex justify-center relative z-20 -mt-5">
+            <div class="pill-wrap relative z-20 -mt-5">
               <div class="name-pill" style="background:#fde6d3">
                 <h3 class="font-sub font-bold text-sm sm:text-base whitespace-nowrap" style="color:#f26ba4">Hosanna Wong</h3>
               </div>
+              <span class="tap-hint font-sub font-bold text-xs mt-1" style="color:#f26ba4">Tap for bio</span>
             </div>
           </div>
 
@@ -688,10 +706,11 @@
                 <img src="../assets/images/speaker-chrystal-evans-hurst.jpg" alt="Chrystal Evans Hurst, bestselling author and speaker" class="w-full h-full object-cover" loading="lazy">
               </div>
             </button>
-            <div class="flex justify-center relative z-20 -mt-5">
+            <div class="pill-wrap relative z-20 -mt-5">
               <div class="name-pill" style="background:#f0a398">
                 <h3 class="font-sub font-bold text-sm sm:text-base whitespace-nowrap" style="color:#f26ba4">Chrystal Evans Hurst</h3>
               </div>
+              <span class="tap-hint font-sub font-bold text-xs mt-1" style="color:#f26ba4">Tap for bio</span>
             </div>
           </div>
 
@@ -704,10 +723,11 @@
                 <img src="../assets/images/speaker-annie-f-downs.jpg" alt="Annie F. Downs, bestselling author and podcast host" class="w-full h-full object-cover" loading="lazy">
               </div>
             </button>
-            <div class="flex justify-center relative z-20 -mt-5">
+            <div class="pill-wrap relative z-20 -mt-5">
               <div class="name-pill" style="background:#f26ba4">
                 <h3 class="font-sub font-bold text-sm sm:text-base whitespace-nowrap" style="color:#e0dd90">Annie F. Downs</h3>
               </div>
+              <span class="tap-hint font-sub font-bold text-xs mt-1" style="color:#e0dd90">Tap for bio</span>
             </div>
           </div>
 
@@ -720,10 +740,11 @@
                 <img src="../assets/images/speaker-courtney-smallbone.jpg" alt="Courtney Smallbone, author and speaker" class="w-full h-full object-cover" loading="lazy">
               </div>
             </button>
-            <div class="flex justify-center relative z-20 -mt-5">
+            <div class="pill-wrap relative z-20 -mt-5">
               <div class="name-pill" style="background:#fde6d3">
                 <h3 class="font-sub font-bold text-sm sm:text-base whitespace-nowrap" style="color:#f0a398">Courtney Smallbone</h3>
               </div>
+              <span class="tap-hint font-sub font-bold text-xs mt-1" style="color:#f26ba4">Tap for bio</span>
             </div>
           </div>
 
@@ -736,10 +757,11 @@
                 <img src="../assets/images/speaker-natalie-runion.jpg" alt="Natalie Runion, author, speaker, and ministry leader" class="w-full h-full object-cover" loading="lazy">
               </div>
             </button>
-            <div class="flex justify-center relative z-20 -mt-5">
+            <div class="pill-wrap relative z-20 -mt-5">
               <div class="name-pill" style="background:#ff8d53">
                 <h3 class="font-sub font-bold text-sm sm:text-base whitespace-nowrap" style="color:#e0dd90">Natalie Runion</h3>
               </div>
+              <span class="tap-hint font-sub font-bold text-xs mt-1" style="color:#e0dd90">Tap for bio</span>
             </div>
           </div>
 
@@ -752,10 +774,11 @@
                 <img src="../assets/images/speaker-jess-connolly.jpg" alt="Jess Connolly, author, speaker, and church planter" class="w-full h-full object-cover" loading="lazy">
               </div>
             </button>
-            <div class="flex justify-center relative z-20 -mt-5">
+            <div class="pill-wrap relative z-20 -mt-5">
               <div class="name-pill" style="background:#f0a398">
                 <h3 class="font-sub font-bold text-sm sm:text-base whitespace-nowrap" style="color:#f26ba4">Jess Connolly</h3>
               </div>
+              <span class="tap-hint font-sub font-bold text-xs mt-1" style="color:#f26ba4">Tap for bio</span>
             </div>
           </div>
 
@@ -768,10 +791,11 @@
                 <img src="../assets/images/speaaker-brittany-tate.webp" alt="Brittany Tate, speaker" class="w-full h-full object-cover" loading="lazy">
               </div>
             </button>
-            <div class="flex justify-center relative z-20 -mt-5">
+            <div class="pill-wrap relative z-20 -mt-5">
               <div class="name-pill" style="background:#e0dd90">
                 <h3 class="font-sub font-bold text-sm sm:text-base whitespace-nowrap" style="color:#ff8d53">Brittany Tate</h3>
               </div>
+              <span class="tap-hint font-sub font-bold text-xs mt-1" style="color:#f26ba4">Tap for bio</span>
             </div>
           </div>
 
@@ -784,10 +808,11 @@
                 <img src="https://images.unsplash.com/photo-1589156280159-27698a70f29e?w=600&h=800&fit=crop&crop=faces" alt="Alexis Brown, speaker" class="w-full h-full object-cover" loading="lazy">
               </div>
             </button>
-            <div class="flex justify-center relative z-20 -mt-5">
+            <div class="pill-wrap relative z-20 -mt-5">
               <div class="name-pill" style="background:#b7ceca">
                 <h3 class="font-sub font-bold text-sm sm:text-base whitespace-nowrap" style="color:#f26ba4">Alexis Brown</h3>
               </div>
+              <span class="tap-hint font-sub font-bold text-xs mt-1" style="color:#f26ba4">Tap for bio</span>
             </div>
           </div>
 
@@ -886,7 +911,7 @@
           <div class="worship-card-wrap relative fade-in-up" style="padding:1.25rem 0.75rem 1.5rem">
             <svg class="speaker-deco absolute -top-4 -left-3 z-0 opacity-70 pointer-events-none" width="54" height="54" viewBox="0 0 563.68 563.68" aria-hidden="true"><path d="M296.56,12.89l7.25,54.51c13.34,100.26,92.22,179.13,192.48,192.48l54.51,7.25c17.18,2.29,17.18,27.15,0,29.43l-54.51,7.25c-100.26,13.34-179.13,92.22-192.48,192.48l-7.25,54.51c-2.29,17.18-27.15,17.18-29.43,0l-7.25-54.51c-13.34-100.26-92.22-179.13-192.48-192.48l-54.51-7.25c-17.18-2.29-17.18-27.15,0-29.43l54.51-7.25c100.26-13.34,179.13-92.22,192.48-192.48l7.25-54.51c2.29-17.18,27.15-17.18,29.43,0Z" fill="#ff8d53"/></svg>
             <svg class="speaker-deco-alt absolute -bottom-3 -right-4 z-0 opacity-70 pointer-events-none" width="58" height="58" viewBox="0 0 703.7 705.82" aria-hidden="true"><path d="M475.93,677.63h0c-53.59-28.89-119.44-21.82-165.68,17.78h0c-22.54,19.3-57.38,10.7-68.34-16.88h0c-22.48-56.58-77.47-93.49-138.35-92.88h0c-29.67.3-50.83-28.69-41.5-56.85h0c19.14-57.79.75-121.41-46.28-160.07h0c-22.92-18.84-20.5-54.65,4.76-70.23h0c51.82-31.97,78.62-92.52,67.44-152.37h0c-5.45-29.17,19.42-55.04,48.78-50.74h0c60.24,8.82,119.7-20.34,149.61-73.37h0c14.58-25.85,50.26-29.68,69.99-7.51h0c40.48,45.48,104.77,61.36,161.77,39.96h0c27.78-10.43,57.57,9.57,58.44,39.23h0c1.78,60.86,40.82,114.35,98.24,134.59h0c27.99,9.87,37.95,44.34,19.55,67.62h0c-37.76,47.76-42.23,113.83-11.26,166.25h0c15.1,25.55.57,58.36-28.49,64.37h0c-59.62,12.32-105.52,60.06-115.49,120.12h0c-4.86,29.27-37.08,45.08-63.2,31Z" fill="#e0dd90"/></svg>
-            <div class="card-body relative z-10 rounded-2xl p-2 sm:p-3" style="background:#b7ceca">
+            <div class="card-body relative z-10 rounded-2xl p-2 sm:p-3" style="background:#f26ba4">
               <div class="aspect-[4/3] rounded-xl overflow-hidden">
                 <img src="../assets/images/worship-hope-darst.jpg" alt="Hope Darst, worship leader and songwriter" class="w-full h-full object-cover" loading="lazy">
               </div>
