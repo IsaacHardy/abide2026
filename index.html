@@ -239,6 +239,12 @@
       transform: translateX(60px);
       transition: opacity 0.7s ease-out, transform 0.7s ease-out;
     }
+    @media (max-width: 767px) {
+      .slide-in-left,
+      .slide-in-right {
+        transform: translateY(40px);
+      }
+    }
     .slide-in-up {
       opacity: 0;
       transform: translateY(40px);
@@ -936,7 +942,7 @@
                 <img id="modal-photo" src="" alt="" class="w-full h-full object-cover">
               </div>
               <!-- Curvy wave over photo bottom -->
-              <svg class="absolute bottom-0 left-0 w-full" viewBox="0 0 500 40" preserveAspectRatio="none" aria-hidden="true" style="height:40px">
+              <svg class="absolute left-0 w-full" viewBox="0 0 500 40" preserveAspectRatio="none" aria-hidden="true" style="height:40px; bottom:-1px">
                 <path id="modal-wave" d="M0,40 C125,0 375,0 500,40 Z" fill="#fde6d3"/>
               </svg>
             </div>
