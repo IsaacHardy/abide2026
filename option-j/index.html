@@ -286,17 +286,25 @@
     .speaker-card-wrap .card-body {
       transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.35s ease;
       box-shadow: 0 4px 12px rgba(18, 18, 18, 0.08);
+      will-change: transform;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      transform: translateZ(0);
+    }
+    .speaker-card-wrap .card-body img {
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
     }
     .speaker-card-wrap:nth-child(odd) .card-body:hover {
-      transform: rotate(-2deg) scale(1.05);
+      transform: rotate(-2deg) scale(1.05) translateZ(0);
       box-shadow: 0 14px 32px rgba(18, 18, 18, 0.18);
     }
     .speaker-card-wrap:nth-child(even) .card-body:hover {
-      transform: rotate(2deg) scale(1.05);
+      transform: rotate(2deg) scale(1.05) translateZ(0);
       box-shadow: 0 14px 32px rgba(18, 18, 18, 0.18);
     }
     .speaker-card-wrap .card-body:active {
-      transform: scale(0.97) !important;
+      transform: scale(0.97) translateZ(0) !important;
       transition-duration: 0.1s;
     }
     .speaker-deco {
@@ -372,13 +380,6 @@
       -webkit-backdrop-filter: blur(16px);
     }
     .speaker-modal-content {
-      transform: translateY(40px) scale(0.92) rotate(-2deg);
-      opacity: 0;
-      transition: transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease;
-      transition-delay: 0.1s;
-    }
-    .speaker-modal-backdrop.open .speaker-modal-content {
-      transform: translateY(0) scale(1) rotate(0deg);
       opacity: 1;
     }
     /* Scrollbar-width compensation to prevent layout shift */
@@ -397,22 +398,44 @@
       0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
       50% { transform: translateY(-12px) rotate(15deg) scale(1.05); }
     }
-    /* Modal colored border frame */
+    /* Modal frame */
     .modal-frame {
-      padding: 6px;
       border-radius: 1.5rem;
-      background: linear-gradient(135deg, #ff8d53, #f26ba4, #e0dd90, #b7ceca);
-      background-size: 300% 300%;
-      animation: modalGradient 6s ease infinite;
-    }
-    @keyframes modalGradient {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+      overflow: hidden;
     }
     .modal-inner {
-      border-radius: calc(1.5rem - 4px);
+      border-radius: 1.5rem;
       overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      height: 85vh;
+      max-height: 85vh;
+    }
+    /* Image area fills remaining space */
+    .modal-inner > div:nth-child(2) {
+      flex: 1 1 0%;
+      min-height: 0;
+      overflow: hidden;
+    }
+    .modal-inner > div:nth-child(2) > div:first-child {
+      height: 100%;
+    }
+    /* Text area: shrink to content */
+    .modal-inner > div:last-child {
+      flex: 0 0 auto;
+    }
+    /* Expanding animation — bypass CSS transitions, JS handles via WAAPI */
+    .speaker-modal-backdrop.expanding {
+      transition: none !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+    }
+    .speaker-modal-backdrop.expanding .speaker-modal-content {
+      transition: none !important;
+    }
+    .speaker-modal-backdrop.expanding .modal-overlay {
+      opacity: 0;
     }
     /* Modal close button */
     .modal-close-btn {
@@ -426,6 +449,70 @@
     .modal-inner::-webkit-scrollbar-track { background: transparent; }
     .modal-inner::-webkit-scrollbar-thumb { background: #f0a398; border-radius: 3px; }
     .modal-inner::-webkit-scrollbar-thumb:hover { background: #f26ba4; }
+
+    /* ---- Mobile fullscreen overrides ---- */
+    @media (max-width: 767px) {
+      /* Animation phase */
+      .speaker-modal-backdrop.expanding .speaker-modal-content {
+        max-width: 100% !important;
+        width: 100% !important;
+        height: 100% !important;
+      }
+      .speaker-modal-backdrop.expanding .modal-deco-float,
+      .speaker-modal-backdrop.expanding .modal-deco-float-alt {
+        display: none !important;
+      }
+      .speaker-modal-backdrop.expanding .modal-frame {
+        border-radius: 0 !important;
+        height: 100%;
+        box-shadow: none;
+      }
+      .speaker-modal-backdrop.expanding {
+        padding: 0 !important;
+        align-items: stretch !important;
+      }
+      .speaker-modal-backdrop.expanding .modal-inner {
+        max-height: 100vh !important;
+        max-height: 100dvh !important;
+        border-radius: 0 !important;
+        height: 100%;
+      }
+      .speaker-modal-backdrop.expanding .modal-inner > div:last-child {
+        padding-bottom: 1rem;
+      }
+      /* Open state (after animation finishes) */
+      .speaker-modal-backdrop.open .speaker-modal-content {
+        max-width: 100% !important;
+        width: 100% !important;
+        height: 100% !important;
+      }
+      .speaker-modal-backdrop.open .modal-overlay {
+        opacity: 0 !important;
+        pointer-events: none;
+      }
+      .speaker-modal-backdrop.open .modal-deco-float,
+      .speaker-modal-backdrop.open .modal-deco-float-alt {
+        display: none !important;
+      }
+      .speaker-modal-backdrop.open .modal-frame {
+        border-radius: 0 !important;
+        height: 100%;
+        box-shadow: none;
+      }
+      .speaker-modal-backdrop.open {
+        padding: 0 !important;
+        align-items: stretch !important;
+      }
+      .speaker-modal-backdrop.open .modal-inner {
+        max-height: 100vh !important;
+        max-height: 100dvh !important;
+        border-radius: 0 !important;
+        height: 100%;
+      }
+      .speaker-modal-backdrop.open .modal-inner > div:last-child {
+        padding-bottom: 1rem;
+      }
+    }
 
     /* ---- Worship Glass Card ---- */
     .worship-glass {
@@ -824,7 +911,7 @@
     <div id="speaker-modal" class="speaker-modal-backdrop fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6" role="dialog" aria-modal="true" aria-label="Speaker details">
       <div class="modal-overlay absolute inset-0 bg-near-black/70" id="modal-backdrop-click" aria-hidden="true"></div>
 
-      <div class="speaker-modal-content relative max-w-lg w-full">
+      <div class="speaker-modal-content relative max-w-2xl w-full">
         <!-- Floating decorative shapes behind modal -->
         <svg class="modal-deco-float absolute -top-6 -left-8 z-0 opacity-60 pointer-events-none" width="64" height="64" viewBox="0 0 563.68 563.68" aria-hidden="true"><path d="M296.56,12.89l7.25,54.51c13.34,100.26,92.22,179.13,192.48,192.48l54.51,7.25c17.18,2.29,17.18,27.15,0,29.43l-54.51,7.25c-100.26,13.34-179.13,92.22-192.48,192.48l-7.25,54.51c-2.29,17.18-27.15,17.18-29.43,0l-7.25-54.51c-13.34-100.26-92.22-179.13-192.48-192.48l-54.51-7.25c-17.18-2.29-17.18-27.15,0-29.43l54.51-7.25c100.26-13.34,179.13-92.22,192.48-192.48l7.25-54.51c2.29-17.18,27.15-17.18,29.43,0Z" fill="#e0dd90"/></svg>
         <svg class="modal-deco-float-alt absolute -bottom-8 -right-6 z-0 opacity-60 pointer-events-none" width="72" height="72" viewBox="0 0 703.7 705.82" aria-hidden="true"><path d="M475.93,677.63h0c-53.59-28.89-119.44-21.82-165.68,17.78h0c-22.54,19.3-57.38,10.7-68.34-16.88h0c-22.48-56.58-77.47-93.49-138.35-92.88h0c-29.67.3-50.83-28.69-41.5-56.85h0c19.14-57.79.75-121.41-46.28-160.07h0c-22.92-18.84-20.5-54.65,4.76-70.23h0c51.82-31.97,78.62-92.52,67.44-152.37h0c-5.45-29.17,19.42-55.04,48.78-50.74h0c60.24,8.82,119.7-20.34,149.61-73.37h0c14.58-25.85,50.26-29.68,69.99-7.51h0c40.48,45.48,104.77,61.36,161.77,39.96h0c27.78-10.43,57.57,9.57,58.44,39.23h0c1.78,60.86,40.82,114.35,98.24,134.59h0c27.99,9.87,37.95,44.34,19.55,67.62h0c-37.76,47.76-42.23,113.83-11.26,166.25h0c15.1,25.55.57,58.36-28.49,64.37h0c-59.62,12.32-105.52,60.06-115.49,120.12h0c-4.86,29.27-37.08,45.08-63.2,31Z" fill="#f26ba4"/></svg>
@@ -832,7 +919,7 @@
 
         <!-- Animated gradient border frame -->
         <div class="modal-frame relative z-10 shadow-2xl">
-          <div class="modal-inner bg-peach max-h-[85vh] overflow-y-auto">
+          <div class="modal-inner bg-peach">
             <!-- Close button -->
             <button id="modal-close" class="modal-close-btn absolute top-3 right-3 z-20 w-10 h-10 flex items-center justify-center rounded-full text-white" style="background:#f26ba4" aria-label="Close speaker details">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
@@ -840,17 +927,17 @@
 
             <!-- Photo with colored background accent -->
             <div class="relative">
-              <div class="w-full aspect-[4/3] overflow-hidden">
+              <div class="w-full h-full overflow-hidden">
                 <img id="modal-photo" src="" alt="" class="w-full h-full object-cover">
               </div>
               <!-- Curvy wave over photo bottom -->
               <svg class="absolute bottom-0 left-0 w-full" viewBox="0 0 500 40" preserveAspectRatio="none" aria-hidden="true" style="height:40px">
-                <path d="M0,40 C125,0 375,0 500,40 Z" fill="#fde6d3"/>
+                <path id="modal-wave" d="M0,40 C125,0 375,0 500,40 Z" fill="#fde6d3"/>
               </svg>
             </div>
 
             <!-- Content area -->
-            <div class="px-6 pb-7 pt-2 md:px-8 md:pb-8 text-center">
+            <div id="modal-text-section" class="px-6 pb-7 pt-2 md:px-8 md:pb-8 text-center">
               <!-- Name pill -->
               <div class="flex justify-center -mt-1 mb-4">
                 <div id="modal-name-pill" class="name-pill" style="background:#f26ba4">
@@ -1400,11 +1487,13 @@
       var mobileNavLinks = mobileNav.querySelectorAll('a');
 
       function openMobileNav() {
+        var scrollbarW = getScrollbarWidth();
+        document.body.style.paddingRight = scrollbarW + 'px';
+        document.body.classList.add('modal-open');
         mobileNav.classList.add('open');
         hamburgerBtn.classList.add('active');
         hamburgerBtn.setAttribute('aria-expanded', 'true');
         hamburgerBtn.setAttribute('aria-label', 'Close menu');
-        document.body.style.overflow = 'hidden';
         var firstLink = mobileNav.querySelector('a');
         if (firstLink) setTimeout(function() { firstLink.focus(); }, 100);
       }
@@ -1414,7 +1503,8 @@
         hamburgerBtn.classList.remove('active');
         hamburgerBtn.setAttribute('aria-expanded', 'false');
         hamburgerBtn.setAttribute('aria-label', 'Open menu');
-        document.body.style.overflow = '';
+        document.body.classList.remove('modal-open');
+        document.body.style.paddingRight = '';
       }
 
       hamburgerBtn.addEventListener('click', function() {
@@ -1492,49 +1582,57 @@
           name: 'Hosanna Wong',
           bio: 'Hosanna Wong is a speaker, author, and spoken word artist who travels internationally sharing the gospel. Her passion is helping people understand their identity in Christ and walk in the freedom and calling that God has for them.',
           img: '../assets/images/speaker-hosanna-wong.png',
-          alt: 'Hosanna Wong speaking on stage'
+          alt: 'Hosanna Wong speaking on stage',
+          focus: 'center top'
         },
         {
           name: 'Chrystal Evans Hurst',
           bio: 'Chrystal Evans Hurst is a bestselling author, speaker, and the eldest daughter of Dr. Tony Evans. She encourages women to pursue God wholeheartedly, sharing her own experiences of balancing faith, family, and purpose with warmth and vulnerability.',
           img: '../assets/images/speaker-chrystal-evans-hurst.jpg',
-          alt: 'Chrystal Evans Hurst portrait'
+          alt: 'Chrystal Evans Hurst portrait',
+          focus: 'center 25%'
         },
         {
           name: 'Annie F. Downs',
           bio: 'Annie F. Downs is a New York Times bestselling author and the host of the beloved "That Sounds Fun" podcast. Known for her joyful spirit and honest storytelling, Annie invites women into deeper conversations about faith, courage, and finding delight in everyday life.',
           img: '../assets/images/speaker-annie-f-downs.jpg',
-          alt: 'Annie F. Downs smiling at a speaking event'
+          alt: 'Annie F. Downs smiling at a speaking event',
+          focus: 'center 20%'
         },
         {
           name: 'Courtney Smallbone',
           bio: 'Courtney Smallbone is an author and speaker whose ministry centers on finding beauty in every season of life. As the wife of Luke Smallbone of the Grammy-winning duo for KING & COUNTRY, Courtney brings a unique perspective on faith, family, and perseverance.',
           img: '../assets/images/speaker-courtney-smallbone.jpg',
-          alt: 'Courtney Smallbone portrait'
+          alt: 'Courtney Smallbone portrait',
+          focus: 'center 10%'
         },
         {
           name: 'Natalie Runion',
           bio: 'Natalie Runion is an author, speaker, and ministry leader who helps women release the pressure to be perfect and instead embrace the freedom found in Christ. With honesty and grace, Natalie addresses the struggles of comparison, burnout, and striving.',
           img: '../assets/images/speaker-natalie-runion.jpg',
-          alt: 'Natalie Runion smiling portrait'
+          alt: 'Natalie Runion smiling portrait',
+          focus: 'center 20%'
         },
         {
           name: 'Jess Connolly',
           bio: 'Jess Connolly is a bestselling author, church planter, and speaker from Charleston, South Carolina, who calls women to walk boldly in their God-given purpose. Her words challenge women to stop playing small and start living out the abundant life God has designed for them.',
           img: '../assets/images/speaker-jess-connolly.jpg',
-          alt: 'Jess Connolly portrait'
+          alt: 'Jess Connolly portrait',
+          focus: 'center 25%'
         },
         {
           name: 'Brittany Tate',
           bio: 'More details coming soon. We are excited to welcome Brittany Tate to the ABIDE 2026 stage.',
           img: '../assets/images/speaaker-brittany-tate.webp',
-          alt: 'Brittany Tate'
+          alt: 'Brittany Tate',
+          focus: 'center 20%'
         },
         {
           name: 'Alexis Brown',
           bio: 'More details coming soon. We are excited to welcome Alexis Brown to the ABIDE 2026 stage.',
           img: 'https://images.unsplash.com/photo-1589156280159-27698a70f29e?w=600&h=800&fit=crop&crop=faces',
-          alt: 'Alexis Brown'
+          alt: 'Alexis Brown',
+          focus: 'center 20%'
         }
       ];
 
@@ -1545,28 +1643,48 @@
       var modalBio = document.getElementById('modal-bio');
       var modalClose = document.getElementById('modal-close');
       var modalBackdrop = document.getElementById('modal-backdrop-click');
+      var modalWave = document.getElementById('modal-wave');
+      var modalTextSection = document.getElementById('modal-text-section');
       var modalTrigger = null;
+      var isAnimating = false;
+      var activeCardEl = null;
+      var runningAnimations = [];
+      var canFLIP = typeof Element.prototype.animate === 'function';
 
-      // Pill colors cycle per speaker
-      var pillColors = ['#e0dd90','#b7ceca','#f26ba4','#ff8d53','#e0dd90','#b7ceca','#f26ba4','#ff8d53'];
-      // Text color: dark on light pills, white on dark pills
-      var pillTextColors = ['#1a1a1a','#1a1a1a','#ffffff','#ffffff','#1a1a1a','#1a1a1a','#ffffff','#ffffff'];
+      // Card border/bg colors — used as modal text section background
+      var cardBgColors = ['#e0dd90','#b7ceca','#ff8d53','#f26ba4','#fde6d3','#ff8d53','#f26ba4','#ff8d53'];
+      // Card pill background colors — mimicked on modal
+      var pillColors = ['#fde6d3','#f0a398','#f26ba4','#fde6d3','#ff8d53','#f0a398','#e0dd90','#b7ceca'];
+      // Card pill text colors — mimicked on modal
+      var pillTextColors = ['#f26ba4','#f26ba4','#e0dd90','#f0a398','#e0dd90','#f26ba4','#ff8d53','#f26ba4'];
 
       function getScrollbarWidth() {
         return window.innerWidth - document.documentElement.clientWidth;
       }
 
-      function openModal(index) {
+      function isMobile() {
+        return window.innerWidth < 768;
+      }
+
+      function openModal(index, cardEl) {
+        if (isAnimating) return;
+
         var speaker = speakers[index];
         modalPhoto.src = speaker.img;
         modalPhoto.alt = speaker.alt;
+        modalPhoto.style.objectPosition = speaker.focus || 'center 20%';
         modalName.textContent = speaker.name;
         modalBio.textContent = speaker.bio;
         modal.setAttribute('aria-label', speaker.name + ' details');
 
-        // Color the name pill per speaker
+        // Color the name pill to match the speaker card's pill
         modalNamePill.style.background = pillColors[index] || '#f26ba4';
         modalName.style.color = pillTextColors[index] || '#ffffff';
+
+        // Set text section background to match card border color
+        var bgColor = cardBgColors[index] || '#fde6d3';
+        modalTextSection.style.background = bgColor;
+        modalWave.setAttribute('fill', bgColor);
 
         modalTrigger = document.activeElement;
 
@@ -1575,20 +1693,179 @@
         document.body.style.paddingRight = scrollbarW + 'px';
         document.body.classList.add('modal-open');
 
-        modal.classList.add('open');
-        setTimeout(function() { modalClose.focus(); }, 100);
+        // Expand-from-card animation (all viewports)
+        if (canFLIP && cardEl && !prefersReducedMotion) {
+          isAnimating = true;
+          activeCardEl = cardEl;
+
+          // Neutralize :active transform to get true card position
+          var cardBody = cardEl.querySelector('.card-body') || cardEl;
+          var origTransition = cardBody.style.transition;
+          cardBody.style.transition = 'none';
+          cardBody.style.transform = 'none';
+
+          // Capture card rect
+          var cardRect = cardBody.getBoundingClientRect();
+
+          // Restore card styles
+          cardBody.style.transition = origTransition;
+          cardBody.style.transform = '';
+
+          // Add expanding class and show modal
+          modal.classList.add('expanding');
+          modal.classList.add('open');
+
+          // Calculate clip-path inset from card rect (reveals modal from card position)
+          var modalContent = modal.querySelector('.speaker-modal-content');
+          var vw = window.innerWidth;
+          var vh = window.innerHeight;
+          var insetTop = cardRect.top;
+          var insetRight = vw - cardRect.right;
+          var insetBottom = vh - cardRect.bottom;
+          var insetLeft = cardRect.left;
+          var cardClip = 'inset(' + insetTop + 'px ' + insetRight + 'px ' + insetBottom + 'px ' + insetLeft + 'px round 1.5rem)';
+
+          // Animate: reveal from card position to modal (no scale = no sub-pixel seams)
+          var contentAnim = modalContent.animate([
+            { clipPath: cardClip, opacity: 0.6 },
+            { clipPath: 'inset(0 round 0px)', opacity: 1 }
+          ], {
+            duration: 400,
+            easing: 'cubic-bezier(0.2, 0.9, 0.3, 1)',
+            fill: 'forwards'
+          });
+
+          // Animate backdrop opacity separately
+          var overlay = modal.querySelector('.modal-overlay');
+          var backdropAnim = overlay.animate([
+            { opacity: 0 },
+            { opacity: 1 }
+          ], {
+            duration: 350,
+            easing: 'ease',
+            fill: 'forwards'
+          });
+
+          // Animate backdrop blur
+          var blurAnim = overlay.animate([
+            { backdropFilter: 'blur(0px)', webkitBackdropFilter: 'blur(0px)' },
+            { backdropFilter: 'blur(16px)', webkitBackdropFilter: 'blur(16px)' }
+          ], {
+            duration: 400,
+            easing: 'ease-in',
+            fill: 'forwards'
+          });
+
+          runningAnimations = [contentAnim, backdropAnim, blurAnim];
+
+          contentAnim.onfinish = function() {
+            // Remove expanding so .open CSS state holds the backdrop visible
+            modal.classList.remove('expanding');
+            runningAnimations.forEach(function(a) { a.cancel(); });
+            runningAnimations = [];
+            isAnimating = false;
+            modalClose.focus();
+          };
+        } else {
+          // Reduced-motion / no Web Animations API fallback
+          modal.classList.add('open');
+          setTimeout(function() { modalClose.focus(); }, 100);
+        }
       }
 
       function closeModal() {
-        modal.classList.remove('open');
-        document.body.classList.remove('modal-open');
-        document.body.style.paddingRight = '';
-        if (modalTrigger) modalTrigger.focus();
+        if (isAnimating) return;
+
+        // Shrink-to-card animation (all viewports)
+        if (canFLIP && modal.classList.contains('expanding') && activeCardEl && !prefersReducedMotion) {
+          isAnimating = true;
+
+          var modalContent = modal.querySelector('.speaker-modal-content');
+
+          // Re-read card position (defensive against layout shifts)
+          var cardBody = activeCardEl.querySelector('.card-body') || activeCardEl;
+          var cardRect = cardBody.getBoundingClientRect();
+
+          // Calculate clip-path inset to shrink back to card position
+          var vw = window.innerWidth;
+          var vh = window.innerHeight;
+          var insetTop = cardRect.top;
+          var insetRight = vw - cardRect.right;
+          var insetBottom = vh - cardRect.bottom;
+          var insetLeft = cardRect.left;
+          var cardClip = 'inset(' + insetTop + 'px ' + insetRight + 'px ' + insetBottom + 'px ' + insetLeft + 'px round 1.5rem)';
+
+          // Animate: collapse back to card position
+          var contentAnim = modalContent.animate([
+            { clipPath: 'inset(0 round 0px)', opacity: 1 },
+            { clipPath: cardClip, opacity: 0 }
+          ], {
+            duration: 250,
+            easing: 'cubic-bezier(0.2, 0, 0.6, 1)',
+            fill: 'forwards'
+          });
+
+          // Fade out backdrop
+          var overlay = modal.querySelector('.modal-overlay');
+          var backdropAnim = overlay.animate([
+            { opacity: 1 },
+            { opacity: 0 }
+          ], {
+            duration: 200,
+            easing: 'ease-out',
+            fill: 'forwards'
+          });
+
+          // Fade out backdrop blur
+          var blurAnim = overlay.animate([
+            { backdropFilter: 'blur(16px)', webkitBackdropFilter: 'blur(16px)' },
+            { backdropFilter: 'blur(0px)', webkitBackdropFilter: 'blur(0px)' }
+          ], {
+            duration: 200,
+            easing: 'ease-out',
+            fill: 'forwards'
+          });
+
+          runningAnimations = [contentAnim, backdropAnim, blurAnim];
+
+          contentAnim.onfinish = function() {
+            // Kill CSS transitions so removing classes doesn't trigger a second animation
+            modal.style.transition = 'none';
+            modalContent.style.transition = 'none';
+            overlay.style.transition = 'none';
+
+            // Cancel WAAPI animations to release fill:forwards
+            runningAnimations.forEach(function(a) { a.cancel(); });
+            runningAnimations = [];
+
+            // Clean up classes and state
+            modal.classList.remove('open', 'expanding');
+            document.body.classList.remove('modal-open');
+            document.body.style.paddingRight = '';
+
+            // Force reflow then restore transitions
+            void modal.offsetHeight;
+            modal.style.transition = '';
+            modalContent.style.transition = '';
+            overlay.style.transition = '';
+
+            isAnimating = false;
+            activeCardEl = null;
+            if (modalTrigger) modalTrigger.focus();
+          };
+        } else {
+          // Reduced-motion / fallback close
+          modal.classList.remove('open', 'expanding');
+          document.body.classList.remove('modal-open');
+          document.body.style.paddingRight = '';
+          activeCardEl = null;
+          if (modalTrigger) modalTrigger.focus();
+        }
       }
 
       document.querySelectorAll('.speaker-card[data-speaker]').forEach(function(card) {
         card.addEventListener('click', function() {
-          openModal(parseInt(card.getAttribute('data-speaker')));
+          openModal(parseInt(card.getAttribute('data-speaker')), card);
         });
       });
 
