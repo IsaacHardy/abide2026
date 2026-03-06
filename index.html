@@ -119,6 +119,7 @@
 
     <!-- ---- HERO BANNER ---- -->
     <section id="hero" class="hero-vignette relative w-full flex items-end justify-center overflow-hidden" style="height:calc(100vh + 10rem)" aria-label="Hero">
+      <h1 class="sr-only">ABIDE 2026 Women's Conference</h1>
       <img src="https://media.abide2026.com/hero-banner.webp"
            alt="Women in Truth — ABIDE 2026"
            class="absolute inset-0 w-full h-full object-cover object-top">
@@ -795,6 +796,10 @@
         <p class="font-sub text-xs uppercase tracking-widest text-coral text-center mb-3 fade-in-up">Proudly Supported By</p>
         <h2 class="font-sub text-2xl sm:text-3xl md:text-4xl text-near-black text-center fade-in-up">Our Partners</h2>
       </div>
+      <ul class="sr-only">
+        <li>Chick-fil-A — Middle Georgia</li>
+        <li>Esther Press — estherpress.com</li>
+      </ul>
       <div class="relative overflow-hidden" aria-hidden="true">
         <div class="marquee-track">
           <div class="sponsor-logo-item">
@@ -945,6 +950,7 @@
         hamburgerBtn.classList.add('active');
         hamburgerBtn.setAttribute('aria-expanded', 'true');
         hamburgerBtn.setAttribute('aria-label', 'Close menu');
+        mobileNav.querySelectorAll('a, button').forEach(function(el) { el.setAttribute('tabindex', '0'); });
         var firstLink = mobileNav.querySelector('a');
         if (firstLink) setTimeout(function() { firstLink.focus(); }, 100);
       }
@@ -954,6 +960,7 @@
         hamburgerBtn.classList.remove('active');
         hamburgerBtn.setAttribute('aria-expanded', 'false');
         hamburgerBtn.setAttribute('aria-label', 'Open menu');
+        mobileNav.querySelectorAll('a, button').forEach(function(el) { el.setAttribute('tabindex', '-1'); });
         document.body.classList.remove('modal-open');
         document.body.style.paddingRight = '';
       }

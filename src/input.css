@@ -91,7 +91,7 @@ body {
 .nav-bar.scrolled .hamburger-line { background: #121212; }
 
 /* ---- Hamburger ---- */
-.hamburger { width: 28px; height: 20px; position: relative; cursor: pointer; background: none; border: none; padding: 0; }
+.hamburger { width: 28px; height: 20px; position: relative; cursor: pointer; background: none; border: none; padding: 12px 8px; }
 .hamburger-line {
   position: absolute;
   left: 0;
