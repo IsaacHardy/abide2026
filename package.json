@@ -1,7 +1,13 @@
 {
   "name": "abide2026",
   "private": true,
+  "scripts": {
+    "build:css": "npx @tailwindcss/cli -i src/input.css -o dist/output.css --minify",
+    "dev": "npx @tailwindcss/cli -i src/input.css -o dist/output.css --watch"
+  },
   "devDependencies": {
+    "@tailwindcss/cli": "^4.2.1",
+    "tailwindcss": "^4.2.1",
     "wrangler": "^4.70.0"
   }
 }
