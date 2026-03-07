@@ -336,9 +336,9 @@ body.modal-open {
   border-radius: 1.5rem;
   box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
   overflow: hidden;
+  -webkit-mask-image: -webkit-radial-gradient(white, black);
 }
 .modal-inner {
-  border-radius: 1.5rem;
   overflow: hidden;
   display: flex;
   flex-direction: column;
