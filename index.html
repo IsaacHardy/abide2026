@@ -63,7 +63,9 @@
 
   <link rel="preconnect" href="https://media.abide2026.com" crossorigin>
   <link rel="preload" href="https://media.abide2026.com/hero-banner.webp" as="image" type="image/webp" media="(min-width: 768px)">
-  <link rel="preload" href="https://media.abide2026.com/hero-banner-mobile.webp" as="image" type="image/webp" media="(max-width: 767px)">
+  <link rel="preload" href="https://media.abide2026.com/hero-banner-mobile-412w.webp" as="image" type="image/webp" media="(max-width: 767px)"
+        imagesrcset="https://media.abide2026.com/hero-banner-mobile-412w.webp 412w, https://media.abide2026.com/hero-banner-mobile.webp 824w"
+        imagesizes="100vw">
   <link rel="preload" href="./assets/fonts/Amarego_PERSONAL_USE_ONLY.otf" as="font" type="font/otf" crossorigin>
   <link rel="preload" href="./assets/fonts/SoulwayFont-Demo.otf" as="font" type="font/otf" crossorigin>
   <!-- CSS_INLINE_MARKER -->
@@ -125,10 +127,15 @@
     <section id="hero" class="hero-vignette relative w-full mb-[-75px] md:mb-0" aria-label="Hero">
       <h1 class="sr-only">ABIDE 2026 Women's Conference</h1>
       <picture>
-        <source media="(max-width: 767px)" srcset="https://media.abide2026.com/hero-banner-mobile.webp" type="image/webp">
+        <source media="(max-width: 767px)"
+                srcset="https://media.abide2026.com/hero-banner-mobile-412w.webp 412w,
+                       https://media.abide2026.com/hero-banner-mobile.webp 824w"
+                sizes="100vw"
+                type="image/webp">
         <img src="https://media.abide2026.com/hero-banner.webp"
              alt="Women in Truth — ABIDE 2026 — July 31 + August 1, 2026, Macon Coliseum, Macon GA"
              class="w-full block -mt-[75px] md:mt-0"
+             width="1920" height="1080"
              fetchpriority="high">
       </picture>
     </section>
@@ -158,7 +165,13 @@
           <div class="slide-in-left">
             <div class="rounded-2xl p-2 sm:p-3 shadow-lg" style="background:#b7ceca">
               <div class="aspect-[3/4] rounded-xl overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=400&h=533&fit=crop&crop=faces&fm=webp&q=80" alt="Women gathering together in community" class="w-full h-full object-cover">
+                <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=348&h=464&fit=crop&crop=faces&fm=webp&q=80"
+                     srcset="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=348&h=464&fit=crop&crop=faces&fm=webp&q=80 348w,
+                            https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=696&h=928&fit=crop&crop=faces&fm=webp&q=80 696w"
+                     sizes="(max-width: 767px) calc(100vw - 64px), 400px"
+                     alt="Women gathering together in community" class="w-full h-full object-cover"
+                     width="348" height="464"
+                     loading="lazy" decoding="async">
               </div>
             </div>
           </div>
