@@ -3,7 +3,9 @@
   "private": true,
   "scripts": {
     "build:css": "npx @tailwindcss/cli -i src/input.css -o dist/output.css --minify",
-    "dev": "npx @tailwindcss/cli -i src/input.css -o dist/output.css --watch"
+    "inline:css": "node scripts/inline-css.mjs",
+    "build": "npm run build:css && npm run inline:css",
+    "dev": "node scripts/dev.mjs"
   },
   "devDependencies": {
     "@tailwindcss/cli": "^4.2.1",
