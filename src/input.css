@@ -494,6 +494,26 @@ body.modal-open {
   justify-content: center;
   padding: 0 3rem;
 }
+.sponsor-tile {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: max-content;
+  min-width: 160px;
+  height: 120px;
+  padding: 0 24px;
+  background-color: #FDFAF6;
+  border-radius: 1rem;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+.sponsor-img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 200px;
+  max-height: 96px;
+  object-fit: contain;
+}
 
 /* ---- Timeline ---- */
 .timeline-dot {
