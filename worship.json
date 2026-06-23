@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Leeland",
+    "role": "Worship Leader & Songwriter",
+    "img": "worship-leeland.webp",
+    "alt": "Leeland, Grammy-nominated worship leader and songwriter",
+    "cardBg": "#e0dd90",
+    "pillBg": "#fde6d3",
+    "pillText": "#f26ba4"
+  },
+  {
+    "name": "Hope Darst",
+    "role": "Worship Leader & Songwriter",
+    "img": "worship-hope-darst.webp",
+    "alt": "Hope Darst, worship leader and songwriter",
+    "cardBg": "#f26ba4",
+    "pillBg": "#ff8d53",
+    "pillText": "#fde6d3"
+  }
+]
