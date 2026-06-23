@@ -1,0 +1,82 @@
+[
+  {
+    "name": "Hosanna Wong",
+    "bio": "Hosanna Wong is a speaker, author, and spoken word artist who travels internationally sharing the gospel. Her passion is helping people understand their identity in Christ and walk in the freedom and calling that God has for them.",
+    "img": "speaker-hosanna-wong.webp",
+    "alt": "Hosanna Wong speaking on stage",
+    "focus": "center top",
+    "cardBg": "#e0dd90",
+    "pillBg": "#fde6d3",
+    "pillText": "#f26ba4"
+  },
+  {
+    "name": "Chrystal Evans Hurst",
+    "bio": "Chrystal Evans Hurst is a bestselling author, speaker, and the eldest daughter of Dr. Tony Evans. She encourages women to pursue God wholeheartedly, sharing her own experiences of balancing faith, family, and purpose with warmth and vulnerability.",
+    "img": "speaker-chrystal-evans-hurst.webp",
+    "alt": "Chrystal Evans Hurst portrait",
+    "focus": "center 25%",
+    "cardBg": "#b7ceca",
+    "pillBg": "#f0a398",
+    "pillText": "#f26ba4"
+  },
+  {
+    "name": "Annie F. Downs",
+    "bio": "Annie F. Downs is a New York Times bestselling author and the host of the beloved \"That Sounds Fun\" podcast. Known for her joyful spirit and honest storytelling, Annie invites women into deeper conversations about faith, courage, and finding delight in everyday life.",
+    "img": "speaker-annie-f-downs.webp",
+    "alt": "Annie F. Downs smiling at a speaking event",
+    "focus": "center 20%",
+    "cardBg": "#ff8d53",
+    "pillBg": "#f26ba4",
+    "pillText": "#e0dd90"
+  },
+  {
+    "name": "Courtney Smallbone",
+    "bio": "Courtney Smallbone is an author and speaker whose ministry centers on finding beauty in every season of life. As the wife of Luke Smallbone of the Grammy-winning duo for KING & COUNTRY, Courtney brings a unique perspective on faith, family, and perseverance.",
+    "img": "speaker-courtney-smallbone.webp",
+    "alt": "Courtney Smallbone portrait",
+    "focus": "center 10%",
+    "cardBg": "#f26ba4",
+    "pillBg": "#fde6d3",
+    "pillText": "#f0a398"
+  },
+  {
+    "name": "Natalie Runion",
+    "bio": "Natalie Runion is an author, speaker, and ministry leader who helps women release the pressure to be perfect and instead embrace the freedom found in Christ. With honesty and grace, Natalie addresses the struggles of comparison, burnout, and striving.",
+    "img": "speaker-natalie-runion.webp",
+    "alt": "Natalie Runion smiling portrait",
+    "focus": "center 20%",
+    "cardBg": "#fde6d3",
+    "pillBg": "#ff8d53",
+    "pillText": "#e0dd90"
+  },
+  {
+    "name": "Jess Connolly",
+    "bio": "Jess Connolly is a bestselling author, church planter, and speaker from Charleston, South Carolina, who calls women to walk boldly in their God-given purpose. Her words challenge women to stop playing small and start living out the abundant life God has designed for them.",
+    "img": "speaker-jess-connolly.webp",
+    "alt": "Jess Connolly portrait",
+    "focus": "center 25%",
+    "cardBg": "#ff8d53",
+    "pillBg": "#f0a398",
+    "pillText": "#f26ba4"
+  },
+  {
+    "name": "Brittany Tate",
+    "bio": "Brittany Tate is a national speaker who delivers truth-invoking messages for women's conferences, retreats, and events. As the owner of Living Truth Collective, devotional writer for Proverbs 31 Ministry First 5 app, and contributor to Truly Co. magazines, Brittany has a passion for equipping women with God's Truth. She's also a wife and mom of five who enjoys family time, traveling, and sipping on matcha lattes.",
+    "img": "speaker-brittany-tate.webp",
+    "alt": "Brittany Tate",
+    "focus": "center 20%",
+    "cardBg": "#f26ba4",
+    "pillBg": "#e0dd90",
+    "pillText": "#ff8d53"
+  },
+  {
+    "name": "Alexis Brown",
+    "bio": "For years Alexis chased acceptance in all the wrong places and lived a party driven life. After reaching a breaking point, she fully surrendered her life to Jesus and everything changed. He rescued her, gave her a new identity, and filled her life with purpose. Now her heart is to share the Gospel and encourage women that real freedom and hope are found in Christ alone. Alexis' prayer is that every story and conversation points people closer to Jesus.",
+    "img": "speaker-alexis-brown.webp",
+    "alt": "Alexis Brown",
+    "focus": "center 20%",
+    "cardBg": "#ff8d53",
+    "pillBg": "#b7ceca",
+    "pillText": "#f26ba4"
+  }
+]
