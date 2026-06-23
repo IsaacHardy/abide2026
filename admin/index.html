@@ -4,76 +4,50 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
-  <title>ABIDE 2026 — Speaker Admin</title>
+  <title>ABIDE 2026 — Admin</title>
   <style>
     :root {
-      --ink: #2b2b2b;
-      --muted: #6b6b6b;
-      --line: #e7e3da;
-      --bg: #faf7f0;
-      --accent: #f26ba4;
-      --accent-ink: #fff;
-      --ok: #3f9d6b;
-      --err: #d8553f;
+      --ink: #2b2b2b; --muted: #6b6b6b; --line: #e7e3da; --bg: #faf7f0;
+      --accent: #f26ba4; --accent-ink: #fff; --ok: #3f9d6b; --err: #d8553f;
     }
     * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      color: var(--ink);
-      background: var(--bg);
-      -webkit-font-smoothing: antialiased;
-    }
-    header {
-      position: sticky; top: 0; z-index: 10;
-      background: #fff; border-bottom: 1px solid var(--line);
-      padding: 14px 20px;
-      display: flex; align-items: center; justify-content: space-between; gap: 12px;
-    }
+    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: var(--ink); background: var(--bg); -webkit-font-smoothing: antialiased; }
+    header { position: sticky; top: 0; z-index: 10; background: #fff; border-bottom: 1px solid var(--line); padding: 14px 20px 0; }
     header h1 { font-size: 17px; margin: 0; }
-    header .sub { color: var(--muted); font-size: 13px; margin-top: 2px; }
+    header .sub { color: var(--muted); font-size: 13px; margin: 2px 0 12px; }
+    .tabs { display: flex; gap: 4px; }
+    .tab { font: inherit; font-size: 14px; font-weight: 600; padding: 9px 16px; border: 1px solid var(--line); border-bottom: none;
+      background: var(--bg); color: var(--muted); border-radius: 10px 10px 0 0; cursor: pointer; }
+    .tab[aria-selected="true"] { background: #fff; color: var(--ink); box-shadow: 0 -2px 0 var(--accent) inset; }
     .wrap { max-width: 880px; margin: 0 auto; padding: 20px 16px 120px; }
-    .note {
-      background: #fff6e9; border: 1px solid #f3dcb8; color: #8a5a1a;
-      border-radius: 10px; padding: 10px 14px; font-size: 13px; margin-bottom: 18px;
-    }
-    .card {
-      background: #fff; border: 1px solid var(--line); border-radius: 14px;
-      padding: 16px; margin-bottom: 16px;
-      display: grid; grid-template-columns: 180px 1fr; gap: 18px;
-    }
+    .note { background: #fff6e9; border: 1px solid #f3dcb8; color: #8a5a1a; border-radius: 10px; padding: 10px 14px; font-size: 13px; margin-bottom: 18px; }
+
+    .card { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 16px; margin-bottom: 16px;
+      display: grid; grid-template-columns: 180px 1fr; gap: 18px; }
     @media (max-width: 620px) { .card { grid-template-columns: 1fr; } }
     .card.invalid { border-color: var(--err); box-shadow: 0 0 0 2px rgba(216,85,63,.15); }
 
-    /* Live preview (approximates the live site card) */
     .preview { align-self: start; }
     .pv-card { border-radius: 16px; padding: 8px; }
-    .pv-photo {
-      aspect-ratio: 3/4; border-radius: 12px; overflow: hidden; background: #eee;
-    }
+    .pv-photo { border-radius: 12px; overflow: hidden; background: #eee; }
+    .pv-photo.tall { aspect-ratio: 3/4; }
+    .pv-photo.wide { aspect-ratio: 4/3; }
     .pv-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .pv-pillwrap { text-align: center; margin-top: -16px; }
-    .pv-pill {
-      display: inline-block; padding: 6px 16px; border-radius: 999px;
-      font-weight: 700; font-size: 13px; box-shadow: 0 2px 6px rgba(0,0,0,.08);
-    }
+    .pv-pill { display: inline-block; padding: 6px 16px; border-radius: 999px; font-weight: 700; font-size: 13px; box-shadow: 0 2px 6px rgba(0,0,0,.08); }
+    .pv-role { font-size: 11px; color: rgba(43,43,43,.6); margin: 4px 0 0; }
     .pv-empty { display:flex; align-items:center; justify-content:center; height:100%; color:#aaa; font-size:12px; text-align:center; padding:8px; }
 
     .fields { display: grid; gap: 12px; }
     label { display: block; font-size: 12px; font-weight: 600; color: var(--muted); margin-bottom: 5px; }
-    input[type=text], textarea, select {
-      width: 100%; padding: 9px 11px; border: 1px solid var(--line); border-radius: 9px;
-      font: inherit; font-size: 14px; background: #fff; color: var(--ink);
-    }
+    input[type=text], textarea, select { width: 100%; padding: 9px 11px; border: 1px solid var(--line); border-radius: 9px; font: inherit; font-size: 14px; background: #fff; color: var(--ink); }
     textarea { min-height: 96px; resize: vertical; line-height: 1.45; }
     .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     @media (max-width: 480px) { .row2 { grid-template-columns: 1fr; } }
 
     .swatches { display: flex; gap: 8px; flex-wrap: wrap; }
-    .swatch {
-      width: 30px; height: 30px; border-radius: 8px; cursor: pointer;
-      border: 2px solid rgba(0,0,0,.08); padding: 0; position: relative;
-    }
+    .swatch { width: 30px; height: 30px; border-radius: 8px; cursor: pointer; border: 2px solid rgba(0,0,0,.08); padding: 0; }
     .swatch[aria-pressed="true"] { box-shadow: 0 0 0 3px var(--ink); border-color: #fff; }
     .swatch-label { font-size: 12px; font-weight: 600; color: var(--muted); margin-bottom: 6px; }
 
@@ -82,55 +56,83 @@
     .filename { font-size: 12px; color: var(--muted); word-break: break-all; }
 
     .card-actions { grid-column: 1 / -1; display: flex; gap: 8px; justify-content: flex-end; border-top: 1px solid var(--line); padding-top: 12px; }
-    button {
-      font: inherit; font-size: 14px; cursor: pointer; border-radius: 9px;
-      border: 1px solid var(--line); background: #fff; color: var(--ink); padding: 8px 12px;
-    }
+    button { font: inherit; font-size: 14px; cursor: pointer; border-radius: 9px; border: 1px solid var(--line); background: #fff; color: var(--ink); padding: 8px 12px; }
     button:hover { background: #f4f1ea; }
     button.icon { padding: 8px 10px; }
     button.danger { color: var(--err); border-color: #efc9c0; }
     button:disabled { opacity: .5; cursor: not-allowed; }
     .btn-primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 700; }
     .btn-primary:hover { filter: brightness(.96); background: var(--accent); }
-
     .add { width: 100%; padding: 14px; border-style: dashed; font-weight: 600; color: var(--muted); }
 
-    .savebar {
-      position: fixed; bottom: 0; left: 0; right: 0; z-index: 20;
-      background: #fff; border-top: 1px solid var(--line);
-      padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px;
-    }
-    .savebar .status { font-size: 13px; }
-    .status.ok { color: var(--ok); }
-    .status.err { color: var(--err); }
+    /* Sponsors gallery */
+    .sponsor-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 14px; }
+    .sponsor-tile { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 12px; text-align: center; }
+    .sponsor-tile .logo { height: 90px; display: flex; align-items: center; justify-content: center; }
+    .sponsor-tile img { max-width: 100%; max-height: 90px; object-fit: contain; }
+    .sponsor-tile .alt { font-size: 12px; color: var(--muted); margin: 8px 0; word-break: break-word; }
+    .add-sponsor { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 16px; margin-bottom: 18px; display: grid; gap: 10px; }
+    .add-sponsor .arow { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+
+    .savebar { position: fixed; bottom: 0; left: 0; right: 0; z-index: 20; background: #fff; border-top: 1px solid var(--line); padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .savebar.hidden { display: none; }
+    .savebar .status, .panel-status { font-size: 13px; }
+    .status.ok, .panel-status.ok { color: var(--ok); }
+    .status.err, .panel-status.err { color: var(--err); }
     .savebar .right { display: flex; align-items: center; gap: 12px; }
     .savebar .btn-primary { padding: 11px 22px; }
     .spinner { display:inline-block; width:14px; height:14px; border:2px solid rgba(0,0,0,.2); border-top-color: var(--ink); border-radius:50%; animation: spin .7s linear infinite; vertical-align:-2px; }
     @keyframes spin { to { transform: rotate(360deg); } }
     .center-msg { text-align:center; color: var(--muted); padding: 60px 0; }
     .hidden { display: none; }
+    .panel-status { margin-bottom: 12px; min-height: 18px; }
   </style>
 </head>
 <body>
   <header>
-    <div>
-      <h1>ABIDE 2026 — Speaker Admin</h1>
-      <div class="sub">Edit the speakers shown on abide2026.com</div>
+    <h1>ABIDE 2026 — Admin</h1>
+    <div class="sub">Edit what appears on abide2026.com</div>
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" data-tab="speakers" aria-selected="true">Speakers</button>
+      <button class="tab" role="tab" data-tab="bands" aria-selected="false">Bands</button>
+      <button class="tab" role="tab" data-tab="sponsors" aria-selected="false">Sponsors</button>
     </div>
   </header>
 
   <div class="wrap">
-    <div class="note">
-      Changes go live on the website within about <strong>5 minutes</strong> of saving.
-      Upload a photo by clicking <strong>Upload photo</strong> on a speaker. Don’t forget to press <strong>Save changes</strong>.
+    <div class="note">Changes go live on the website within about <strong>5 minutes</strong>. Remember to press <strong>Save changes</strong> on Speakers and Bands. Sponsor changes save instantly.</div>
+
+    <!-- Speakers / Bands editors -->
+    <div id="panel-speakers" class="panel">
+      <div id="status-speakers" class="panel-status"></div>
+      <div id="list-speakers"></div>
+      <button class="add" data-add="speakers">＋ Add a speaker</button>
     </div>
 
-    <div id="list"></div>
+    <div id="panel-bands" class="panel hidden">
+      <div id="status-bands" class="panel-status"></div>
+      <div id="list-bands"></div>
+      <button class="add" data-add="bands">＋ Add a band</button>
+    </div>
 
-    <button id="add" class="add">＋ Add a speaker</button>
+    <!-- Sponsors gallery -->
+    <div id="panel-sponsors" class="panel hidden">
+      <div id="status-sponsors" class="panel-status"></div>
+      <div class="add-sponsor">
+        <label>Add a sponsor logo</label>
+        <div class="arow">
+          <input type="text" id="sponsor-name" placeholder="Sponsor name (used for alt text)" style="flex:1; min-width:200px;">
+          <input type="file" id="sponsor-file" accept="image/webp,image/png,image/jpeg,image/avif,image/svg+xml" class="hidden">
+          <button id="sponsor-pick">Choose image…</button>
+          <button id="sponsor-add" class="btn-primary" disabled>Add sponsor</button>
+        </div>
+        <div id="sponsor-chosen" class="filename"></div>
+      </div>
+      <div id="sponsor-grid" class="sponsor-grid"></div>
+    </div>
   </div>
 
-  <div class="savebar">
+  <div class="savebar" id="savebar">
     <span id="status" class="status"></span>
     <div class="right">
       <button id="reload">Discard &amp; reload</button>
@@ -141,325 +143,319 @@
   <script>
     var MEDIA_HOST = 'https://media.abide2026.com';
     var BRAND = [
-      { hex: '#e0dd90', name: 'Yellow-green' },
-      { hex: '#b7ceca', name: 'Sage' },
-      { hex: '#ff8d53', name: 'Coral' },
-      { hex: '#f26ba4', name: 'Hot pink' },
-      { hex: '#fde6d3', name: 'Peach' },
-      { hex: '#f0a398', name: 'Rose' }
+      { hex: '#e0dd90', name: 'Yellow-green' }, { hex: '#b7ceca', name: 'Sage' },
+      { hex: '#ff8d53', name: 'Coral' }, { hex: '#f26ba4', name: 'Hot pink' },
+      { hex: '#fde6d3', name: 'Peach' }, { hex: '#f0a398', name: 'Rose' }
     ];
     var FOCUS_OPTIONS = [
-      { label: 'Centered', value: 'center center' },
-      { label: 'Face near top', value: 'center top' },
-      { label: 'Slightly high (20%)', value: 'center 20%' },
-      { label: 'Slightly high (25%)', value: 'center 25%' },
+      { label: 'Centered', value: 'center center' }, { label: 'Face near top', value: 'center top' },
+      { label: 'Slightly high (20%)', value: 'center 20%' }, { label: 'Slightly high (25%)', value: 'center 25%' },
       { label: 'High (10%)', value: 'center 10%' }
     ];
-    var DEFAULTS = { cardBg: '#e0dd90', pillBg: '#fde6d3', pillText: '#f26ba4', focus: 'center 20%' };
+    var DEF = { cardBg: '#e0dd90', pillBg: '#fde6d3', pillText: '#f26ba4', focus: 'center 20%' };
 
-    var speakers = [];
-    var dirty = false;
-
-    var listEl = document.getElementById('list');
-    var statusEl = document.getElementById('status');
-    var saveBtn = document.getElementById('save');
-    var addBtn = document.getElementById('add');
-    var reloadBtn = document.getElementById('reload');
-
-    function imgUrl(filename) {
-      if (!filename) return '';
-      if (/^https?:\/\//i.test(filename)) return filename;
-      return MEDIA_HOST + '/' + String(filename).replace(/^\/+/, '');
-    }
-    function setDirty(v) {
-      dirty = v;
-      saveBtn.disabled = !v;
-      if (v) setStatus('', '');
-    }
-    function setStatus(msg, kind) {
-      statusEl.textContent = msg;
-      statusEl.className = 'status' + (kind ? ' ' + kind : '');
-    }
-
-    function makeSwatchRow(labelText, key, sp, onChange) {
-      var wrap = document.createElement('div');
-      var lab = document.createElement('div');
-      lab.className = 'swatch-label';
-      lab.textContent = labelText;
-      wrap.appendChild(lab);
-      var row = document.createElement('div');
-      row.className = 'swatches';
-      BRAND.forEach(function (c) {
-        var b = document.createElement('button');
-        b.className = 'swatch';
-        b.style.background = c.hex;
-        b.title = c.name;
-        b.setAttribute('aria-pressed', String((sp[key] || '').toLowerCase() === c.hex));
-        b.addEventListener('click', function () {
-          sp[key] = c.hex;
-          row.querySelectorAll('.swatch').forEach(function (s) { s.setAttribute('aria-pressed', 'false'); });
-          b.setAttribute('aria-pressed', 'true');
-          onChange();
-          setDirty(true);
-        });
-        row.appendChild(b);
-      });
-      wrap.appendChild(row);
-      return wrap;
-    }
-
-    function renderPreview(container, sp) {
-      var bg = sp.cardBg || DEFAULTS.cardBg;
-      var pillBg = sp.pillBg || DEFAULTS.pillBg;
-      var pillText = sp.pillText || DEFAULTS.pillText;
-      var url = imgUrl(sp.img);
-      container.innerHTML =
-        '<div class="pv-card" style="background:' + bg + '">' +
-          '<div class="pv-photo">' +
-            (url
-              ? '<img src="' + url + '" alt="" style="object-position:' + (sp.focus || DEFAULTS.focus) + '">'
-              : '<div class="pv-empty">No photo yet</div>') +
-          '</div>' +
-          '<div class="pv-pillwrap"><span class="pv-pill" style="background:' + pillBg + ';color:' + pillText + '">' +
-            (sp.name ? escapeHtml(sp.name) : 'Name') +
-          '</span></div>' +
-        '</div>';
-    }
-
+    // ---- shared helpers ----
     function escapeHtml(s) {
       return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
         return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
       });
     }
-
-    function renderAll() {
-      listEl.innerHTML = '';
-      if (!speakers.length) {
-        var empty = document.createElement('div');
-        empty.className = 'center-msg';
-        empty.textContent = 'No speakers yet. Click “Add a speaker” below.';
-        listEl.appendChild(empty);
-        return;
-      }
-      speakers.forEach(function (sp, i) { listEl.appendChild(renderCard(sp, i)); });
+    function imgUrl(f) { if (!f) return ''; return /^https?:\/\//i.test(f) ? f : MEDIA_HOST + '/' + String(f).replace(/^\/+/, ''); }
+    function el(tag, cls) { var e = document.createElement(tag); if (cls) e.className = cls; return e; }
+    function field(labelText, control) { var w = el('div'); var l = el('label'); l.textContent = labelText; w.appendChild(l); w.appendChild(control); return w; }
+    function textInput(val, onInput, placeholder) {
+      var i = el('input'); i.type = 'text'; i.value = val || ''; if (placeholder) i.placeholder = placeholder;
+      i.addEventListener('input', function () { onInput(i.value); }); return i;
     }
+    function iconBtn(text, onClick, extraCls) { var b = el('button', 'icon' + (extraCls ? ' ' + extraCls : '')); b.textContent = text; b.addEventListener('click', onClick); return b; }
 
-    function renderCard(sp, index) {
-      var card = document.createElement('div');
-      card.className = 'card';
-      card.dataset.index = index;
-
-      // Preview column
-      var prev = document.createElement('div');
-      prev.className = 'preview';
-      renderPreview(prev, sp);
-      card.appendChild(prev);
-      function refreshPreview() { renderPreview(prev, sp); }
-
-      // Fields column
-      var fields = document.createElement('div');
-      fields.className = 'fields';
-
-      // Name
-      fields.appendChild(field('Name', textInput(sp.name || '', function (v) {
-        sp.name = v; refreshPreview(); setDirty(true);
-      })));
-
-      // Bio
-      var bio = document.createElement('textarea');
-      bio.value = sp.bio || '';
-      bio.addEventListener('input', function () { sp.bio = bio.value; setDirty(true); });
-      fields.appendChild(field('Bio', bio));
-
-      // Alt + Focus row
-      var alt = textInput(sp.alt || '', function (v) { sp.alt = v; setDirty(true); });
-      alt.placeholder = 'Defaults to the name if left blank';
-      var focus = document.createElement('select');
-      FOCUS_OPTIONS.forEach(function (o) {
-        var opt = document.createElement('option');
-        opt.value = o.value; opt.textContent = o.label;
-        if ((sp.focus || DEFAULTS.focus) === o.value) opt.selected = true;
-        focus.appendChild(opt);
+    function swatchRow(labelText, key, item, onChange) {
+      var wrap = el('div'); var lab = el('div', 'swatch-label'); lab.textContent = labelText; wrap.appendChild(lab);
+      var row = el('div', 'swatches');
+      BRAND.forEach(function (c) {
+        var b = el('button', 'swatch'); b.style.background = c.hex; b.title = c.name;
+        b.setAttribute('aria-pressed', String((item[key] || '').toLowerCase() === c.hex));
+        b.addEventListener('click', function () {
+          item[key] = c.hex;
+          row.querySelectorAll('.swatch').forEach(function (s) { s.setAttribute('aria-pressed', 'false'); });
+          b.setAttribute('aria-pressed', 'true'); onChange();
+        });
+        row.appendChild(b);
       });
-      focus.addEventListener('change', function () { sp.focus = focus.value; refreshPreview(); setDirty(true); });
-      var row2 = document.createElement('div');
-      row2.className = 'row2';
-      row2.appendChild(field('Alt text (for screen readers)', alt));
-      row2.appendChild(field('Photo position', focus));
-      fields.appendChild(row2);
-
-      // Photo
-      fields.appendChild(field('Photo', photoControl(sp, refreshPreview)));
-
-      // Colors
-      fields.appendChild(makeSwatchRow('Card color', 'cardBg', sp, refreshPreview));
-      fields.appendChild(makeSwatchRow('Pill color', 'pillBg', sp, refreshPreview));
-      fields.appendChild(makeSwatchRow('Name text color', 'pillText', sp, refreshPreview));
-
-      card.appendChild(fields);
-
-      // Actions
-      var actions = document.createElement('div');
-      actions.className = 'card-actions';
-      var up = iconBtn('▲ Up', function () { move(index, -1); });
-      up.disabled = index === 0;
-      var down = iconBtn('▼ Down', function () { move(index, 1); });
-      down.disabled = index === speakers.length - 1;
-      var del = iconBtn('🗑 Remove', function () {
-        if (confirm('Remove ' + (sp.name || 'this speaker') + '?')) {
-          speakers.splice(index, 1); setDirty(true); renderAll();
-        }
-      });
-      del.className = 'icon danger';
-      actions.appendChild(up); actions.appendChild(down); actions.appendChild(del);
-      card.appendChild(actions);
-
-      return card;
+      wrap.appendChild(row); return wrap;
     }
 
-    function field(labelText, control) {
-      var w = document.createElement('div');
-      var l = document.createElement('label');
-      l.textContent = labelText;
-      w.appendChild(l); w.appendChild(control);
-      return w;
-    }
-    function textInput(val, onInput) {
-      var i = document.createElement('input');
-      i.type = 'text'; i.value = val;
-      i.addEventListener('input', function () { onInput(i.value); });
-      return i;
-    }
-    function iconBtn(text, onClick) {
-      var b = document.createElement('button');
-      b.className = 'icon'; b.textContent = text;
-      b.addEventListener('click', onClick);
-      return b;
-    }
-
-    function photoControl(sp, refreshPreview) {
-      var wrap = document.createElement('div');
-      wrap.className = 'photo-row';
-      var thumb = document.createElement('img');
-      thumb.className = 'photo-thumb';
-      if (sp.img) thumb.src = imgUrl(sp.img);
-      var col = document.createElement('div');
-      var btn = document.createElement('button');
-      btn.textContent = 'Upload photo';
-      var fileInput = document.createElement('input');
-      fileInput.type = 'file';
-      fileInput.accept = 'image/webp,image/png,image/jpeg,image/avif';
-      fileInput.className = 'hidden';
-      var fname = document.createElement('div');
-      fname.className = 'filename';
-      fname.textContent = sp.img || 'No photo yet';
-
+    function photoControl(item, prefix, onChange) {
+      var wrap = el('div', 'photo-row');
+      var thumb = el('img', 'photo-thumb'); if (item.img) thumb.src = imgUrl(item.img);
+      var col = el('div');
+      var btn = el('button'); btn.textContent = 'Upload photo';
+      var fileInput = el('input', 'hidden'); fileInput.type = 'file'; fileInput.accept = 'image/webp,image/png,image/jpeg,image/avif';
+      var fname = el('div', 'filename'); fname.textContent = item.img || 'No photo yet';
       btn.addEventListener('click', function () { fileInput.click(); });
       fileInput.addEventListener('change', function () {
-        var f = fileInput.files && fileInput.files[0];
-        if (!f) return;
+        var f = fileInput.files && fileInput.files[0]; if (!f) return;
         btn.disabled = true; btn.textContent = 'Uploading…';
-        var fd = new FormData();
-        fd.append('file', f);
-        fd.append('name', sp.name || '');
+        var fd = new FormData(); fd.append('file', f); fd.append('name', item.name || ''); fd.append('prefix', prefix);
         fetch('/api/upload', { method: 'POST', body: fd })
           .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
           .then(function (res) {
             if (!res.ok) throw new Error(res.j && res.j.error ? res.j.error : 'Upload failed');
-            sp.img = res.j.filename;
-            thumb.src = imgUrl(sp.img) + '?t=' + Date.now();
-            fname.textContent = sp.img;
-            refreshPreview(); setDirty(true);
+            item.img = res.j.filename; thumb.src = imgUrl(item.img) + '?t=' + Date.now(); fname.textContent = item.img; onChange();
           })
           .catch(function (e) { alert(e.message || 'Upload failed'); })
           .then(function () { btn.disabled = false; btn.textContent = 'Upload photo'; fileInput.value = ''; });
       });
-
       col.appendChild(btn); col.appendChild(fname); col.appendChild(fileInput);
-      wrap.appendChild(thumb); wrap.appendChild(col);
-      return wrap;
+      wrap.appendChild(thumb); wrap.appendChild(col); return wrap;
     }
 
-    function move(index, delta) {
-      var j = index + delta;
-      if (j < 0 || j >= speakers.length) return;
-      var tmp = speakers[index]; speakers[index] = speakers[j]; speakers[j] = tmp;
-      setDirty(true); renderAll();
+    // ---- generic editor for Speakers & Bands ----
+    var SECTIONS = {
+      speakers: {
+        endpoint: '/api/speakers', uploadPrefix: 'speaker', addLabel: 'speaker', shape: 'tall',
+        fields: ['name', 'bio', 'altfocus', 'photo', 'colors'],
+        required: ['name', 'bio', 'img'],
+        blank: function () { return { name: '', bio: '', img: '', alt: '', focus: DEF.focus, cardBg: DEF.cardBg, pillBg: DEF.pillBg, pillText: DEF.pillText }; },
+        normalize: function (s) { return { name: s.name.trim(), bio: (s.bio||'').trim(), img: s.img.trim(), alt: (s.alt && s.alt.trim()) || s.name.trim(), focus: s.focus || DEF.focus, cardBg: s.cardBg || DEF.cardBg, pillBg: s.pillBg || DEF.pillBg, pillText: s.pillText || DEF.pillText }; }
+      },
+      bands: {
+        endpoint: '/api/worship', uploadPrefix: 'worship', addLabel: 'band', shape: 'wide',
+        fields: ['name', 'role', 'alt', 'photo', 'colors'],
+        required: ['name', 'role', 'img'],
+        blank: function () { return { name: '', role: 'Worship Leader & Songwriter', img: '', alt: '', cardBg: DEF.cardBg, pillBg: DEF.pillBg, pillText: DEF.pillText }; },
+        normalize: function (b) { return { name: b.name.trim(), role: (b.role||'').trim(), img: b.img.trim(), alt: (b.alt && b.alt.trim()) || b.name.trim(), cardBg: b.cardBg || DEF.cardBg, pillBg: b.pillBg || DEF.pillBg, pillText: b.pillText || DEF.pillText }; }
+      }
+    };
+
+    var state = {
+      speakers: { items: [], dirty: false, loaded: false },
+      bands: { items: [], dirty: false, loaded: false }
+    };
+    var active = 'speakers';
+
+    var saveBtn = document.getElementById('save');
+    var statusEl = document.getElementById('status');
+    var savebarEl = document.getElementById('savebar');
+
+    function setDirty(sec, v) {
+      state[sec].dirty = v;
+      if (sec === active) { saveBtn.disabled = !v; if (v) setStatus('', ''); }
+    }
+    function setStatus(msg, kind) { statusEl.textContent = msg; statusEl.className = 'status' + (kind ? ' ' + kind : ''); }
+    function panelStatus(sec, msg, kind) { var e = document.getElementById('status-' + sec); e.textContent = msg; e.className = 'panel-status' + (kind ? ' ' + kind : ''); }
+
+    function previewHtml(cfg, item) {
+      var bg = item.cardBg || DEF.cardBg, pillBg = item.pillBg || DEF.pillBg, pillText = item.pillText || DEF.pillText;
+      var url = imgUrl(item.img);
+      return '<div class="pv-card" style="background:' + bg + '">' +
+        '<div class="pv-photo ' + cfg.shape + '">' +
+          (url ? '<img src="' + url + '" alt="" style="object-position:' + (item.focus || DEF.focus) + '">' : '<div class="pv-empty">No photo yet</div>') +
+        '</div>' +
+        '<div class="pv-pillwrap"><span class="pv-pill" style="background:' + pillBg + ';color:' + pillText + '">' + (item.name ? escapeHtml(item.name) : 'Name') + '</span>' +
+          (cfg.fields.indexOf('role') >= 0 ? '<p class="pv-role">' + escapeHtml(item.role || 'Role') + '</p>' : '') +
+        '</div></div>';
     }
 
-    addBtn.addEventListener('click', function () {
-      speakers.push({ name: '', bio: '', img: '', alt: '', focus: DEFAULTS.focus,
-        cardBg: DEFAULTS.cardBg, pillBg: DEFAULTS.pillBg, pillText: DEFAULTS.pillText });
-      setDirty(true); renderAll();
-      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-    });
+    function renderSection(sec) {
+      var cfg = SECTIONS[sec], items = state[sec].items, listEl = document.getElementById('list-' + sec);
+      listEl.innerHTML = '';
+      if (!items.length) { var m = el('div', 'center-msg'); m.textContent = 'Nothing here yet. Click “Add a ' + cfg.addLabel + '” below.'; listEl.appendChild(m); return; }
+      items.forEach(function (item, i) { listEl.appendChild(renderCard(sec, cfg, item, i)); });
+    }
 
-    function firstInvalid() {
-      for (var i = 0; i < speakers.length; i++) {
-        var s = speakers[i];
+    function renderCard(sec, cfg, item, index) {
+      var card = el('div', 'card'); card.dataset.index = index;
+      var prev = el('div', 'preview'); prev.innerHTML = previewHtml(cfg, item); card.appendChild(prev);
+      function refresh() { prev.innerHTML = previewHtml(cfg, item); }
+      var onChange = function () { refresh(); setDirty(sec, true); };
+
+      var fields = el('div', 'fields');
+      cfg.fields.forEach(function (f) {
+        if (f === 'name') {
+          fields.appendChild(field('Name', textInput(item.name, function (v) { item.name = v; onChange(); })));
+        } else if (f === 'bio') {
+          var ta = el('textarea'); ta.value = item.bio || ''; ta.addEventListener('input', function () { item.bio = ta.value; setDirty(sec, true); });
+          fields.appendChild(field('Bio', ta));
+        } else if (f === 'role') {
+          fields.appendChild(field('Role', textInput(item.role, function (v) { item.role = v; onChange(); }, 'e.g. Worship Leader & Songwriter')));
+        } else if (f === 'alt') {
+          fields.appendChild(field('Alt text (for screen readers)', textInput(item.alt, function (v) { item.alt = v; setDirty(sec, true); }, 'Defaults to the name if left blank')));
+        } else if (f === 'altfocus') {
+          var alt = textInput(item.alt, function (v) { item.alt = v; setDirty(sec, true); }, 'Defaults to the name if left blank');
+          var focus = el('select');
+          FOCUS_OPTIONS.forEach(function (o) { var op = el('option'); op.value = o.value; op.textContent = o.label; if ((item.focus || DEF.focus) === o.value) op.selected = true; focus.appendChild(op); });
+          focus.addEventListener('change', function () { item.focus = focus.value; onChange(); });
+          var r2 = el('div', 'row2'); r2.appendChild(field('Alt text (for screen readers)', alt)); r2.appendChild(field('Photo position', focus)); fields.appendChild(r2);
+        } else if (f === 'photo') {
+          fields.appendChild(field('Photo', photoControl(item, cfg.uploadPrefix, onChange)));
+        } else if (f === 'colors') {
+          fields.appendChild(swatchRow('Card color', 'cardBg', item, onChange));
+          fields.appendChild(swatchRow('Pill color', 'pillBg', item, onChange));
+          fields.appendChild(swatchRow('Name text color', 'pillText', item, onChange));
+        }
+      });
+      card.appendChild(fields);
+
+      var actions = el('div', 'card-actions');
+      var up = iconBtn('▲ Up', function () { moveItem(sec, index, -1); }); up.disabled = index === 0;
+      var down = iconBtn('▼ Down', function () { moveItem(sec, index, 1); }); down.disabled = index === state[sec].items.length - 1;
+      var del = iconBtn('🗑 Remove', function () {
+        if (confirm('Remove ' + (item.name || 'this entry') + '?')) { state[sec].items.splice(index, 1); setDirty(sec, true); renderSection(sec); }
+      }, 'danger');
+      actions.appendChild(up); actions.appendChild(down); actions.appendChild(del);
+      card.appendChild(actions);
+      return card;
+    }
+
+    function moveItem(sec, index, delta) {
+      var arr = state[sec].items, j = index + delta; if (j < 0 || j >= arr.length) return;
+      var t = arr[index]; arr[index] = arr[j]; arr[j] = t; setDirty(sec, true); renderSection(sec);
+    }
+
+    function firstInvalid(sec) {
+      var cfg = SECTIONS[sec], arr = state[sec].items;
+      for (var i = 0; i < arr.length; i++) {
+        var s = arr[i];
         if (!s.name || !s.name.trim()) return { i: i, why: 'needs a name' };
-        if (!s.bio || !s.bio.trim()) return { i: i, why: 'needs a bio' };
+        if (cfg.required.indexOf('bio') >= 0 && (!s.bio || !s.bio.trim())) return { i: i, why: 'needs a bio' };
+        if (cfg.required.indexOf('role') >= 0 && (!s.role || !s.role.trim())) return { i: i, why: 'needs a role' };
         if (!s.img || !s.img.trim()) return { i: i, why: 'needs a photo' };
       }
       return null;
     }
 
-    saveBtn.addEventListener('click', function () {
-      document.querySelectorAll('.card.invalid').forEach(function (c) { c.classList.remove('invalid'); });
-      var bad = firstInvalid();
-      if (bad) {
-        var cardEl = listEl.querySelector('.card[data-index="' + bad.i + '"]');
-        if (cardEl) { cardEl.classList.add('invalid'); cardEl.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
-        setStatus('Speaker ' + (bad.i + 1) + ' ' + bad.why + '.', 'err');
-        return;
-      }
-      // Normalize: blank alt -> name
-      var payload = speakers.map(function (s) {
-        return { name: s.name.trim(), bio: s.bio.trim(), img: s.img.trim(),
-          alt: (s.alt && s.alt.trim()) || s.name.trim(),
-          focus: s.focus || DEFAULTS.focus,
-          cardBg: s.cardBg || DEFAULTS.cardBg, pillBg: s.pillBg || DEFAULTS.pillBg, pillText: s.pillText || DEFAULTS.pillText };
-      });
-      saveBtn.disabled = true;
-      setStatus('Saving…', '');
-      statusEl.innerHTML = '<span class="spinner"></span> Saving…';
-      fetch('/api/speakers', {
-        method: 'PUT', headers: { 'content-type': 'application/json' }, body: JSON.stringify(payload)
-      })
-        .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
-        .then(function (res) {
-          if (!res.ok) throw new Error(res.j && res.j.error ? res.j.error : 'Save failed');
-          setStatus('Saved ✓  Live on the site within ~5 minutes.', 'ok');
-          dirty = false; saveBtn.disabled = true;
-        })
-        .catch(function (e) { setStatus(e.message || 'Save failed', 'err'); saveBtn.disabled = false; });
-    });
-
-    function load() {
-      setStatus('Loading…', '');
-      listEl.innerHTML = '<div class="center-msg">Loading speakers…</div>';
-      fetch('/api/speakers', { headers: { accept: 'application/json' } })
+    function loadSection(sec) {
+      var cfg = SECTIONS[sec];
+      panelStatus(sec, 'Loading…', '');
+      document.getElementById('list-' + sec).innerHTML = '<div class="center-msg">Loading…</div>';
+      return fetch(cfg.endpoint, { headers: { accept: 'application/json' } })
         .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
         .then(function (res) {
           if (!res.ok) throw new Error(res.j && res.j.error ? res.j.error : 'Could not load');
-          speakers = Array.isArray(res.j) ? res.j : [];
-          setStatus('', ''); setDirty(false); renderAll();
+          state[sec].items = Array.isArray(res.j) ? res.j : []; state[sec].loaded = true; state[sec].dirty = false;
+          panelStatus(sec, '', ''); renderSection(sec); if (sec === active) saveBtn.disabled = true;
         })
-        .catch(function (e) {
-          listEl.innerHTML = '<div class="center-msg">Could not load speakers. ' + escapeHtml(e.message || '') + '</div>';
-        });
+        .catch(function (e) { document.getElementById('list-' + sec).innerHTML = '<div class="center-msg">Could not load. ' + escapeHtml(e.message || '') + '</div>'; });
     }
 
-    reloadBtn.addEventListener('click', function () {
-      if (dirty && !confirm('Discard unsaved changes and reload?')) return;
-      load();
+    function saveSection(sec) {
+      var cfg = SECTIONS[sec];
+      document.querySelectorAll('#list-' + sec + ' .card.invalid').forEach(function (c) { c.classList.remove('invalid'); });
+      var bad = firstInvalid(sec);
+      if (bad) {
+        var cardEl = document.querySelector('#list-' + sec + ' .card[data-index="' + bad.i + '"]');
+        if (cardEl) { cardEl.classList.add('invalid'); cardEl.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+        setStatus('Entry ' + (bad.i + 1) + ' ' + bad.why + '.', 'err'); return;
+      }
+      var payload = state[sec].items.map(cfg.normalize);
+      saveBtn.disabled = true; statusEl.innerHTML = '<span class="spinner"></span> Saving…'; statusEl.className = 'status';
+      fetch(cfg.endpoint, { method: 'PUT', headers: { 'content-type': 'application/json' }, body: JSON.stringify(payload) })
+        .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+        .then(function (res) {
+          if (!res.ok) throw new Error(res.j && res.j.error ? res.j.error : 'Save failed');
+          setStatus('Saved ✓  Live on the site within ~5 minutes.', 'ok'); state[sec].dirty = false; saveBtn.disabled = true;
+        })
+        .catch(function (e) { setStatus(e.message || 'Save failed', 'err'); saveBtn.disabled = false; });
+    }
+
+    // ---- Sponsors ----
+    var sponsorFile = document.getElementById('sponsor-file');
+    var sponsorName = document.getElementById('sponsor-name');
+    var sponsorPick = document.getElementById('sponsor-pick');
+    var sponsorAdd = document.getElementById('sponsor-add');
+    var sponsorChosen = document.getElementById('sponsor-chosen');
+
+    function refreshSponsorAddState() { sponsorAdd.disabled = !(sponsorFile.files && sponsorFile.files[0]); }
+    sponsorPick.addEventListener('click', function () { sponsorFile.click(); });
+    sponsorFile.addEventListener('change', function () {
+      var f = sponsorFile.files && sponsorFile.files[0];
+      sponsorChosen.textContent = f ? 'Selected: ' + f.name : ''; refreshSponsorAddState();
+    });
+    sponsorAdd.addEventListener('click', function () {
+      var f = sponsorFile.files && sponsorFile.files[0]; if (!f) return;
+      sponsorAdd.disabled = true; var old = sponsorAdd.textContent; sponsorAdd.textContent = 'Uploading…';
+      var fd = new FormData(); fd.append('file', f); fd.append('name', sponsorName.value || ''); fd.append('prefix', 'partner');
+      fetch('/api/upload', { method: 'POST', body: fd })
+        .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+        .then(function (res) {
+          if (!res.ok) throw new Error(res.j && res.j.error ? res.j.error : 'Upload failed');
+          sponsorName.value = ''; sponsorFile.value = ''; sponsorChosen.textContent = '';
+          panelStatus('sponsors', 'Added ✓  Marquee updates within ~5 minutes.', 'ok'); loadSponsors();
+        })
+        .catch(function (e) { panelStatus('sponsors', e.message || 'Upload failed', 'err'); })
+        .then(function () { sponsorAdd.textContent = old; refreshSponsorAddState(); });
     });
 
-    window.addEventListener('beforeunload', function (e) {
-      if (dirty) { e.preventDefault(); e.returnValue = ''; }
+    function loadSponsors() {
+      var grid = document.getElementById('sponsor-grid');
+      grid.innerHTML = '<div class="center-msg">Loading…</div>';
+      return fetch('/api/partners', { headers: { accept: 'application/json' } })
+        .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+        .then(function (res) {
+          if (!res.ok) throw new Error(res.j && res.j.error ? res.j.error : 'Could not load');
+          var list = Array.isArray(res.j) ? res.j : [];
+          if (!list.length) { grid.innerHTML = '<div class="center-msg">No sponsors yet. Add one above.</div>'; return; }
+          grid.innerHTML = '';
+          list.forEach(function (p) {
+            var tile = el('div', 'sponsor-tile');
+            tile.innerHTML = '<div class="logo"><img src="' + escapeHtml(p.url) + '" alt="' + escapeHtml(p.alt) + '"></div><div class="alt">' + escapeHtml(p.alt) + '</div>';
+            var rm = el('button', 'danger'); rm.textContent = 'Remove';
+            rm.addEventListener('click', function () {
+              if (!confirm('Remove "' + p.alt + '"?')) return;
+              rm.disabled = true; rm.textContent = 'Removing…';
+              fetch('/api/partners', { method: 'DELETE', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ key: p.key }) })
+                .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+                .then(function (res2) {
+                  if (!res2.ok) throw new Error(res2.j && res2.j.error ? res2.j.error : 'Delete failed');
+                  panelStatus('sponsors', 'Removed ✓  Marquee updates within ~5 minutes.', 'ok'); loadSponsors();
+                })
+                .catch(function (e) { panelStatus('sponsors', e.message || 'Delete failed', 'err'); rm.disabled = false; rm.textContent = 'Remove'; });
+            });
+            tile.appendChild(rm); grid.appendChild(tile);
+          });
+        })
+        .catch(function (e) { grid.innerHTML = '<div class="center-msg">Could not load. ' + escapeHtml(e.message || '') + '</div>'; });
+    }
+
+    // ---- tabs ----
+    function switchTab(tab) {
+      if ((active === 'speakers' || active === 'bands') && state[active] && state[active].dirty) {
+        if (!confirm('You have unsaved changes on ' + active + '. Switch anyway and keep them in this tab?')) return;
+      }
+      active = tab;
+      document.querySelectorAll('.tab').forEach(function (t) { t.setAttribute('aria-selected', String(t.dataset.tab === tab)); });
+      document.querySelectorAll('.panel').forEach(function (p) { p.classList.add('hidden'); });
+      document.getElementById('panel-' + tab).classList.remove('hidden');
+
+      if (tab === 'sponsors') {
+        savebarEl.classList.add('hidden');
+        loadSponsors();
+      } else {
+        savebarEl.classList.remove('hidden');
+        setStatus('', '');
+        saveBtn.disabled = !state[tab].dirty;
+        if (!state[tab].loaded) loadSection(tab);
+      }
+    }
+    document.querySelectorAll('.tab').forEach(function (t) { t.addEventListener('click', function () { switchTab(t.dataset.tab); }); });
+    document.querySelectorAll('[data-add]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var sec = b.dataset.add; state[sec].items.push(SECTIONS[sec].blank()); setDirty(sec, true); renderSection(sec);
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+      });
     });
 
-    load();
+    saveBtn.addEventListener('click', function () { if (active === 'speakers' || active === 'bands') saveSection(active); });
+    document.getElementById('reload').addEventListener('click', function () {
+      if (active !== 'speakers' && active !== 'bands') return;
+      if (state[active].dirty && !confirm('Discard unsaved changes and reload?')) return;
+      loadSection(active);
+    });
+    window.addEventListener('beforeunload', function (e) { if (state.speakers.dirty || state.bands.dirty) { e.preventDefault(); e.returnValue = ''; } });
+
+    // initial
+    loadSection('speakers');
   </script>
 </body>
 </html>

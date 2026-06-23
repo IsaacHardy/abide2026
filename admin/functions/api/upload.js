@@ -1,4 +1,5 @@
 const MAX_BYTES = 8 * 1024 * 1024;
+const PREFIXES = ["speaker", "worship", "partner"];
 const TYPE_EXT = {
   "image/webp": "webp",
   "image/png": "png",
@@ -33,6 +34,8 @@ export async function onRequestPost({ request, env }) {
 
   const file = form.get("file");
   const name = (form.get("name") || "").toString();
+  const prefix = (form.get("prefix") || "speaker").toString();
+  if (!PREFIXES.includes(prefix)) return json({ error: "Invalid upload type." }, 400);
   if (!file || typeof file === "string") return json({ error: "No image file was uploaded." }, 400);
 
   let ext = TYPE_EXT[file.type];
@@ -44,8 +47,8 @@ export async function onRequestPost({ request, env }) {
   if (file.size > MAX_BYTES) return json({ error: "Image must be 8 MB or smaller." }, 400);
 
   let slug = slugify(name);
-  if (!slug) slug = slugify(String(file.name || "").replace(/\.[^.]+$/, "")) || "speaker";
-  const key = "speaker-" + slug + "." + ext;
+  if (!slug) slug = slugify(String(file.name || "").replace(/\.[^.]+$/, "")) || prefix;
+  const key = prefix + "-" + slug + "." + ext;
 
   await env.MEDIA_BUCKET.put(key, file.stream(), {
     httpMetadata: { contentType: file.type || "image/" + ext },
