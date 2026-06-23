@@ -86,6 +86,13 @@
     .center-msg { text-align:center; color: var(--muted); padding: 60px 0; }
     .hidden { display: none; }
     .panel-status { margin-bottom: 12px; min-height: 18px; }
+    .card.noprev { grid-template-columns: 1fr; }
+    .hint { font-size: 12px; color: var(--muted); margin-top: 6px; }
+    .hero-slot { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 16px; margin-bottom: 16px; }
+    .hero-slot > label { margin-bottom: 10px; }
+    .hero-row { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+    .hero-thumb-desktop { width: 260px; max-width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: 8px; background: #eee; border: 1px solid var(--line); }
+    .hero-thumb-mobile { width: 130px; aspect-ratio: 3/4; object-fit: cover; border-radius: 8px; background: #eee; border: 1px solid var(--line); }
   </style>
 </head>
 <body>
@@ -96,6 +103,8 @@
       <button class="tab" role="tab" data-tab="speakers" aria-selected="true">Speakers</button>
       <button class="tab" role="tab" data-tab="bands" aria-selected="false">Bands</button>
       <button class="tab" role="tab" data-tab="sponsors" aria-selected="false">Sponsors</button>
+      <button class="tab" role="tab" data-tab="faq" aria-selected="false">Q&amp;A</button>
+      <button class="tab" role="tab" data-tab="hero" aria-selected="false">Hero</button>
     </div>
   </header>
 
@@ -129,6 +138,41 @@
         <div id="sponsor-chosen" class="filename"></div>
       </div>
       <div id="sponsor-grid" class="sponsor-grid"></div>
+    </div>
+
+    <!-- Q&A editor -->
+    <div id="panel-faq" class="panel hidden">
+      <div id="status-faq" class="panel-status"></div>
+      <div id="list-faq"></div>
+      <button class="add" data-add="faq">＋ Add a question</button>
+    </div>
+
+    <!-- Hero banner -->
+    <div id="panel-hero" class="panel hidden">
+      <div id="status-hero" class="panel-status"></div>
+      <div class="note">Upload a new banner image. Tip: use a <strong>WebP</strong> or JPG. Desktop is wide (about 16:9); mobile is taller. Changes appear on the site within ~5 minutes (hard-refresh to see instantly).</div>
+      <div class="hero-slot">
+        <label>Desktop banner</label>
+        <div class="hero-row">
+          <img id="hero-desktop-img" class="hero-thumb-desktop" alt="Current desktop banner">
+          <div>
+            <button id="hero-desktop-btn">Upload desktop banner</button>
+            <input type="file" id="hero-desktop-file" accept="image/webp,image/png,image/jpeg,image/avif" class="hidden">
+            <div class="hint">Shown on computers. Wide image (~16:9).</div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-slot">
+        <label>Mobile banner</label>
+        <div class="hero-row">
+          <img id="hero-mobile-img" class="hero-thumb-mobile" alt="Current mobile banner">
+          <div>
+            <button id="hero-mobile-btn">Upload mobile banner</button>
+            <input type="file" id="hero-mobile-file" accept="image/webp,image/png,image/jpeg,image/avif" class="hidden">
+            <div class="hint">Shown on phones. Taller image.</div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -225,12 +269,20 @@
         required: ['name', 'role', 'img'],
         blank: function () { return { name: '', role: 'Worship Leader & Songwriter', img: '', alt: '', cardBg: DEF.cardBg, pillBg: DEF.pillBg, pillText: DEF.pillText }; },
         normalize: function (b) { return { name: b.name.trim(), role: (b.role||'').trim(), img: b.img.trim(), alt: (b.alt && b.alt.trim()) || b.name.trim(), cardBg: b.cardBg || DEF.cardBg, pillBg: b.pillBg || DEF.pillBg, pillText: b.pillText || DEF.pillText }; }
+      },
+      faq: {
+        endpoint: '/api/faq', addLabel: 'question', noPreview: true,
+        fields: ['category', 'question', 'answer'],
+        required: ['category', 'question', 'answer'],
+        blank: function () { return { category: '', question: '', answer: '' }; },
+        normalize: function (it) { return { category: (it.category||'').trim(), question: (it.question||'').trim(), answer: (it.answer||'').trim() }; }
       }
     };
 
     var state = {
       speakers: { items: [], dirty: false, loaded: false },
-      bands: { items: [], dirty: false, loaded: false }
+      bands: { items: [], dirty: false, loaded: false },
+      faq: { items: [], dirty: false, loaded: false }
     };
     var active = 'speakers';
 
@@ -265,14 +317,30 @@
     }
 
     function renderCard(sec, cfg, item, index) {
-      var card = el('div', 'card'); card.dataset.index = index;
-      var prev = el('div', 'preview'); prev.innerHTML = previewHtml(cfg, item); card.appendChild(prev);
-      function refresh() { prev.innerHTML = previewHtml(cfg, item); }
+      var card = el('div', 'card' + (cfg.noPreview ? ' noprev' : '')); card.dataset.index = index;
+      var prev = null;
+      if (!cfg.noPreview) { prev = el('div', 'preview'); prev.innerHTML = previewHtml(cfg, item); card.appendChild(prev); }
+      function refresh() { if (prev) prev.innerHTML = previewHtml(cfg, item); }
       var onChange = function () { refresh(); setDirty(sec, true); };
 
       var fields = el('div', 'fields');
       cfg.fields.forEach(function (f) {
-        if (f === 'name') {
+        if (f === 'category') {
+          var dl = el('datalist'); dl.id = 'faqcats-' + index;
+          var cats = {}; state[sec].items.forEach(function (it) { if (it.category) cats[it.category] = 1; });
+          Object.keys(cats).forEach(function (c) { var o = el('option'); o.value = c; dl.appendChild(o); });
+          var cinp = textInput(item.category, function (v) { item.category = v; setDirty(sec, true); }, 'e.g. Venue & Travel');
+          cinp.setAttribute('list', dl.id);
+          var cw = field('Category', cinp); cw.appendChild(dl); fields.appendChild(cw);
+        } else if (f === 'question') {
+          fields.appendChild(field('Question', textInput(item.question, function (v) { item.question = v; setDirty(sec, true); })));
+        } else if (f === 'answer') {
+          var ans = el('textarea'); ans.value = item.answer || ''; ans.style.minHeight = '120px';
+          ans.addEventListener('input', function () { item.answer = ans.value; setDirty(sec, true); });
+          var aw = field('Answer', ans);
+          var hint = el('div', 'hint'); hint.textContent = 'Blank line = new paragraph. Link = [text](url). Email = [name](mailto:name@example.com).';
+          aw.appendChild(hint); fields.appendChild(aw);
+        } else if (f === 'name') {
           fields.appendChild(field('Name', textInput(item.name, function (v) { item.name = v; onChange(); })));
         } else if (f === 'bio') {
           var ta = el('textarea'); ta.value = item.bio || ''; ta.addEventListener('input', function () { item.bio = ta.value; setDirty(sec, true); });
@@ -313,14 +381,15 @@
       var t = arr[index]; arr[index] = arr[j]; arr[j] = t; setDirty(sec, true); renderSection(sec);
     }
 
+    var REQ_LABELS = { name: 'a name', bio: 'a bio', role: 'a role', img: 'a photo', category: 'a category', question: 'a question', answer: 'an answer' };
     function firstInvalid(sec) {
       var cfg = SECTIONS[sec], arr = state[sec].items;
       for (var i = 0; i < arr.length; i++) {
         var s = arr[i];
-        if (!s.name || !s.name.trim()) return { i: i, why: 'needs a name' };
-        if (cfg.required.indexOf('bio') >= 0 && (!s.bio || !s.bio.trim())) return { i: i, why: 'needs a bio' };
-        if (cfg.required.indexOf('role') >= 0 && (!s.role || !s.role.trim())) return { i: i, why: 'needs a role' };
-        if (!s.img || !s.img.trim()) return { i: i, why: 'needs a photo' };
+        for (var k = 0; k < cfg.required.length; k++) {
+          var key = cfg.required[k];
+          if (!s[key] || !String(s[key]).trim()) return { i: i, why: 'needs ' + (REQ_LABELS[key] || key) };
+        }
       }
       return null;
     }
@@ -420,7 +489,7 @@
 
     // ---- tabs ----
     function switchTab(tab) {
-      if ((active === 'speakers' || active === 'bands') && state[active] && state[active].dirty) {
+      if (state[active] && state[active].dirty) {
         if (!confirm('You have unsaved changes on ' + active + '. Switch anyway and keep them in this tab?')) return;
       }
       active = tab;
@@ -428,14 +497,15 @@
       document.querySelectorAll('.panel').forEach(function (p) { p.classList.add('hidden'); });
       document.getElementById('panel-' + tab).classList.remove('hidden');
 
-      if (tab === 'sponsors') {
-        savebarEl.classList.add('hidden');
-        loadSponsors();
-      } else {
+      if (SECTIONS[tab]) {
         savebarEl.classList.remove('hidden');
         setStatus('', '');
         saveBtn.disabled = !state[tab].dirty;
         if (!state[tab].loaded) loadSection(tab);
+      } else {
+        savebarEl.classList.add('hidden');
+        if (tab === 'sponsors') loadSponsors();
+        else if (tab === 'hero') loadHero();
       }
     }
     document.querySelectorAll('.tab').forEach(function (t) { t.addEventListener('click', function () { switchTab(t.dataset.tab); }); });
@@ -446,13 +516,41 @@
       });
     });
 
-    saveBtn.addEventListener('click', function () { if (active === 'speakers' || active === 'bands') saveSection(active); });
+    saveBtn.addEventListener('click', function () { if (SECTIONS[active]) saveSection(active); });
     document.getElementById('reload').addEventListener('click', function () {
-      if (active !== 'speakers' && active !== 'bands') return;
+      if (!SECTIONS[active]) return;
       if (state[active].dirty && !confirm('Discard unsaved changes and reload?')) return;
       loadSection(active);
     });
-    window.addEventListener('beforeunload', function (e) { if (state.speakers.dirty || state.bands.dirty) { e.preventDefault(); e.returnValue = ''; } });
+    window.addEventListener('beforeunload', function (e) {
+      if (state.speakers.dirty || state.bands.dirty || state.faq.dirty) { e.preventDefault(); e.returnValue = ''; }
+    });
+
+    // ---- Hero banner ----
+    function heroUrl(key) { return MEDIA_HOST + '/' + key + '?t=' + Date.now(); }
+    function loadHero() {
+      document.getElementById('hero-desktop-img').src = heroUrl('hero-banner.webp');
+      document.getElementById('hero-mobile-img').src = heroUrl('hero-banner-mobile.webp');
+    }
+    function wireHeroSlot(slot, btnId, fileId, imgId, key) {
+      var btn = document.getElementById(btnId), file = document.getElementById(fileId), img = document.getElementById(imgId);
+      btn.addEventListener('click', function () { file.click(); });
+      file.addEventListener('change', function () {
+        var f = file.files && file.files[0]; if (!f) return;
+        btn.disabled = true; var old = btn.textContent; btn.textContent = 'Uploading…';
+        var fd = new FormData(); fd.append('file', f); fd.append('slot', slot);
+        fetch('/api/hero', { method: 'POST', body: fd })
+          .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+          .then(function (res) {
+            if (!res.ok) throw new Error(res.j && res.j.error ? res.j.error : 'Upload failed');
+            img.src = heroUrl(key); panelStatus('hero', 'Updated ✓  Appears on the site within ~5 minutes (hard-refresh to see it now).', 'ok');
+          })
+          .catch(function (e) { panelStatus('hero', e.message || 'Upload failed', 'err'); })
+          .then(function () { btn.disabled = false; btn.textContent = old; file.value = ''; });
+      });
+    }
+    wireHeroSlot('desktop', 'hero-desktop-btn', 'hero-desktop-file', 'hero-desktop-img', 'hero-banner.webp');
+    wireHeroSlot('mobile', 'hero-mobile-btn', 'hero-mobile-file', 'hero-mobile-img', 'hero-banner-mobile.webp');
 
     // initial
     loadSection('speakers');
