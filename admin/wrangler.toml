@@ -1,0 +1,12 @@
+name = "abide-admin"
+compatibility_date = "2026-03-04"
+pages_build_output_dir = "."
+
+[[r2_buckets]]
+binding = "MEDIA_BUCKET"
+bucket_name = "media"
+
+# Note: ADMIN_WRITE_ENABLED is intentionally NOT set here. It must be set to
+# "true" in the Cloudflare dashboard (Pages → abide-admin → Settings →
+# Variables) only after Cloudflare Access is protecting this project. Until
+# then, all writes/uploads fail closed.

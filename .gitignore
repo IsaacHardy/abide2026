@@ -6,3 +6,5 @@
 node_modules/
 .wrangler/
 .playwright-mcp/
+.dev.vars
+**/.dev.vars
