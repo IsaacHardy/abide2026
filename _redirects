@@ -1,0 +1,4 @@
+# The admin app lives in /admin in this repo but is deployed as its OWN
+# Cloudflare Pages project (abide-admin.pages.dev). It must never be served
+# from the main site, so hide /admin/* here (source files included).
+/admin/*  /  302
